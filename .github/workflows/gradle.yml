@@ -22,6 +22,7 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
 
+    - run: mkdir -p ./src/main/resources
     - run: touch ./src/main/resources/application.properties
     - run: echo "${{ secrets.MAIN_APPLICATION }}" > ./src/main/resources/application.properties
     - run: cat ./src/main/resources/application.properties
