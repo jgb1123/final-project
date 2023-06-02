@@ -73,3 +73,6 @@ out/
 
 # for gradle.yml
 !gradle.yml
+
+# for gradle-wrapper.properties
+!gradle-wrapper.properties
