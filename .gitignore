@@ -71,3 +71,5 @@ out/
 # for appspec.yml
 !appspec.yml
 
+# for gradle.yml
+!gradle.yml
