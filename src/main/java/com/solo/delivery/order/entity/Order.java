@@ -47,6 +47,7 @@ public class Order extends BaseTimeEntity {
     private Member member;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    @Builder.Default
     @BatchSize(size = 1000)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
