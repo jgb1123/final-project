@@ -20,7 +20,7 @@ import java.util.List;
 public class Store extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long storeId;
+    private Long storeId;
 
     @Column
     private String storeName;
@@ -32,7 +32,7 @@ public class Store extends BaseTimeEntity {
     private String phone;
 
     @Column
-    private int minimumOrderPrice;
+    private Integer minimumOrderPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STORE_CATEGORY_ID")
@@ -46,7 +46,7 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store")
     private List<Item> items = new ArrayList<>();
 
-    public void changeItemCategory(StoreCategory storeCategory) {
+    public void changeStoreCategory(StoreCategory storeCategory) {
         if(this.storeCategory != null) {
             this.storeCategory.getStores().remove(this);
         }
@@ -68,5 +68,13 @@ public class Store extends BaseTimeEntity {
         if(item.getStore() != this) {
             item.changeStore(this);
         }
+    }
+
+    public void changeInfo(Store store) {
+        if(store.getStoreName() != null) this.storeName = store.getStoreName();
+        if(store.getAddress() != null) this.address = store.getAddress();
+        if(store.getPhone() != null) this.phone = store.getPhone();
+        if(store.getMinimumOrderPrice() != null) this.minimumOrderPrice = store.getMinimumOrderPrice();
+        if(store.getStoreCategory() != null) this.storeCategory = store.getStoreCategory();
     }
 }

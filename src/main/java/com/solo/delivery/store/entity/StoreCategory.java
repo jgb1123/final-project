@@ -19,10 +19,10 @@ import java.util.List;
 @AllArgsConstructor
 public class StoreCategory {
     @Id
-    private String itemCategoryId;
+    private String storeCategoryId;
 
     @Column
-    private String itemCategory;
+    private String storeCategory;
 
     @Builder.Default
     @OneToMany(mappedBy = "storeCategory")
@@ -31,7 +31,7 @@ public class StoreCategory {
     public void addStore(Store store) {
         this.stores.add(store);
         if(store.getStoreCategory() != this) {
-            store.changeItemCategory(this);
+            store.changeStoreCategory(this);
         }
     }
 }
