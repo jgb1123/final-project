@@ -49,7 +49,8 @@ public class StoreService {
     }
 
     public void deleteStore(Long storeId) {
-        storeRepository.deleteById(storeId);
+        Store foundStore = findVerifiedStore(storeId);
+        storeRepository.delete(foundStore);
     }
 
     public Store findVerifiedStore(Long storeId) {
