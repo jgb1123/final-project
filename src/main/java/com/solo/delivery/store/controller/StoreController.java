@@ -25,8 +25,7 @@ public class StoreController {
     private final StoreService storeService;
 
     @PostMapping
-    public ResponseEntity postStore(@RequestBody StorePostDto storePostDto,
-                                    @AuthenticationPrincipal String email) {
+    public ResponseEntity postStore(@RequestBody StorePostDto storePostDto) {
         Store store = storeMapper.storePostDtoToStore(storePostDto);
         Store savedStore = storeService.createStore(store, storePostDto.getStoreCategoryId());
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -41,7 +40,7 @@ public class StoreController {
 
     @GetMapping
     public ResponseEntity getStores(@RequestParam int page,
-                                   @RequestParam int size) {
+                                    @RequestParam int size) {
         Page<Store> pageStores = storeService.findStores(page, size);
         List<Store> stores = pageStores.getContent();
         List<StoreResponseDto> storeResponseDtos = storeMapper.storesToStoreResponseDtos(stores);
