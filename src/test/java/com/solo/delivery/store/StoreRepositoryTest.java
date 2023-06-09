@@ -5,7 +5,6 @@ import com.solo.delivery.exception.BusinessLogicException;
 import com.solo.delivery.exception.ExceptionCode;
 import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.repository.StoreRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -69,7 +67,7 @@ public class StoreRepositoryTest {
         Store foundStore = storeRepository.findById(savedStore.getStoreId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.STORE_NOT_FOUND));
 
-        foundStore.changeInfo(modifiedStore);
+        foundStore.changeStoreContent(modifiedStore);
         Store updatedStore = storeRepository.findById(foundStore.getStoreId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.STORE_NOT_FOUND));
 

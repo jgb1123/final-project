@@ -65,7 +65,7 @@ public class Member implements UserDetails {
         }
     }
 
-    public void changeInfo(Member member) {
+    public void changeMemberContent(Member member) {
         if(member.getPhone() != null) this.phone = member.getPhone();
         if(member.getNickname() != null) this.nickname = member.getNickname();
         if(member.getAddress() != null) this.address = member.getAddress();

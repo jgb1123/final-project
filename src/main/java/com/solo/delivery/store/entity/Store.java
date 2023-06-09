@@ -70,7 +70,7 @@ public class Store extends BaseTimeEntity {
         }
     }
 
-    public void changeInfo(Store store) {
+    public void changeStoreContent(Store store) {
         if(store.getStoreName() != null) this.storeName = store.getStoreName();
         if(store.getAddress() != null) this.address = store.getAddress();
         if(store.getPhone() != null) this.phone = store.getPhone();
