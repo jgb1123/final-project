@@ -50,7 +50,7 @@ public class MemberRepositoryTest {
         Member foundMember = memberRepository.findById(savedMember.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("Can not find member"));
         //when
-        foundMember.changeInfo(modifiedMember);
+        foundMember.changeMemberContent(modifiedMember);
         Member changedMember = memberRepository.findById(foundMember.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("Can not find member"));
         //then

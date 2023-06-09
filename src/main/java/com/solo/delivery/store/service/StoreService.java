@@ -2,8 +2,6 @@ package com.solo.delivery.store.service;
 
 import com.solo.delivery.exception.BusinessLogicException;
 import com.solo.delivery.exception.ExceptionCode;
-import com.solo.delivery.member.entity.Member;
-import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.entity.StoreCategory;
 import com.solo.delivery.store.repository.StoreCategoryRepository;
@@ -14,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -44,7 +40,7 @@ public class StoreService {
             StoreCategory foundStoreCategory = findVerifiedStoreCategory(storeCategoryId);
             foundStore.changeStoreCategory(foundStoreCategory);
         }
-        foundStore.changeInfo(modifiedStore);
+        foundStore.changeStoreContent(modifiedStore);
         return foundStore;
     }
 

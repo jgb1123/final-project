@@ -14,22 +14,25 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Item extends BaseTimeEntity {
+public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long itemId;
+    private Long itemId;
 
     @Column
     private String itemName;
 
     @Column
-    private int price;
+    @Builder.Default
+    private Integer price = 0;
 
     @Column
-    private int sold_cnt;
+    @Builder.Default
+    private Integer soldCnt = 0;
 
     @Column
-    private int stock_cnt;
+    @Builder.Default
+    private Integer stockCnt = 0;
 
     @Column
     private String info;
@@ -46,5 +49,12 @@ public class Item extends BaseTimeEntity {
         if(!store.getItems().contains(this)) {
             store.addItem(this);
         }
+    }
+
+    public void changeItemContent(Item item) {
+        if(item.getItemName() != null) this.itemName = item.getItemName();
+        if(item.getPrice() != null) this.price = item.getPrice();
+        if(item.getStockCnt() != null) this.stockCnt = item.getStockCnt();
+        if(item.getInfo() != null) this.info = item.getInfo();
     }
 }

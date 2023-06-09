@@ -31,7 +31,7 @@ public class MemberService {
 
     public Member updateMember(String email, Member modifiedMember) {
         Member foundMember = findVerifiedMember(email);
-        foundMember.changeInfo(modifiedMember);
+        foundMember.changeMemberContent(modifiedMember);
         return foundMember;
     }
 
