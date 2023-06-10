@@ -50,7 +50,6 @@ public class StoreServiceTest {
         assertThat(savedStore.getStoreName()).isEqualTo(store.getStoreName());
         assertThat(savedStore.getAddress()).isEqualTo(store.getAddress());
         assertThat(savedStore.getStoreCategory()).isNotNull();
-//        assertThat(savedStore.getStoreCategory().getStoreCategoryId()).isNotEqualTo(inputStore.getStoreCategory().getStoreCategoryId());
     }
 
     @Test
