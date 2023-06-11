@@ -1,0 +1,11 @@
+package com.solo.delivery.review.repository;
+
+import com.solo.delivery.review.entity.Review;
+import com.solo.delivery.store.entity.Store;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ReviewRepository extends JpaRepository<Review, Long> {
+    Page<Review> findAllByStore(Store store, Pageable pageable);
+}

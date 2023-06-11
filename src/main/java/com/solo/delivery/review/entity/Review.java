@@ -18,10 +18,10 @@ import javax.persistence.*;
 public class Review extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long reviewId;
+    private Long reviewId;
 
     @Column
-    private int star;
+    private Integer star;
 
     @Column
     private String reviewContent;
@@ -52,5 +52,10 @@ public class Review extends BaseTimeEntity {
         if(!store.getReviews().contains(this)) {
             store.addReview(this);
         }
+    }
+
+    public void changeReviewContent(Review review) {
+        if(review.getStar() != null) this.star = review.getStar();
+        if(review.getReviewContent() != null) this.reviewContent = review.getReviewContent();
     }
 }
