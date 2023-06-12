@@ -34,10 +34,10 @@ public class ItemController {
     public ResponseEntity getItems(@PathVariable Long storeId,
                                    int page,
                                    int size) {
-        Page<Item> pageItems = itemService.findItems(storeId, page, size);
-        List<Item> items = pageItems.getContent();
+        Page<Item> itemPage = itemService.findItems(storeId, page, size);
+        List<Item> items = itemPage.getContent();
         List<ItemResponseDto> itemResponseDtos = itemMapper.itemsToItemResponseDtos(items);
-        return new ResponseEntity<>(new MultiResponseDto<>(itemResponseDtos, pageItems), HttpStatus.OK);
+        return new ResponseEntity<>(new MultiResponseDto<>(itemResponseDtos, itemPage), HttpStatus.OK);
     }
 
     @PatchMapping("/{itemId}")

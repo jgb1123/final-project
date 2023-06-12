@@ -109,10 +109,10 @@ public class ItemControllerTest {
         ItemResponseDto itemResponseDto1 = ItemDummy.createResponseDto1();
         ItemResponseDto itemResponseDto2 = ItemDummy.createResponseDto2();
         List<ItemResponseDto> responses = List.of(itemResponseDto1, itemResponseDto2);
-        Page<Item> itemPages = new PageImpl<>(List.of(item1, item2), PageRequest.of(page - 1, size,
+        Page<Item> itemPage = new PageImpl<>(List.of(item1, item2), PageRequest.of(page - 1, size,
                 Sort.by("itemId").ascending()), 2);
         given(itemService.findItems(Mockito.anyLong(), Mockito.anyInt(), Mockito.anyInt()))
-                .willReturn(itemPages);
+                .willReturn(itemPage);
         given(itemMapper.itemsToItemResponseDtos(Mockito.anyList()))
                 .willReturn(responses);
 
@@ -133,7 +133,7 @@ public class ItemControllerTest {
                         requestParameters(
                                 List.of(
                                         parameterWithName("page").description("Page 번호"),
-                                        parameterWithName("size").description("Size 번호")
+                                        parameterWithName("size").description("Page 크기")
                                 )
                         ),
                         responseFields(
@@ -157,7 +157,7 @@ public class ItemControllerTest {
     }
 
     @Test
-    void patchCommentTest() throws Exception {
+    void patchItemTest() throws Exception {
         Long itemId = 1L;
         Item item = ItemDummy.createItem1();
         ItemPatchDto itemPatchDto = ItemDummy.createPatchDto();

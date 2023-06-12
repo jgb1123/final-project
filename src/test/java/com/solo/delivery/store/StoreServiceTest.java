@@ -71,11 +71,11 @@ public class StoreServiceTest {
         given(storeRepository.findAll(Mockito.any(Pageable.class)))
                 .willReturn(new PageImpl<>(List.of(store1, store2), PageRequest.of(0, 10, Sort.by("storeId").ascending()), 2));
 
-        Page<Store> pageStores = storeService.findStores(1, 10);
+        Page<Store> storePage = storeService.findStores(1, 10);
 
-        assertThat(pageStores.getContent()).contains(store1);
-        assertThat(pageStores.getContent()).contains(store2);
-        assertThat(pageStores.getTotalElements()).isEqualTo(2);
+        assertThat(storePage.getContent()).contains(store1);
+        assertThat(storePage.getContent()).contains(store2);
+        assertThat(storePage.getTotalElements()).isEqualTo(2);
     }
 
     @Test
