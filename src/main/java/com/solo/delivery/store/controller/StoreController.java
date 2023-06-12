@@ -41,10 +41,10 @@ public class StoreController {
     @GetMapping
     public ResponseEntity getStores(@RequestParam int page,
                                     @RequestParam int size) {
-        Page<Store> pageStores = storeService.findStores(page, size);
-        List<Store> stores = pageStores.getContent();
+        Page<Store> storePage = storeService.findStores(page, size);
+        List<Store> stores = storePage.getContent();
         List<StoreResponseDto> storeResponseDtos = storeMapper.storesToStoreResponseDtos(stores);
-        return new ResponseEntity<>(new MultiResponseDto<>(storeResponseDtos, pageStores), HttpStatus.OK);
+        return new ResponseEntity<>(new MultiResponseDto<>(storeResponseDtos, storePage), HttpStatus.OK);
     }
 
     @PatchMapping("/{storeId}")

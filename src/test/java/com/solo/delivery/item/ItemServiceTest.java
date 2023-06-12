@@ -49,7 +49,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void findItemTest() {
+    void findItemsTest() {
         Item item1 = ItemDummy.createItem1();
         Item item2 = ItemDummy.createItem2();
         Store store = StoreDummy.createStore1();
@@ -60,8 +60,8 @@ public class ItemServiceTest {
         given(itemRepository.findAllByStore(Mockito.any(Store.class), Mockito.any(Pageable.class)))
                 .willReturn(new PageImpl<>(List.of(item1, item2), PageRequest.of(0, 10, Sort.by("itemId").ascending()), 2));
 
-        Page<Item> pageItems = itemService.findItems(store.getStoreId(), 1, 10);
-        List<Item> items = pageItems.getContent();
+        Page<Item> itemPage = itemService.findItems(store.getStoreId(), 1, 10);
+        List<Item> items = itemPage.getContent();
 
         assertThat(items).contains(item1);
         assertThat(items).contains(item2);

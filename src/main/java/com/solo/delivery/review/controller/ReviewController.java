@@ -36,10 +36,10 @@ public class ReviewController {
     public ResponseEntity getReviews(@PathVariable Long storeId,
                                      int page,
                                      int size) {
-        Page<Review> pageReviews = reviewService.findReviews(storeId, page, size);
-        List<Review> reviews = pageReviews.getContent();
+        Page<Review> reviewPage = reviewService.findReviews(storeId, page, size);
+        List<Review> reviews = reviewPage.getContent();
         List<ReviewResponseDto> reviewResponseDtos = reviewMapper.reviewsToReviewResponseDtos(reviews);
-        return new ResponseEntity<>(new MultiResponseDto<>(reviewResponseDtos, pageReviews), HttpStatus.OK);
+        return new ResponseEntity<>(new MultiResponseDto<>(reviewResponseDtos, reviewPage), HttpStatus.OK);
     }
 
     @PatchMapping("/{reviewId}")
