@@ -11,6 +11,7 @@ public class MemberMapper {
         return Member.builder()
                 .phone(memberPatchDto.getPhone())
                 .nickname(memberPatchDto.getNickname())
+                .address(memberPatchDto.getAddress())
                 .build();
     }
 

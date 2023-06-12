@@ -46,8 +46,14 @@ public class ItemService {
         itemRepository.delete(foundItem);
     }
 
-    private Item findVerifiedItem(Long itemId) {
+    public Item findVerifiedItem(Long itemId) {
         return itemRepository.findById(itemId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ITEM_NOT_FOUND));
+    }
+
+    public void checkStockCnt(Integer itemCnt, Item item) {
+        if(item.getStockCnt() < itemCnt) {
+            throw new BusinessLogicException(ExceptionCode.OUT_OF_STOCK);
+        }
     }
 }

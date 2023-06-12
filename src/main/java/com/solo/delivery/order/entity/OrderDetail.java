@@ -1,6 +1,5 @@
-package com.solo.delivery.orderdetails.entity;
+package com.solo.delivery.order.entity;
 
-import com.solo.delivery.order.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,19 +15,19 @@ import javax.persistence.*;
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long orderItemId;
+    private Long orderDetailId;
 
     @Column
-    private int orderItemCnt;
+    private Integer orderDetailCnt;
 
     @Column
-    private long itemId;
+    private Long itemId;
 
     @Column
     private String itemName;
 
     @Column
-    private int itemPrice;
+    private Integer itemPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ORDER_ID")
