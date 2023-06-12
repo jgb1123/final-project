@@ -42,14 +42,14 @@ public class ItemRepositoryTest {
         Item item1 = ItemDummy.createItem1();
         Item item2 = ItemDummy.createItem2();
         Store store = StoreDummy.createStore1();
-        storeRepository.save(store);
-        item1.changeStore(store);
-        item2.changeStore(store);
+        Store savedStore = storeRepository.save(store);
+        item1.changeStore(savedStore);
+        item2.changeStore(savedStore);
         Item savedItem1 = itemRepository.save(item1);
         Item savedItem2 = itemRepository.save(item2);
 
-        Page<Item> pageItems = itemRepository.findAllByStore(store, PageRequest.of(0, 10, Sort.by("itemId").ascending()));
-        List<Item> items = pageItems.getContent();
+        Page<Item> itemPage = itemRepository.findAllByStore(savedStore, PageRequest.of(0, 10, Sort.by("itemId").ascending()));
+        List<Item> items = itemPage.getContent();
 
         assertThat(items).contains(savedItem1);
         assertThat(items).contains(savedItem2);

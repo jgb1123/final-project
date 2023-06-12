@@ -51,9 +51,9 @@ public class StoreRepositoryTest {
         Store savedStore1 = storeRepository.save(store1);
         Store savedStore2 = storeRepository.save(store2);
 
-        Page<Store> pageStores = storeRepository.findAll(PageRequest.of(0, 10,
+        Page<Store> storePage = storeRepository.findAll(PageRequest.of(0, 10,
                 Sort.by("storeId").ascending()));
-        List<Store> stores = pageStores.getContent();
+        List<Store> stores = storePage.getContent();
 
         assertThat(stores).contains(savedStore1);
         assertThat(stores).contains(savedStore2);
