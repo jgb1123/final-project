@@ -12,7 +12,8 @@ public enum ExceptionCode {
     REVIEW_NOT_FOUND(404, "Review not found"),
     REVIEW_CANNOT_CHANGE(409, "Review can not change"),
     ORDER_NOT_FOUND(404, "Order not found"),
-    ORDER_CANNOT_CHANGE(409, "Order can not change");
+    ORDER_CANNOT_CHANGE(409, "Order can not change"),
+    CART_NOT_FOUND(404, "Cart not found");
 
     @Getter
     private int status;

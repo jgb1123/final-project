@@ -1,5 +1,6 @@
 package com.solo.delivery.member.entity;
 
+import com.solo.delivery.cart.entity.Cart;
 import com.solo.delivery.order.entity.Order;
 import com.solo.delivery.review.entity.Review;
 import lombok.AllArgsConstructor;
@@ -51,6 +52,10 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member")
     private List<Review> reviews = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "member")
+    private List<Cart> carts = new ArrayList<>();
+
     public void addOrder(Order order) {
         orders.add(order);
         if(order.getMember() != this) {
@@ -62,6 +67,13 @@ public class Member implements UserDetails {
         this.reviews.add(review);
         if(review.getMember() != this){
             review.changeMember(this);
+        }
+    }
+
+    public void addCart(Cart cart){
+        carts.add(cart);
+        if(cart.getMember() != this){
+            cart.changeMember(this);
         }
     }
 
