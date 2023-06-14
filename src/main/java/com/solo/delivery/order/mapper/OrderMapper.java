@@ -60,7 +60,7 @@ public class OrderMapper {
                 .stream()
                 .map(orderDetail -> OrderDetailResponseDto.builder()
                         .orderDetailId(orderDetail.getOrderDetailId())
-                        .orderDetailCnt(orderDetail.getOrderDetailCnt())
+                        .itemOrderCnt(orderDetail.getItemOrderCnt())
                         .itemId(orderDetail.getItemId())
                         .itemName(orderDetail.getItemName())
                         .itemPrice(orderDetail.getItemPrice())

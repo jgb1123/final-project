@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class OrderDetailPostDto {
     private Long itemId;
-    private Integer orderDetailCnt;
+    private Integer itemOrderCnt;
 }

@@ -18,7 +18,7 @@ public class OrderDetail {
     private Long orderDetailId;
 
     @Column
-    private Integer orderDetailCnt;
+    private Integer itemOrderCnt;
 
     @Column
     private Long itemId;
@@ -39,7 +39,7 @@ public class OrderDetail {
         }
         this.order = order;
         if(!order.getOrderDetails().contains(this)) {
-            order.addOrderItem(this);
+            order.addOrderDetail(this);
         }
     }
 }
