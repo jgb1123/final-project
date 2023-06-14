@@ -13,6 +13,6 @@ public class CartResponseDto {
     private Long cartId;
     private Integer itemCnt;
     private Long itemId;
-    private Integer itemPrice;
     private String itemName;
+    private Integer itemPrice;
 }

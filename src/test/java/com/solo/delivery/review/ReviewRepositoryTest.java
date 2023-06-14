@@ -2,6 +2,8 @@ package com.solo.delivery.review;
 
 import com.solo.delivery.dummy.ReviewDummy;
 import com.solo.delivery.dummy.StoreDummy;
+import com.solo.delivery.exception.BusinessLogicException;
+import com.solo.delivery.exception.ExceptionCode;
 import com.solo.delivery.member.repository.MemberRepository;
 import com.solo.delivery.review.entity.Review;
 import com.solo.delivery.review.repository.ReviewRepository;
@@ -57,6 +59,22 @@ public class ReviewRepositoryTest {
     @Test
     void updateTest() {
         Review modifiedReview = ReviewDummy.createReview2();
+        Review review = ReviewDummy.createReview1();
+        Review savedReview = reviewRepository.save(review);
+        Review foundReview = reviewRepository.findById(savedReview.getReviewId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.REVIEW_NOT_FOUND));
+
+        foundReview.changeReviewContent(modifiedReview);
+        Review updatedReview = reviewRepository.findById(savedReview.getReviewId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.REVIEW_NOT_FOUND));
+
+        assertThat(updatedReview.getStar()).isEqualTo(modifiedReview.getStar());
+        assertThat(updatedReview.getReviewContent()).isEqualTo(modifiedReview.getReviewContent());
+
+    }
+
+    @Test
+    void deleteTest() {
         Review review = ReviewDummy.createReview1();
         Review savedReview = reviewRepository.save(review);
         Review foundReview = reviewRepository.findById(savedReview.getReviewId()).orElse(null);
