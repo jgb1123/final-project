@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class OrderDetailResponseDto {
     private Long orderDetailId;
-    private Integer orderDetailCnt;
+    private Integer itemOrderCnt;
     private Long itemId;
     private String itemName;
     private Integer itemPrice;

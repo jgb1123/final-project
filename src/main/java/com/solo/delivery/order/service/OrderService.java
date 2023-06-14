@@ -36,9 +36,9 @@ public class OrderService {
         int orderPrice = 0;
         for(OrderDetailPostDto orderDetailPostDto : orderDetailPostDtos) {
             Item item = itemService.findVerifiedItem(orderDetailPostDto.getItemId());
-            itemService.checkStockCnt(orderDetailPostDto.getOrderDetailCnt(), item);
+            itemService.checkStockCnt(orderDetailPostDto.getItemOrderCnt(), item);
             OrderDetail orderDetail = OrderDetail.builder()
-                    .orderDetailCnt(orderDetailPostDto.getOrderDetailCnt())
+                    .itemOrderCnt(orderDetailPostDto.getItemOrderCnt())
                     .itemId(item.getItemId())
                     .itemName(item.getItemName())
                     .itemPrice(item.getPrice())
@@ -48,7 +48,7 @@ public class OrderService {
             if(order.getStoreId() == null) {
                 order.changeStoreId(item.getStore().getStoreId());
             }
-            orderPrice += orderDetail.getOrderDetailCnt() * orderDetail.getItemPrice();
+            orderPrice += orderDetail.getItemOrderCnt() * orderDetail.getItemPrice();
         }
         order.changeOrderPrice(orderPrice);
         order.changeOrderStatus(Order.OrderStatus.ORDER_REQUEST);
@@ -71,13 +71,14 @@ public class OrderService {
         return foundOrder;
     }
 
-    public void cancelOrder(Long orderId) {
+    public Order cancelOrder(Long orderId) {
         Order foundOrder = findVerifiedOrder(orderId);
         int step = foundOrder.getOrderStatus().getStepNumber();
         if(step > 0) {
             throw new BusinessLogicException(ExceptionCode.ORDER_CANNOT_CHANGE);
         }
         foundOrder.changeOrderStatus(Order.OrderStatus.ORDER_CANCEL);
+        return foundOrder;
     }
 
     public Order findVerifiedOrder(Long orderId) {
