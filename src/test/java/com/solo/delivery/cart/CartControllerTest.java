@@ -76,6 +76,7 @@ public class CartControllerTest {
                 post("/api/v1/cart/{itemId}", itemId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
                         .content(content)
         );
 
@@ -119,6 +120,7 @@ public class CartControllerTest {
                         .params(queryParams)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
         );
 
         actions.andExpect(status().isOk())
@@ -162,6 +164,7 @@ public class CartControllerTest {
                 patch("/api/v1/cart/{cartId}", cartId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
                         .content(content)
         );
 
@@ -189,6 +192,7 @@ public class CartControllerTest {
                 delete("/api/v1/cart/{cartId}", cartId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
         );
 
         actions.andExpect(status().isNoContent())

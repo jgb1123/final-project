@@ -76,6 +76,7 @@ public class OrderControllerTest {
                 post("/api/v1/order")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
                         .content(content)
         );
 
@@ -110,6 +111,7 @@ public class OrderControllerTest {
                 get("/api/v1/order/{orderId}", orderId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
         );
 
         actions.andExpect(status().isOk())
@@ -175,6 +177,7 @@ public class OrderControllerTest {
                         .params(queryParams)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
         );
 
         actions.andExpect(status().isOk())
@@ -228,6 +231,7 @@ public class OrderControllerTest {
                 patch("/api/v1/order/{orderId}", orderId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
                         .content(content)
         );
 
@@ -254,6 +258,7 @@ public class OrderControllerTest {
                 delete("/api/v1/order/{orderId}", orderId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
         );
 
         actions.andExpect(status().isOk())

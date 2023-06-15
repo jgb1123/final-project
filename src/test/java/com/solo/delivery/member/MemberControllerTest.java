@@ -68,6 +68,7 @@ public class MemberControllerTest {
                 get("/api/v1/member")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
         );
 
         actions.andExpect(status().isOk())
@@ -104,6 +105,7 @@ public class MemberControllerTest {
                 patch("/api/v1/member")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
                         .content(content)
         );
 
@@ -131,6 +133,7 @@ public class MemberControllerTest {
                 delete("/api/v1/member")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
         );
 
         actions.andExpect(status().isNoContent())
