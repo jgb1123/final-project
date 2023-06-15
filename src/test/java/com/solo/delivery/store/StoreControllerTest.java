@@ -76,6 +76,7 @@ public class StoreControllerTest {
                 post("/api/v1/store")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
                         .content(content)
         );
 
@@ -205,6 +206,7 @@ public class StoreControllerTest {
                 patch("/api/v1/store/{storeId}", storeId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
                         .content(content)
         );
 
@@ -237,6 +239,7 @@ public class StoreControllerTest {
                 delete("/api/v1/store/{storeId}", storeId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
         );
 
         actions.andExpect(status().isNoContent())

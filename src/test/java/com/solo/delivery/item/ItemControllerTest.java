@@ -75,6 +75,7 @@ public class ItemControllerTest {
                 post("/api/v1/item/{storeId}", storeId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
                         .content(content)
         );
 
@@ -169,6 +170,7 @@ public class ItemControllerTest {
                 patch("/api/v1/item/{itemId}", itemId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
                         .content(content)
         );
 
@@ -199,10 +201,11 @@ public class ItemControllerTest {
                 delete("/api/v1/item/{itemId}", itemId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
         );
 
         actions.andExpect(status().isNoContent())
-                .andDo(document("delete-comment",
+                .andDo(document("delete-item",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         pathParameters(
