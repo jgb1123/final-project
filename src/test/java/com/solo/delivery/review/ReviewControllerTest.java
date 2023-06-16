@@ -63,6 +63,7 @@ public class ReviewControllerTest {
     private Gson gson;
 
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void postReviewTest() throws Exception {
         Long storeId = 1L;
         Review review = ReviewDummy.createReview1();
@@ -157,6 +158,7 @@ public class ReviewControllerTest {
     }
 
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void patchReviewTest() throws Exception {
         Long reviewId = 1L;
         Review review = ReviewDummy.createReview1();
@@ -190,6 +192,7 @@ public class ReviewControllerTest {
     }
 
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void deleteReviewTest() throws Exception {
         Long reviewId = 1L;
         doNothing().when(reviewService).deleteReview(Mockito.anyString(), Mockito.anyLong());

@@ -63,7 +63,7 @@ public class StoreControllerTest {
     private Gson gson;
 
     @Test
-    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN", "USER"})
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void postStoreTest() throws Exception {
         StorePostDto storePostDto = StoreDummy.createPostDto();
         String content = gson.toJson(storePostDto);
@@ -194,7 +194,7 @@ public class StoreControllerTest {
     }
 
     @Test
-    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN", "USER"})
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void patchStoreTest() throws Exception {
         Long storeId = 1L;
         StorePatchDto storePatchDto = StoreDummy.createPatchDto();
@@ -230,7 +230,7 @@ public class StoreControllerTest {
     }
 
     @Test
-    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN", "USER"})
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void deleteBoardTest() throws Exception {
         Long storeId = 1L;
         doNothing().when(storeService).deleteStore(Mockito.anyLong());

@@ -62,6 +62,7 @@ public class CartControllerTest {
     private Gson gson;
 
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void postCartTest() throws Exception {
         Long itemId = 1L;
         Cart cart = CartDummy.createCart1();
@@ -96,6 +97,7 @@ public class CartControllerTest {
     }
 
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void getCartsTest() throws Exception {
         Long itemId = 1L;
         int page = 1;
@@ -152,6 +154,7 @@ public class CartControllerTest {
                 ));
     }
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void patchCartTest() throws Exception {
         Long cartId = 1L;
         Cart cart = CartDummy.createCart1();
@@ -184,6 +187,7 @@ public class CartControllerTest {
     }
 
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void deleteCartTest() throws Exception {
         Long cartId = 1L;
         doNothing().when(cartService).deleteCart(Mockito.anyLong());

@@ -14,6 +14,7 @@ import com.solo.delivery.order.service.OrderService;
 import com.solo.delivery.security.config.SecurityConfig;
 import com.solo.delivery.security.jwt.JwtTokenizer;
 import com.solo.delivery.security.utils.CustomAuthorityUtils;
+import com.solo.delivery.util.WithAuthMember;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,7 @@ public class OrderControllerTest {
     private Gson gson;
 
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void PostOrderTest() throws Exception {
         Order order = OrderDummy.createOrder1();
         OrderPostDto orderPostDto = OrderDummy.createPostDto();
@@ -99,6 +101,7 @@ public class OrderControllerTest {
     }
 
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void getOrderTest() throws Exception {
         Long orderId = 1L;
         OrderResponseDto orderResponseDto = OrderDummy.createResponseDto1();
@@ -154,6 +157,7 @@ public class OrderControllerTest {
     }
 
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void getOrdersTest() throws Exception {
         int page = 1;
         int size = 10;
@@ -220,6 +224,7 @@ public class OrderControllerTest {
     }
 
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void patchOrderTest() throws Exception {
         Long orderId = 1L;
         OrderPatchDto orderPatchDto = OrderDummy.createPatchDto();
@@ -251,6 +256,7 @@ public class OrderControllerTest {
     }
 
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void deleteOrderTest() throws Exception {
         Long orderId = 1L;
 

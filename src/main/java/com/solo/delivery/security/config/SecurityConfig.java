@@ -48,15 +48,32 @@ public class SecurityConfig {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.GET, "/api/v1/member").hasAnyRole("ADMIN", "USER")
-                        .antMatchers(HttpMethod.PATCH, "/api/v1/member/**").hasAnyRole("ADMIN", "USER")
-                        .antMatchers(HttpMethod.DELETE, "/api/v1/member/**").hasAnyRole("ADMIN", "USER")
-                        .antMatchers(HttpMethod.POST, "/api/v1/board").hasAnyRole("ADMIN", "USER")
-                        .antMatchers(HttpMethod.PATCH, "/api/v1/board/**").hasAnyRole("ADMIN", "USER")
-                        .antMatchers(HttpMethod.DELETE, "/api/v1/board/**").hasAnyRole("ADMIN", "USER")
-                        .antMatchers(HttpMethod.POST, "/api/v1/comment/**").hasAnyRole("ADMIN", "USER")
-                        .antMatchers(HttpMethod.PATCH, "/api/v1/comment/**").hasAnyRole("ADMIN", "USER")
-                        .antMatchers(HttpMethod.DELETE, "/api/v1/comment/**").hasAnyRole("ADMIN", "USER")
+                        .antMatchers(HttpMethod.GET, "/api/v1/member").hasAnyRole("ADMIN", "USER", "SELLER")
+                        .antMatchers(HttpMethod.PATCH, "/api/v1/member").hasAnyRole("ADMIN", "USER", "SELLER")
+                        .antMatchers(HttpMethod.DELETE, "/api/v1/member").hasAnyRole("ADMIN", "USER", "SELLER")
+
+                        .antMatchers(HttpMethod.POST, "/api/v1/store").hasAnyRole("ADMIN")
+                        .antMatchers(HttpMethod.PATCH, "/api/v1/store/**").hasAnyRole("ADMIN", "SELLER")
+                        .antMatchers(HttpMethod.DELETE, "/api/v1/store/**").hasAnyRole("ADMIN")
+
+                        .antMatchers(HttpMethod.POST, "/api/v1/item/**").hasAnyRole("ADMIN", "SELLER")
+                        .antMatchers(HttpMethod.PATCH, "/api/v1/item/**").hasAnyRole("ADMIN", "SELLER")
+                        .antMatchers(HttpMethod.DELETE, "/api/v1/item/**").hasAnyRole("ADMIN", "SELLER")
+
+                        .antMatchers(HttpMethod.POST, "/api/v1/review/**").hasAnyRole("ADMIN", "USER", "SELLER")
+                        .antMatchers(HttpMethod.PATCH, "/api/v1/review/**").hasAnyRole("ADMIN", "USER", "SELLER")
+                        .antMatchers(HttpMethod.DELETE, "/api/v1/review/**").hasAnyRole("ADMIN", "USER", "SELLER")
+
+                        .antMatchers(HttpMethod.POST, "/api/v1/cart/**").hasAnyRole("ADMIN", "USER", "SELLER")
+                        .antMatchers(HttpMethod.GET, "/api/v1/cart**").hasAnyRole("ADMIN", "USER", "SELLER")
+                        .antMatchers(HttpMethod.PATCH, "/api/v1/cart/**").hasAnyRole("ADMIN", "USER", "SELLER")
+                        .antMatchers(HttpMethod.DELETE, "/api/v1/cart/**").hasAnyRole("ADMIN", "USER", "SELLER")
+
+                        .antMatchers(HttpMethod.POST, "/api/v1/order/**").hasAnyRole("ADMIN", "USER", "SELLER")
+                        .antMatchers(HttpMethod.GET, "/api/v1/order/**").hasAnyRole("ADMIN", "USER", "SELLER")
+                        .antMatchers(HttpMethod.GET, "/api/v1/order**").hasAnyRole("ADMIN", "USER", "SELLER")
+                        .antMatchers(HttpMethod.PATCH, "/api/v1/order/**").hasAnyRole("ADMIN", "USER", "SELLER")
+                        .antMatchers(HttpMethod.DELETE, "/api/v1/order/**").hasAnyRole("ADMIN", "USER", "SELLER")
                         .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
