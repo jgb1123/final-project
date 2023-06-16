@@ -13,6 +13,7 @@ import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.security.config.SecurityConfig;
 import com.solo.delivery.security.jwt.JwtTokenizer;
 import com.solo.delivery.security.utils.CustomAuthorityUtils;
+import com.solo.delivery.util.WithAuthMember;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,7 @@ public class ItemControllerTest {
     private Gson gson;
 
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void postItemTest() throws Exception {
         Long storeId = 1L;
         Item item = ItemDummy.createItem1();
@@ -158,6 +160,7 @@ public class ItemControllerTest {
     }
 
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void patchItemTest() throws Exception {
         Long itemId = 1L;
         Item item = ItemDummy.createItem1();
@@ -193,6 +196,7 @@ public class ItemControllerTest {
     }
 
     @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void deleteItemTest() throws Exception {
         Long itemId = 1L;
         doNothing().when(itemService).deleteItem(Mockito.anyLong());

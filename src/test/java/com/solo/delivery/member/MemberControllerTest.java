@@ -56,7 +56,7 @@ public class MemberControllerTest {
     private Gson gson;
 
     @Test
-    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN", "USER"})
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void getMemberTest() throws Exception {
         MemberResponseDto memberResponseDto = MemberDummy.createResponseDto1();
         given(memberService.findMember(Mockito.anyString()))
@@ -93,7 +93,7 @@ public class MemberControllerTest {
     }
 
     @Test
-    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN", "USER"})
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void patchMemberTest() throws Exception {
         MemberPatchDto memberPatchDto = MemberDummy.createPatchDto();
         String content = gson.toJson(memberPatchDto);
@@ -125,7 +125,7 @@ public class MemberControllerTest {
     }
 
     @Test
-    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN", "USER"})
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void deleteMemberTest() throws Exception {
         doNothing().when(memberService).deleteMember(Mockito.anyString());
 
