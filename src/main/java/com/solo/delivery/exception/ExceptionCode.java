@@ -8,6 +8,7 @@ public enum ExceptionCode {
     STORE_NOT_FOUND(404, "Store not found"),
     STORE_CATEGORY_NOT_FOUND(404, "StoreCategory not found"),
     ITEM_NOT_FOUND(404, "Item not found"),
+    ITEM_CANNOT_CHANGE(409, "Item can not change"),
     OUT_OF_STOCK(400, "Out of stock"),
     REVIEW_NOT_FOUND(404, "Review not found"),
     REVIEW_CANNOT_CHANGE(409, "Review can not change"),

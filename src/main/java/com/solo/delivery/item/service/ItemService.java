@@ -4,6 +4,8 @@ import com.solo.delivery.exception.BusinessLogicException;
 import com.solo.delivery.exception.ExceptionCode;
 import com.solo.delivery.item.entity.Item;
 import com.solo.delivery.item.repository.ItemRepository;
+import com.solo.delivery.member.entity.Member;
+import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +21,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class ItemService {
     private final ItemRepository itemRepository;
     private final StoreService storeService;
+    private final MemberService memberService;
 
-    public Item createItem(Item item, Long storeId) {
+    public Item createItem(Item item, Long storeId, String email) {
+        Member foundMember = memberService.findVerifiedMember(email);
         Store foundStore = storeService.findVerifiedStore(storeId);
+        if(foundMember.getMemberId() != foundStore.getMemberId()) {
+            throw new BusinessLogicException(ExceptionCode.ITEM_CANNOT_CHANGE);
+        }
         item.changeStore(foundStore);
         return itemRepository.save(item);
     }
@@ -35,14 +42,22 @@ public class ItemService {
         return itemRepository.findAllByStore(foundStore, PageRequest.of(page - 1, size, Sort.by("itemId").ascending()));
     }
 
-    public Item updateItem(Long itemId, Item modifiedItem) {
+    public Item updateItem(Long itemId, Item modifiedItem, String email) {
+        Member foundMember = memberService.findVerifiedMember(email);
         Item foundItem = findVerifiedItem(itemId);
+        if(foundItem.getStore().getMemberId() != foundMember.getMemberId()) {
+            throw new BusinessLogicException(ExceptionCode.ITEM_CANNOT_CHANGE);
+        }
         foundItem.changeItemContent(modifiedItem);
         return foundItem;
     }
 
-    public void deleteItem(Long itemId) {
+    public void deleteItem(Long itemId, String email) {
+        Member foundMember = memberService.findVerifiedMember(email);
         Item foundItem = findVerifiedItem(itemId);
+        if(foundItem.getStore().getMemberId() != foundMember.getMemberId()) {
+            throw new BusinessLogicException(ExceptionCode.ITEM_CANNOT_CHANGE);
+        }
         itemRepository.delete(foundItem);
     }
 

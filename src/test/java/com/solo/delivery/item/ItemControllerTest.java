@@ -70,7 +70,7 @@ public class ItemControllerTest {
         String content = gson.toJson(itemPostDto);
         given(itemMapper.itemPostDtoToItem(Mockito.any(ItemPostDto.class)))
                 .willReturn(new Item());
-        given(itemService.createItem(Mockito.any(Item.class), Mockito.anyLong()))
+        given(itemService.createItem(Mockito.any(Item.class), Mockito.anyLong(), Mockito.anyString()))
                 .willReturn(item);
 
         ResultActions actions = mockMvc.perform(
@@ -199,7 +199,7 @@ public class ItemControllerTest {
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void deleteItemTest() throws Exception {
         Long itemId = 1L;
-        doNothing().when(itemService).deleteItem(Mockito.anyLong());
+        doNothing().when(itemService).deleteItem(Mockito.anyLong(), Mockito.anyString());
 
         ResultActions actions = mockMvc.perform(
                 delete("/api/v1/item/{itemId}", itemId)

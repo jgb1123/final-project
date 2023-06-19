@@ -110,10 +110,14 @@ public class OrderServiceTest {
     @Test
     void cancelOrderTest() {
         Order order = OrderDummy.createOrder1();
+        Member member = MemberDummy.createMember1();
+        order.changeMember(member);
         given(orderRepository.findById(Mockito.anyLong()))
                 .willReturn(Optional.of(order));
+        given(memberService.findVerifiedMember(Mockito.anyString()))
+                .willReturn(member);
 
-        Order canceledOrder = orderService.cancelOrder(1L);
+        Order canceledOrder = orderService.cancelOrder(1L, "hgd@gmail.com");
 
         assertThat(canceledOrder.getOrderStatus().getStepDescription()).isEqualTo("주문 취소");
     }
