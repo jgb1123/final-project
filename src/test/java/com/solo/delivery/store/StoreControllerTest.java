@@ -231,7 +231,7 @@ public class StoreControllerTest {
 
     @Test
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
-    void deleteBoardTest() throws Exception {
+    void deleteStoreTest() throws Exception {
         Long storeId = 1L;
         doNothing().when(storeService).deleteStore(Mockito.anyLong());
 
