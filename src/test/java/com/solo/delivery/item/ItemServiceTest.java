@@ -1,10 +1,13 @@
 package com.solo.delivery.item;
 
 import com.solo.delivery.dummy.ItemDummy;
+import com.solo.delivery.dummy.MemberDummy;
 import com.solo.delivery.dummy.StoreDummy;
 import com.solo.delivery.item.entity.Item;
 import com.solo.delivery.item.repository.ItemRepository;
 import com.solo.delivery.item.service.ItemService;
+import com.solo.delivery.member.entity.Member;
+import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.service.StoreService;
 import org.junit.jupiter.api.Assertions;
@@ -31,18 +34,24 @@ public class ItemServiceTest {
     private ItemRepository itemRepository;
 
     @Mock
+    private MemberService memberService;
+
+    @Mock
     private StoreService storeService;
 
     @Test
     void createItemTest() {
         Item item = ItemDummy.createItem1();
         Store store = StoreDummy.createStore1();
+        Member member = MemberDummy.createMember1();
         given(itemRepository.save(Mockito.any(Item.class)))
                 .willReturn(item);
         given(storeService.findVerifiedStore(Mockito.anyLong()))
                 .willReturn(store);
+        given(memberService.findVerifiedMember(Mockito.anyString()))
+                .willReturn(member);
 
-        Item savedItem = itemService.createItem(item, store.getStoreId());
+        Item savedItem = itemService.createItem(item, store.getStoreId(), "hgd@gmail.com");
 
         assertThat(item.getItemName()).isEqualTo(savedItem.getItemName());
         assertThat(item.getStore().getStoreName()).isEqualTo(store.getStoreName());
@@ -72,11 +81,14 @@ public class ItemServiceTest {
         Item modifiedItem = ItemDummy.createItem2();
         Item item = ItemDummy.createItem1();
         Store store = StoreDummy.createStore1();
+        Member member = MemberDummy.createMember1();
         item.changeStore(store);
         given(itemRepository.findById(Mockito.anyLong()))
                 .willReturn(Optional.of(item));
+        given(memberService.findVerifiedMember(Mockito.anyString()))
+                .willReturn(member);
 
-        Item updatedItem = itemService.updateItem(item.getItemId(), modifiedItem);
+        Item updatedItem = itemService.updateItem(item.getItemId(), modifiedItem, "hgd@gmail.com");
 
         assertThat(updatedItem.getItemName()).isEqualTo(modifiedItem.getItemName());
         assertThat(updatedItem.getInfo()).isEqualTo(modifiedItem.getInfo());
@@ -86,10 +98,13 @@ public class ItemServiceTest {
     void deleteItemTest() {
         Item item = ItemDummy.createItem1();
         Store store = StoreDummy.createStore1();
+        Member member = MemberDummy.createMember1();
         item.changeStore(store);
         given(itemRepository.findById(Mockito.anyLong()))
                 .willReturn(Optional.of(item));
+        given(memberService.findVerifiedMember(Mockito.anyString()))
+                .willReturn(member);
 
-        Assertions.assertDoesNotThrow(() -> itemService.deleteItem(item.getItemId()));
+        Assertions.assertDoesNotThrow(() -> itemService.deleteItem(item.getItemId(), "hgd@gmail.com"));
     }
 }

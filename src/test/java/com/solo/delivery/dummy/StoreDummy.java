@@ -14,7 +14,7 @@ public interface StoreDummy {
                 .address("서울시 구로구 고척동 111-11")
                 .phone("010-1111-2222")
                 .minimumOrderPrice(10000)
-                .storeCategory(null)
+                .memberId(1L)
                 .build();
     }
 
@@ -25,7 +25,7 @@ public interface StoreDummy {
                 .address("서울시 구로구 고척동 111-12")
                 .phone("010-2222-3333")
                 .minimumOrderPrice(20000)
-                .storeCategory(null)
+                .memberId(2L)
                 .build();
     }
 

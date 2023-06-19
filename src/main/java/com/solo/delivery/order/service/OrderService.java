@@ -71,8 +71,12 @@ public class OrderService {
         return foundOrder;
     }
 
-    public Order cancelOrder(Long orderId) {
+    public Order cancelOrder(Long orderId, String email) {
+        Member foundMember = memberService.findVerifiedMember(email);
         Order foundOrder = findVerifiedOrder(orderId);
+        if(foundOrder.getMember().getMemberId() != foundMember.getMemberId()) {
+            throw new BusinessLogicException(ExceptionCode.ORDER_CANNOT_CHANGE);
+        }
         int step = foundOrder.getOrderStatus().getStepNumber();
         if(step > 0) {
             throw new BusinessLogicException(ExceptionCode.ORDER_CANNOT_CHANGE);

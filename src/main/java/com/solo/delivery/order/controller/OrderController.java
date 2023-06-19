@@ -60,8 +60,9 @@ public class OrderController {
     }
 
     @DeleteMapping("/{orderId}")
-    public ResponseEntity deleteOrder(@PathVariable Long orderId) {
-        orderService.cancelOrder(orderId);
+    public ResponseEntity deleteOrder(@PathVariable Long orderId,
+                                      @AuthenticationPrincipal String email) {
+        orderService.cancelOrder(orderId, email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
