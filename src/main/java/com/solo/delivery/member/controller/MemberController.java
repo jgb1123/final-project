@@ -10,10 +10,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/v1/member")
 public class MemberController {
     private final MemberMapper memberMapper;
@@ -27,7 +31,7 @@ public class MemberController {
     }
 
     @PatchMapping
-    public ResponseEntity patchMember(@RequestBody MemberPatchDto memberPatchDto,
+    public ResponseEntity patchMember(@Valid @RequestBody MemberPatchDto memberPatchDto,
                                       @AuthenticationPrincipal String email) {
         Member modifiedMember = memberMapper.memberPatchDtoToMember(memberPatchDto);
         memberService.updateMember(email, modifiedMember);

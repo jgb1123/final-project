@@ -16,4 +16,5 @@ public class StoreResponseDto {
     private String phone;
     private Integer minimumOrderPrice;
     private String storeCategory;
+    private Long memberId;
 }

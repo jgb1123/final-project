@@ -12,20 +12,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/v1/item")
 public class ItemController {
     private final ItemMapper itemMapper;
     private final ItemService itemService;
 
     @PostMapping("/{storeId}")
-    public ResponseEntity postItem(@PathVariable Long storeId,
-                                   @RequestBody ItemPostDto itemPostDto,
+    public ResponseEntity postItem(@Positive @PathVariable Long storeId,
+                                   @Valid @RequestBody ItemPostDto itemPostDto,
                                    @AuthenticationPrincipal String email) {
         Item item = itemMapper.itemPostDtoToItem(itemPostDto);
         Item savedItem = itemService.createItem(item, storeId, email);
@@ -33,9 +37,9 @@ public class ItemController {
     }
 
     @GetMapping("/{storeId}")
-    public ResponseEntity getItems(@PathVariable Long storeId,
-                                   int page,
-                                   int size) {
+    public ResponseEntity getItems(@Positive @PathVariable Long storeId,
+                                   @Positive @RequestParam(required = false, defaultValue = "1") int page,
+                                   @Positive @RequestParam(required = false, defaultValue = "10") int size) {
         Page<Item> itemPage = itemService.findItems(storeId, page, size);
         List<Item> items = itemPage.getContent();
         List<ItemResponseDto> itemResponseDtos = itemMapper.itemsToItemResponseDtos(items);
@@ -43,8 +47,8 @@ public class ItemController {
     }
 
     @PatchMapping("/{itemId}")
-    public ResponseEntity patchItem(@PathVariable Long itemId,
-                                    @RequestBody ItemPatchDto itemPatchDto,
+    public ResponseEntity patchItem(@Positive @PathVariable Long itemId,
+                                    @Valid @RequestBody ItemPatchDto itemPatchDto,
                                     @AuthenticationPrincipal String email) {
         Item modifiedItem = itemMapper.itemPatchDtoToItem(itemPatchDto);
         itemService.updateItem(itemId, modifiedItem, email);
@@ -52,7 +56,7 @@ public class ItemController {
     }
 
     @DeleteMapping("/{itemId}")
-    public ResponseEntity deleteItem(@PathVariable Long itemId,
+    public ResponseEntity deleteItem(@Positive @PathVariable Long itemId,
                                      @AuthenticationPrincipal String email) {
         itemService.deleteItem(itemId, email);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

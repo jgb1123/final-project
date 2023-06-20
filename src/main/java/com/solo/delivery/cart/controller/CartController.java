@@ -12,20 +12,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/v1/cart")
 public class CartController {
     private final CartService cartService;
     private final CartMapper cartMapper;
 
     @PostMapping("/{itemId}")
-    public ResponseEntity postCart(@PathVariable Long itemId,
-                               @RequestBody CartPostDto cartPostDto,
+    public ResponseEntity postCart(@Positive @PathVariable Long itemId,
+                               @Valid @RequestBody CartPostDto cartPostDto,
                                @AuthenticationPrincipal String email) {
         Cart cart = cartMapper.cartPostDtoToCart(cartPostDto);
         Cart savedCart = cartService.createCart(cart, itemId, email);
@@ -33,8 +37,8 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity getCarts(int page,
-                                   int size,
+    public ResponseEntity getCarts(@Positive @RequestParam(required = false, defaultValue = "1") int page,
+                                   @Positive @RequestParam(required = false, defaultValue = "10") int size,
                                    @AuthenticationPrincipal String email) {
         Page<Cart> cartPage = cartService.findCarts(email, page, size);
         List<Cart> carts = cartPage.getContent();
@@ -43,15 +47,15 @@ public class CartController {
     }
 
     @PatchMapping("/{cartId}")
-    public ResponseEntity patchCart(@PathVariable Long cartId,
-                                    @RequestBody CartPatchDto cartPatchDto) {
+    public ResponseEntity patchCart(@Positive @PathVariable Long cartId,
+                                    @Valid @RequestBody CartPatchDto cartPatchDto) {
         Cart cart = cartMapper.cartPatchDtoToCart(cartPatchDto);
         Cart savedCart = cartService.updateCart(cartId, cart);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{cartId}")
-    public ResponseEntity deleteCart(@PathVariable Long cartId) {
+    public ResponseEntity deleteCart(@Positive @PathVariable Long cartId) {
         cartService.deleteCart(cartId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
