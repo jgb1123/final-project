@@ -12,20 +12,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/v1/review")
 public class ReviewController {
     private final ReviewMapper reviewMapper;
     private final ReviewService reviewService;
 
     @PostMapping("/{storeId}")
-    public ResponseEntity postReview(@PathVariable Long storeId,
-                                     @RequestBody ReviewPostDto reviewPostDto,
+    public ResponseEntity postReview(@Positive @PathVariable Long storeId,
+                                     @Valid @RequestBody ReviewPostDto reviewPostDto,
                                      @AuthenticationPrincipal String email) {
         Review review = reviewMapper.reviewPostDtoToReview(reviewPostDto);
         reviewService.createReview(review, email, storeId);
@@ -33,9 +37,9 @@ public class ReviewController {
     }
 
     @GetMapping("/{storeId}")
-    public ResponseEntity getReviews(@PathVariable Long storeId,
-                                     int page,
-                                     int size) {
+    public ResponseEntity getReviews(@Positive @PathVariable Long storeId,
+                                     @Positive @RequestParam(required = false, defaultValue = "1") int page,
+                                     @Positive @RequestParam(required = false, defaultValue = "10") int size) {
         Page<Review> reviewPage = reviewService.findReviews(storeId, page, size);
         List<Review> reviews = reviewPage.getContent();
         List<ReviewResponseDto> reviewResponseDtos = reviewMapper.reviewsToReviewResponseDtos(reviews);
@@ -43,8 +47,8 @@ public class ReviewController {
     }
 
     @PatchMapping("/{reviewId}")
-    public ResponseEntity patchReview(@PathVariable Long reviewId,
-                                      @RequestBody ReviewPatchDto reviewPatchDto,
+    public ResponseEntity patchReview(@Positive @PathVariable Long reviewId,
+                                      @Valid @RequestBody ReviewPatchDto reviewPatchDto,
                                       @AuthenticationPrincipal String email) {
         Review modifiedReview = reviewMapper.reviewPatchDtoToReview(reviewPatchDto);
         reviewService.updateReview(modifiedReview, reviewId, email);
@@ -52,7 +56,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity deleteReview(@PathVariable Long reviewId,
+    public ResponseEntity deleteReview(@Positive @PathVariable Long reviewId,
                                        @AuthenticationPrincipal String email) {
         reviewService.deleteReview(email, reviewId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

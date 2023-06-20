@@ -17,6 +17,7 @@ public class StoreMapper {
                 .address(storePostDto.getAddress())
                 .phone(storePostDto.getPhone())
                 .minimumOrderPrice(storePostDto.getMinimumOrderPrice())
+                .memberId(storePostDto.getMemberId())
                 .build();
     }
 
@@ -26,6 +27,7 @@ public class StoreMapper {
                 .address(storePatchDto.getAddress())
                 .phone(storePatchDto.getPhone())
                 .minimumOrderPrice(storePatchDto.getMinimumOrderPrice())
+                .memberId(storePatchDto.getMemberId())
                 .build();
     }
 
@@ -37,6 +39,7 @@ public class StoreMapper {
                 .phone(store.getPhone())
                 .minimumOrderPrice(store.getMinimumOrderPrice())
                 .storeCategory(store.getStoreCategory().getStoreCategory())
+                .memberId(store.getMemberId())
                 .build();
     }
 

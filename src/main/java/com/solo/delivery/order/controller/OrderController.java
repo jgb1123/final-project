@@ -14,19 +14,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/v1/order")
 public class OrderController {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
 
     @PostMapping
-    public ResponseEntity postOrder(@RequestBody OrderPostDto orderPostDto,
+    public ResponseEntity postOrder(@Valid @RequestBody OrderPostDto orderPostDto,
                                     @AuthenticationPrincipal String email) {
         Order order = orderMapper.orderPostDtoToOrder(orderPostDto);
         List<OrderDetailPostDto> orderDetailPostDtos = orderPostDto.getOrderDetails();
@@ -35,15 +39,15 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity getOrder(@PathVariable Long orderId) {
+    public ResponseEntity getOrder(@Positive @PathVariable Long orderId) {
         Order foundOrder = orderService.findOrder(orderId);
         OrderResponseDto orderResponseDto = orderMapper.orderToOrderResponseDto(foundOrder);
         return new ResponseEntity<>(new SingleResponseDto<>(orderResponseDto), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity getOrders(int page,
-                                    int size,
+    public ResponseEntity getOrders(@Positive @RequestParam(required = false, defaultValue = "1") int page,
+                                    @Positive @RequestParam(required = false, defaultValue = "10") int size,
                                     @AuthenticationPrincipal String email) {
         Page<Order> orderPage = orderService.findOrders(email, page, size);
         List<Order> orders = orderPage.getContent();
@@ -52,15 +56,15 @@ public class OrderController {
     }
 
     @PatchMapping("/{orderId}")
-    public ResponseEntity patchOrder(@PathVariable Long orderId,
-                                     @RequestBody OrderPatchDto orderPatchDto) {
+    public ResponseEntity patchOrder(@Positive @PathVariable Long orderId,
+                                     @Valid @RequestBody OrderPatchDto orderPatchDto) {
         String orderStatus = orderPatchDto.getOrderStatus();
         orderService.updateOrder(orderId, orderStatus);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{orderId}")
-    public ResponseEntity deleteOrder(@PathVariable Long orderId,
+    public ResponseEntity deleteOrder(@Positive @PathVariable Long orderId,
                                       @AuthenticationPrincipal String email) {
         orderService.cancelOrder(orderId, email);
         return new ResponseEntity<>(HttpStatus.OK);
