@@ -16,7 +16,7 @@ public interface OrderDummy {
                 .address("서울시 구로구 고척동 111-11 11호")
                 .phone("010-1234-5678")
                 .name("홍길동")
-                .requirement("문앞이요")
+                .requirement("문앞에 두고가주세요")
                 .orderPrice(20000)
                 .orderStatus(Order.OrderStatus.ORDER_REQUEST)
                 .build();
@@ -41,7 +41,7 @@ public interface OrderDummy {
                 .address("서울시 구로구 고척동 111-11 11호")
                 .phone("010-1234-5678")
                 .name("홍길동")
-                .requirement("문앞이요")
+                .requirement("문앞에 두고가주세요.")
                 .build();
     }
 
