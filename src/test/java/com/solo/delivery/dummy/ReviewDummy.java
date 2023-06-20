@@ -11,7 +11,7 @@ public interface ReviewDummy {
     static Review createReview1() {
         return Review.builder()
                 .star(5)
-                .reviewContent("맛있어요")
+                .reviewContent("맛있습니다.!")
                 .build();
     }
 
@@ -25,7 +25,7 @@ public interface ReviewDummy {
     static ReviewPostDto createPostDto() {
         return ReviewPostDto.builder()
                 .star(5)
-                .reviewContent("맛있어요")
+                .reviewContent("맛있습니다.!")
                 .build();
     }
 
@@ -40,7 +40,7 @@ public interface ReviewDummy {
         return ReviewResponseDto.builder()
                 .reviewId(1L)
                 .star(5)
-                .reviewContent("맛있어요")
+                .reviewContent("맛있습니다.!")
                 .createdAt(LocalDateTime.of(2023, 6, 12, 11, 0, 0))
                 .modifiedAt(LocalDateTime.of(2023, 6, 12, 11, 0, 0))
                 .build();
