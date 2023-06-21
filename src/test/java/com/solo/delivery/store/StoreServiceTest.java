@@ -68,10 +68,15 @@ public class StoreServiceTest {
     void findStoresTest() {
         Store store1 = StoreDummy.createStore1();
         Store store2 = StoreDummy.createStore2();
-        given(storeRepository.findAll(Mockito.any(Pageable.class)))
+        StoreCategory storeCategory = StoreDummy.createStoreCategory();
+        store1.changeStoreCategory(storeCategory);
+        store2.changeStoreCategory(storeCategory);
+        given(storeCategoryRepository.findById(Mockito.anyString()))
+                .willReturn(Optional.of(storeCategory));
+        given(storeRepository.findAllByStoreCategoryStoreCategoryIdStartingWith(Mockito.anyString(), Mockito.any(Pageable.class)))
                 .willReturn(new PageImpl<>(List.of(store1, store2), PageRequest.of(0, 10, Sort.by("storeId").ascending()), 2));
 
-        Page<Store> storePage = storeService.findStores(1, 10);
+        Page<Store> storePage = storeService.findStores("001", 1, 10);
 
         assertThat(storePage.getContent()).contains(store1);
         assertThat(storePage.getContent()).contains(store2);

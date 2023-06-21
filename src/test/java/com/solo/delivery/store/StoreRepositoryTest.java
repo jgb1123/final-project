@@ -4,6 +4,7 @@ import com.solo.delivery.dummy.StoreDummy;
 import com.solo.delivery.exception.BusinessLogicException;
 import com.solo.delivery.exception.ExceptionCode;
 import com.solo.delivery.store.entity.Store;
+import com.solo.delivery.store.repository.StoreCategoryRepository;
 import com.solo.delivery.store.repository.StoreRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class StoreRepositoryTest {
     @Autowired
     private StoreRepository storeRepository;
+    @Autowired
+    private StoreCategoryRepository storeCategoryRepository;
 
     @Test
     void saveTest() {
