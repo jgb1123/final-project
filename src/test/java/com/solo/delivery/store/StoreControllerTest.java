@@ -141,6 +141,7 @@ public class StoreControllerTest {
 
     @Test
     void getStoresTest() throws Exception {
+        String categoryId = "001";
         int page = 1;
         int size = 10;
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
@@ -153,13 +154,13 @@ public class StoreControllerTest {
         List<StoreResponseDto> responses = List.of(storeResponseDto1, storeResponseDto2);
         Page<Store> storePage = new PageImpl<>(List.of(store1, store2), PageRequest.of(page - 1, size,
                 Sort.by("storeId").ascending()), 2);
-        given(storeService.findStores(Mockito.anyInt(), Mockito.anyInt()))
+        given(storeService.findStores(Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt()))
                 .willReturn(storePage);
         given(storeMapper.storesToStoreResponseDtos(Mockito.anyList()))
                 .willReturn(responses);
 
         ResultActions actions = mockMvc.perform(
-                get("/api/v1/store")
+                get("/api/v1/store/category/{categoryId}", categoryId)
                         .params(queryParams)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -169,6 +170,9 @@ public class StoreControllerTest {
                 .andDo(document("get-stores",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("categoryId").description("카테고리 식별자")
+                        ),
                         requestParameters(
                                 List.of(
                                         parameterWithName("page").description("Page 번호"),
