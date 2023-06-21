@@ -42,10 +42,11 @@ public class StoreController {
         return new ResponseEntity<>(new SingleResponseDto<>(storeResponseDto), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity getStores(@Positive @RequestParam(required = false, defaultValue = "1") int page,
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity getStores(@PathVariable String categoryId,
+                                    @Positive @RequestParam(required = false, defaultValue = "1") int page,
                                     @Positive @RequestParam(required = false, defaultValue = "10") int size) {
-        Page<Store> storePage = storeService.findStores(page, size);
+        Page<Store> storePage = storeService.findStores(categoryId, page, size);
         List<Store> stores = storePage.getContent();
         List<StoreResponseDto> storeResponseDtos = storeMapper.storesToStoreResponseDtos(stores);
         return new ResponseEntity<>(new MultiResponseDto<>(storeResponseDtos, storePage), HttpStatus.OK);

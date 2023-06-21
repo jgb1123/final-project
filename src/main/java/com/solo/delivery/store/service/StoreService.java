@@ -30,8 +30,9 @@ public class StoreService {
         return findVerifiedStore(storeId);
     }
 
-    public Page<Store> findStores(int page, int size) {
-        return storeRepository.findAll(PageRequest.of(page - 1, size, Sort.by("storeId").ascending()));
+    public Page<Store> findStores(String categoryId, int page, int size) {
+        StoreCategory foundCategory = findVerifiedStoreCategory(categoryId);
+        return storeRepository.findAllByStoreCategoryStoreCategoryIdStartingWith(categoryId, PageRequest.of(page - 1, size, Sort.by("storeId").ascending()));
     }
 
     public Store updateStore(Long storeId, Store modifiedStore, String storeCategoryId) {

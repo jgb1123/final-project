@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StoreRepository extends JpaRepository<Store, Long> {
     Page<Store> findAll(Pageable pageable);
+    Page<Store> findAllByStoreCategoryStoreCategoryIdStartingWith(String categoryId, Pageable pageable);
 }
