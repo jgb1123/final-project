@@ -65,4 +65,13 @@ public class StoreController {
         storeService.deleteStore(storeId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity searchStore(@RequestParam String word,
+                                      @Positive @RequestParam(required = false, defaultValue = "1") int page,
+                                      @Positive @RequestParam(required = false, defaultValue = "10") int size) {
+        Page<StoreResponseDto> storeResponseDtoPage = storeService.searchStore(word, page, size);
+        List<StoreResponseDto> storeResponseDtos = storeResponseDtoPage.getContent();
+        return new ResponseEntity<>(new MultiResponseDto<>(storeResponseDtos, storeResponseDtoPage), HttpStatus.OK);
+    }
 }

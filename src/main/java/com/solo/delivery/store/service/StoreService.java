@@ -2,6 +2,7 @@ package com.solo.delivery.store.service;
 
 import com.solo.delivery.exception.BusinessLogicException;
 import com.solo.delivery.exception.ExceptionCode;
+import com.solo.delivery.store.dto.StoreResponseDto;
 import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.entity.StoreCategory;
 import com.solo.delivery.store.repository.StoreCategoryRepository;
@@ -48,6 +49,10 @@ public class StoreService {
     public void deleteStore(Long storeId) {
         Store foundStore = findVerifiedStore(storeId);
         storeRepository.delete(foundStore);
+    }
+
+    public Page<StoreResponseDto> searchStore(String word, int page, int size) {
+        return storeRepository.searchStore(word, PageRequest.of(page - 1, size, Sort.by("storeId").ascending()));
     }
 
     public Store findVerifiedStore(Long storeId) {
