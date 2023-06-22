@@ -3,12 +3,14 @@ package com.solo.delivery.store;
 import com.solo.delivery.dummy.StoreDummy;
 import com.solo.delivery.exception.BusinessLogicException;
 import com.solo.delivery.exception.ExceptionCode;
+import com.solo.delivery.querydsl.config.QuerydslConfig;
 import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.repository.StoreCategoryRepository;
 import com.solo.delivery.store.repository.StoreRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,6 +20,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@Import(QuerydslConfig.class)
 public class StoreRepositoryTest {
     @Autowired
     private StoreRepository storeRepository;
