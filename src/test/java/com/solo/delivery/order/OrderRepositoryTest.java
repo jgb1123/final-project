@@ -8,9 +8,11 @@ import com.solo.delivery.member.entity.Member;
 import com.solo.delivery.member.repository.MemberRepository;
 import com.solo.delivery.order.entity.Order;
 import com.solo.delivery.order.repository.OrderRepository;
+import com.solo.delivery.querydsl.config.QuerydslConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -20,6 +22,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@Import(QuerydslConfig.class)
 public class OrderRepositoryTest {
     @Autowired
     private OrderRepository orderRepository;
