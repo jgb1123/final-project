@@ -28,6 +28,17 @@ public interface ItemDummy {
                 .build();
     }
 
+    static Item createItem3() {
+        return Item.builder()
+                .itemId(3L)
+                .itemName("김치찌개")
+                .price(10000)
+                .soldCnt(0)
+                .stockCnt(20)
+                .info("김치찌개입니다")
+                .build();
+    }
+
     static ItemPostDto createPostDto() {
         return ItemPostDto.builder()
                 .itemName("김치볶음밥")
