@@ -37,6 +37,12 @@ public class Store extends BaseTimeEntity {
     @Column
     private Long memberId;
 
+    @Column
+    private double starAvg;
+
+    @Column
+    private int totalOrderCnt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STORE_CATEGORY_ID")
     private StoreCategory storeCategory;
@@ -79,5 +85,17 @@ public class Store extends BaseTimeEntity {
         if(store.getPhone() != null) this.phone = store.getPhone();
         if(store.getMinimumOrderPrice() != null) this.minimumOrderPrice = store.getMinimumOrderPrice();
         if(store.getStoreCategory() != null) this.storeCategory = store.getStoreCategory();
+    }
+
+    public void increaseOrderCnt() {
+        this.totalOrderCnt += 1;
+    }
+
+    public void updateStarAvg() {
+        double sum = this.reviews
+                .stream()
+                .mapToInt(review -> review.getStar())
+                .sum();
+        this.starAvg = sum / this.reviews.size();
     }
 }

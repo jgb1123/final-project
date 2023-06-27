@@ -44,6 +44,7 @@ public class Order extends BaseTimeEntity {
     @Column
     private Integer orderPrice;
 
+    @Builder.Default
     @Column
     private OrderStatus orderStatus = OrderStatus.ORDER_REQUEST;
 

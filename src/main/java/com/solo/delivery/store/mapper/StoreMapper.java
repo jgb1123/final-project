@@ -40,6 +40,8 @@ public class StoreMapper {
                 .minimumOrderPrice(store.getMinimumOrderPrice())
                 .storeCategory(store.getStoreCategory().getStoreCategory())
                 .memberId(store.getMemberId())
+                .starAvg(store.getStarAvg())
+                .totalOrderCnt(store.getTotalOrderCnt())
                 .build();
     }
 
