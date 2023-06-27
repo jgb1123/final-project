@@ -28,6 +28,7 @@ public class ReviewService {
         Store foundStore = storeService.findVerifiedStore(storeId);
         review.changeMember(foundMember);
         review.changeStore(foundStore);
+        foundStore.updateStarAvg();
         return reviewRepository.save(review);
     }
 

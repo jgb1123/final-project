@@ -11,6 +11,8 @@ import com.solo.delivery.order.entity.Order;
 import com.solo.delivery.order.entity.OrderDetail;
 import com.solo.delivery.order.repository.OrderDetailRepository;
 import com.solo.delivery.order.repository.OrderRepository;
+import com.solo.delivery.store.entity.Store;
+import com.solo.delivery.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +28,7 @@ import java.util.List;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final StoreService storeService;
     private final ItemService itemService;
     private final MemberService memberService;
 
@@ -67,7 +70,14 @@ public class OrderService {
 
     public Order updateOrder(Long orderId, String orderStatus) {
         Order foundOrder = findVerifiedOrder(orderId);
+        if(foundOrder.getOrderStatus().getStepDescription().equals("주문 완료")) {
+            throw new BusinessLogicException(ExceptionCode.ORDER_CANNOT_CHANGE);
+        }
         foundOrder.changeOrderStatus(Order.OrderStatus.of(orderStatus));
+        if(orderStatus.equals("주문 완료")) {
+            Store foundStore = storeService.findVerifiedStore(foundOrder.getStoreId());
+            foundStore.increaseOrderCnt();
+        }
         return foundOrder;
     }
 

@@ -51,8 +51,8 @@ public class StoreService {
         storeRepository.delete(foundStore);
     }
 
-    public Page<StoreResponseDto> searchStore(String word, int page, int size) {
-        return storeRepository.searchStore(word, PageRequest.of(page - 1, size, Sort.by("storeId").ascending()));
+    public Page<StoreResponseDto> searchStore(String word, String sort, int page, int size) {
+        return storeRepository.searchStore(word, sort, PageRequest.of(page - 1, size, Sort.by("storeId").ascending()));
     }
 
     public Store findVerifiedStore(Long storeId) {
