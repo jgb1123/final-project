@@ -3,6 +3,7 @@ package com.solo.delivery.store;
 import com.solo.delivery.dummy.StoreDummy;
 import com.solo.delivery.exception.BusinessLogicException;
 import com.solo.delivery.member.service.MemberService;
+import com.solo.delivery.store.dto.StoreResponseDto;
 import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.entity.StoreCategory;
 import com.solo.delivery.store.repository.StoreCategoryRepository;
@@ -107,5 +108,24 @@ public class StoreServiceTest {
         doNothing().when(storeRepository).delete(Mockito.any(Store.class));
 
         Assertions.assertDoesNotThrow(() -> storeService.deleteStore(1L));
+    }
+
+    @Test
+    void searchStoreTest() {
+        Store store1 = StoreDummy.createStore1();
+        Store store2 = StoreDummy.createStore2();
+        StoreResponseDto storeResponseDto1 = StoreDummy.createResponseDto1();
+        StoreResponseDto storeResponseDto2 = StoreDummy.createResponseDto2();
+        StoreCategory storeCategory = StoreDummy.createStoreCategory();
+        store1.changeStoreCategory(storeCategory);
+        store2.changeStoreCategory(storeCategory);
+        given(storeRepository.searchStore(Mockito.anyString(), Mockito.any(Pageable.class)))
+                .willReturn(new PageImpl<>(List.of(storeResponseDto1, storeResponseDto2), PageRequest.of(0, 10, Sort.by("totalOrderCnt").descending()), 2));
+
+        Page<StoreResponseDto> storePage = storeService.searchStore("김치볶음밥", PageRequest.of(1, 10, Sort.by("totalOrderCnt").descending()));
+
+        assertThat(storePage.getContent()).contains(storeResponseDto1);
+        assertThat(storePage.getContent()).contains(storeResponseDto2);
+        assertThat(storePage.getTotalElements()).isEqualTo(2);
     }
 }

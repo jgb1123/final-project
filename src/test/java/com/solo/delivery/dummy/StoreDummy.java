@@ -15,7 +15,8 @@ public interface StoreDummy {
                 .phone("010-1111-2222")
                 .minimumOrderPrice(10000)
                 .memberId(1L)
-                .starAvg(4.0)
+                .starAvg(4.5)
+                .totalOrderCnt(14)
                 .build();
     }
 
@@ -27,7 +28,8 @@ public interface StoreDummy {
                 .phone("010-2222-3333")
                 .minimumOrderPrice(20000)
                 .memberId(2L)
-                .starAvg(4.5)
+                .starAvg(4.8)
+                .totalOrderCnt(421)
                 .build();
     }
 
@@ -69,6 +71,8 @@ public interface StoreDummy {
                 .minimumOrderPrice(10000)
                 .storeCategory("중국집")
                 .memberId(1L)
+                .starAvg(4.5)
+                .totalOrderCnt(14)
                 .build();
     }
 
@@ -81,6 +85,8 @@ public interface StoreDummy {
                 .minimumOrderPrice(20000)
                 .storeCategory("한식")
                 .memberId(2L)
+                .starAvg(4.8)
+                .totalOrderCnt(421)
                 .build();
     }
 }

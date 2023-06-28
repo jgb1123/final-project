@@ -17,7 +17,7 @@ API 문서 개요
 
 ***
 == MemberController
-=== 특정 회원 조회
+=== 특정 회원 조회 (ADMIN, USER, SELLER)
 .curl-request
 include::{snippets}/get-member/curl-request.adoc[]
 
@@ -30,7 +30,7 @@ include::{snippets}/get-member/http-response.adoc[]
 .response-fields
 include::{snippets}/get-member/response-fields.adoc[]
 
-=== 회원 정보 수정
+=== 회원 정보 수정 (ADMIN, USER, SELLER)
 .curl-request
 include::{snippets}/patch-member/curl-request.adoc[]
 
@@ -43,7 +43,7 @@ include::{snippets}/patch-member/request-fields.adoc[]
 .http-response
 include::{snippets}/patch-member/http-response.adoc[]
 
-=== 회원 탈퇴
+=== 회원 탈퇴 (ADMIN, USER, SELLER)
 
 .curl-request
 include::{snippets}/delete-member/curl-request.adoc[]
@@ -55,7 +55,7 @@ include::{snippets}/delete-member/http-request.adoc[]
 include::{snippets}/delete-member/http-response.adoc[]
 
 == StoreController
-=== 상점 생성
+=== 상점 생성 (ADMIN)
 .curl-request
 include::{snippets}/post-store/curl-request.adoc[]
 
@@ -68,7 +68,7 @@ include::{snippets}/post-store/request-fields.adoc[]
 .http-response
 include::{snippets}/post-store/http-response.adoc[]
 
-=== 특정 상점 조회
+=== 특정 상점 조회 (Anyone)
 .curl-request
 include::{snippets}/get-store/curl-request.adoc[]
 
@@ -84,7 +84,7 @@ include::{snippets}/get-store/http-response.adoc[]
 .response-fields
 include::{snippets}/get-store/response-fields.adoc[]
 
-=== 상점 목록 조회
+=== 상점 목록 조회 카테고리별 (Anyone)
 .curl-request
 include::{snippets}/get-stores/curl-request.adoc[]
 
@@ -100,7 +100,23 @@ include::{snippets}/get-stores/http-response.adoc[]
 .response-fields
 include::{snippets}/get-stores/response-fields.adoc[]
 
-=== 상점 수정
+=== 상점 목록 조회 검색 (Anyone)
+.curl-request
+include::{snippets}/get-search-stores/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-search-stores/http-request.adoc[]
+
+.request-parameters
+include::{snippets}/get-search-stores/request-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-search-stores/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-search-stores/response-fields.adoc[]
+
+=== 상점 수정 (ADMIN, SELLER)
 .curl-request
 include::{snippets}/patch-store/curl-request.adoc[]
 
@@ -116,7 +132,7 @@ include::{snippets}/patch-store/request-fields.adoc[]
 .http-response
 include::{snippets}/patch-store/http-response.adoc[]
 
-=== 상점 삭제
+=== 상점 삭제 (ADMIN)
 .curl-request
 include::{snippets}/delete-store/curl-request.adoc[]
 
@@ -130,7 +146,7 @@ include::{snippets}/delete-store/path-parameters.adoc[]
 include::{snippets}/delete-store/http-response.adoc[]
 
 == ItemController
-=== 상품 생성
+=== 상품 생성 (ADMIN, SELLER)
 .curl-request
 include::{snippets}/post-item/curl-request.adoc[]
 
@@ -146,7 +162,7 @@ include::{snippets}/post-item/request-fields.adoc[]
 .http-response
 include::{snippets}/post-item/http-response.adoc[]
 
-=== 상품 목록 조회
+=== 상품 목록 조회 (Anyone)
 .curl-request
 include::{snippets}/get-items/curl-request.adoc[]
 
@@ -165,7 +181,7 @@ include::{snippets}/get-items/http-response.adoc[]
 .response-fields
 include::{snippets}/get-items/response-fields.adoc[]
 
-=== 상품 수정
+=== 상품 수정 (ADMIN, SELLER)
 .curl-request
 include::{snippets}/patch-item/curl-request.adoc[]
 
@@ -181,7 +197,7 @@ include::{snippets}/patch-item/request-fields.adoc[]
 .http-response
 include::{snippets}/patch-item/http-response.adoc[]
 
-=== 상품 삭제
+=== 상품 삭제 (ADMIN, SELLER)
 .curl-request
 include::{snippets}/delete-item/curl-request.adoc[]
 
@@ -195,7 +211,7 @@ include::{snippets}/delete-item/path-parameters.adoc[]
 include::{snippets}/delete-item/http-response.adoc[]
 
 == ReviewController
-=== 리뷰 생성
+=== 리뷰 생성 (ADMIN, USER, SELLER)
 .curl-request
 include::{snippets}/post-review/curl-request.adoc[]
 
@@ -211,7 +227,7 @@ include::{snippets}/post-review/request-fields.adoc[]
 .http-response
 include::{snippets}/post-review/http-response.adoc[]
 
-=== 리뷰 목록 조회
+=== 리뷰 목록 조회 (Anyone)
 .curl-request
 include::{snippets}/get-reviews/curl-request.adoc[]
 
@@ -230,7 +246,7 @@ include::{snippets}/get-reviews/http-response.adoc[]
 .response-fields
 include::{snippets}/get-reviews/response-fields.adoc[]
 
-=== 리뷰 수정
+=== 리뷰 수정 (ADMIN, USER, SELLER)
 .curl-request
 include::{snippets}/patch-review/curl-request.adoc[]
 
@@ -246,7 +262,7 @@ include::{snippets}/patch-review/request-fields.adoc[]
 .http-response
 include::{snippets}/patch-review/http-response.adoc[]
 
-=== 리뷰 삭제
+=== 리뷰 삭제 (ADMIN, USER, SELLER)
 .curl-request
 include::{snippets}/delete-review/curl-request.adoc[]
 
@@ -260,7 +276,7 @@ include::{snippets}/delete-review/path-parameters.adoc[]
 include::{snippets}/delete-review/http-response.adoc[]
 
 == CartController
-=== 장바구니 생성
+=== 장바구니 생성 (ADMIN, USER, SELLER)
 .curl-request
 include::{snippets}/post-cart/curl-request.adoc[]
 
@@ -276,7 +292,7 @@ include::{snippets}/post-cart/request-fields.adoc[]
 .http-response
 include::{snippets}/post-cart/http-response.adoc[]
 
-=== 장바구니 목록 조회
+=== 장바구니 목록 조회 (ADMIN, USER, SELLER)
 .curl-request
 include::{snippets}/get-carts/curl-request.adoc[]
 
@@ -292,7 +308,7 @@ include::{snippets}/get-carts/http-response.adoc[]
 .response-fields
 include::{snippets}/get-carts/response-fields.adoc[]
 
-=== 장바구니 수정
+=== 장바구니 수정 (ADMIN, USER, SELLER)
 .curl-request
 include::{snippets}/patch-cart/curl-request.adoc[]
 
@@ -308,7 +324,7 @@ include::{snippets}/patch-cart/request-fields.adoc[]
 .http-response
 include::{snippets}/patch-cart/http-response.adoc[]
 
-=== 장바구니 삭제
+=== 장바구니 삭제 (ADMIN, USER, SELLER)
 .curl-request
 include::{snippets}/delete-cart/curl-request.adoc[]
 
@@ -322,7 +338,7 @@ include::{snippets}/delete-cart/path-parameters.adoc[]
 include::{snippets}/delete-cart/http-response.adoc[]
 
 == OrderController
-=== 주문 생성
+=== 주문 생성 (ADMIN, USER, SELLER)
 .curl-request
 include::{snippets}/post-order/curl-request.adoc[]
 
@@ -335,7 +351,7 @@ include::{snippets}/post-order/request-fields.adoc[]
 .http-response
 include::{snippets}/post-order/http-response.adoc[]
 
-=== 특정 주문 조회
+=== 특정 주문 조회 (ADMIN, USER, SELLER)
 .curl-request
 include::{snippets}/get-order/curl-request.adoc[]
 
@@ -351,7 +367,7 @@ include::{snippets}/get-order/http-response.adoc[]
 .response-fields
 include::{snippets}/get-order/response-fields.adoc[]
 
-=== 주문 목록 조회
+=== 주문 목록 조회 (ADMIN, USER, SELLER)
 .curl-request
 include::{snippets}/get-orders/curl-request.adoc[]
 
@@ -367,7 +383,7 @@ include::{snippets}/get-orders/http-response.adoc[]
 .response-fields
 include::{snippets}/get-orders/response-fields.adoc[]
 
-=== 주문 수정
+=== 주문 수정 (ADMIN, USER, SELLER)
 .curl-request
 include::{snippets}/patch-order/curl-request.adoc[]
 
@@ -383,7 +399,7 @@ include::{snippets}/patch-order/request-fields.adoc[]
 .http-response
 include::{snippets}/patch-order/http-response.adoc[]
 
-=== 주문 삭제
+=== 주문 삭제 (ADMIN, USER, SELLER)
 .curl-request
 include::{snippets}/delete-order/curl-request.adoc[]
 
