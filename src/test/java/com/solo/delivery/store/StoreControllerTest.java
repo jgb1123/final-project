@@ -14,6 +14,7 @@ import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.mapper.StoreMapper;
 import com.solo.delivery.store.service.StoreService;
 import com.solo.delivery.util.WithAuthMember;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,21 +25,27 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -260,6 +267,68 @@ public class StoreControllerTest {
                         preprocessResponse(prettyPrint()),
                         pathParameters(
                                 parameterWithName("storeId").description("상점 식별자")
+                        )
+                ));
+    }
+
+    @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
+    void searchStoreTest() throws Exception {
+        String word = "keyword";
+        int page = 1;
+        int size = 10;
+        String sort = "totalOrderCnt,desc";
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("word", word);
+        queryParams.add("page", Integer.toString(page));
+        queryParams.add("size", Integer.toString(size));
+        queryParams.add("sort", sort);
+        StoreResponseDto storeResponseDto1 = StoreDummy.createResponseDto1();
+        StoreResponseDto storeResponseDto2 = StoreDummy.createResponseDto2();
+        List<StoreResponseDto> responses = List.of(storeResponseDto1, storeResponseDto2);
+        Page<StoreResponseDto> storePage = new PageImpl<>(List.of(storeResponseDto1, storeResponseDto2), PageRequest.of(page - 1, size,
+                Sort.by("totalOrderCnt").descending()), 2);
+        given(storeService.searchStore(Mockito.anyString(), Mockito.any(Pageable.class)))
+                .willReturn(storePage);
+
+        ResultActions actions = mockMvc.perform(
+                get("/api/v1/store/search")
+                        .params(queryParams)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        actions.andExpect(status().isOk())
+                .andDo(document("get-search-stores",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                List.of(
+                                        parameterWithName("word").description("검색어"),
+                                        parameterWithName("page").description("Page 번호"),
+                                        parameterWithName("size").description("Page 크기"),
+                                        parameterWithName("sort").description("Sort 기준")
+                                )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
+                                        fieldWithPath("data[].storeId").type(JsonFieldType.NUMBER).description("상점 식별자"),
+                                        fieldWithPath("data[].storeName").type(JsonFieldType.STRING).description("상점 이름"),
+                                        fieldWithPath("data[].address").type(JsonFieldType.STRING).description("상점 주소"),
+                                        fieldWithPath("data[].phone").type(JsonFieldType.STRING).description("상점 전화번호"),
+                                        fieldWithPath("data[].minimumOrderPrice").type(JsonFieldType.NUMBER).description("최소 주문 금액"),
+                                        fieldWithPath("data[].storeCategory").type(JsonFieldType.STRING).description("상점 카테고리"),
+                                        fieldWithPath("data[].memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("data[].starAvg").type(JsonFieldType.NUMBER).description("평균 별점"),
+                                        fieldWithPath("data[].totalOrderCnt").type(JsonFieldType.NUMBER).description("총 주문 수"),
+
+                                        fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
+                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 번호"),
+                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지 사이즈"),
+                                        fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 건 수"),
+                                        fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 수")
+                                )
                         )
                 ));
     }
