@@ -69,7 +69,7 @@ public class ItemServiceTest {
         given(itemRepository.findAllByStore(Mockito.any(Store.class), Mockito.any(Pageable.class)))
                 .willReturn(new PageImpl<>(List.of(item1, item2), PageRequest.of(0, 10, Sort.by("itemId").ascending()), 2));
 
-        Page<Item> itemPage = itemService.findItems(store.getStoreId(), 1, 10);
+        Page<Item> itemPage = itemService.findItems(store.getStoreId(), PageRequest.of(1, 10, Sort.by("itemId").ascending()));
         List<Item> items = itemPage.getContent();
 
         assertThat(items).contains(item1);

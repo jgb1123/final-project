@@ -21,10 +21,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -102,17 +99,19 @@ public class CartControllerTest {
         Long itemId = 1L;
         int page = 1;
         int size = 1;
+        String sort = "cartId,desc";
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("page", Integer.toString(page));
         queryParams.add("size", Integer.toString(size));
+        queryParams.add("sort", sort);
         Cart cart1 = CartDummy.createCart1();
         Cart cart2 = CartDummy.createCart2();
         CartResponseDto cartResponseDto1 = CartDummy.createResponseDto1();
         CartResponseDto cartResponseDto2 = CartDummy.createResponseDto2();
         List<CartResponseDto> responses = List.of(cartResponseDto1, cartResponseDto2);
         Page<Cart> cartPage = new PageImpl<>(List.of(cart1, cart2), PageRequest.of(page - 1, size,
-                Sort.by("cartId")), 2);
-        given(cartService.findCarts(Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt()))
+                Sort.by("cartId").descending()), 2);
+        given(cartService.findCarts(Mockito.anyString(), Mockito.any(Pageable.class)))
                 .willReturn(cartPage);
         given(cartMapper.cartsToCartResponseDtos(Mockito.anyList()))
                 .willReturn(responses);
@@ -132,7 +131,8 @@ public class CartControllerTest {
                         requestParameters(
                                 List.of(
                                         parameterWithName("page").description("Page 번호"),
-                                        parameterWithName("size").description("Size 크기")
+                                        parameterWithName("size").description("Size 크기"),
+                                        parameterWithName("sort").description("Sort 기준")
                                 )
                         ),
                         responseFields(
