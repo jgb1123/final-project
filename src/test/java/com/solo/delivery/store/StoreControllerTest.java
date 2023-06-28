@@ -21,10 +21,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -133,7 +130,9 @@ public class StoreControllerTest {
                                         fieldWithPath("data.phone").type(JsonFieldType.STRING).description("상점 전화번호"),
                                         fieldWithPath("data.minimumOrderPrice").type(JsonFieldType.NUMBER).description("최소 주문 금액"),
                                         fieldWithPath("data.storeCategory").type(JsonFieldType.STRING).description("상점 카테고리"),
-                                        fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("회원 식별자")
+                                        fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("data.starAvg").type(JsonFieldType.NUMBER).description("평균 별점"),
+                                        fieldWithPath("data.totalOrderCnt").type(JsonFieldType.NUMBER).description("총 주문 수")
                                 )
                         )
                         ));
@@ -144,9 +143,11 @@ public class StoreControllerTest {
         String categoryId = "001";
         int page = 1;
         int size = 10;
+        String sort = "totalOrderCnt,desc";
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("page", Integer.toString(page));
         queryParams.add("size", Integer.toString(size));
+        queryParams.add("sort", sort);
         Store store1 = StoreDummy.createStore1();
         Store store2 = StoreDummy.createStore2();
         StoreResponseDto storeResponseDto1 = StoreDummy.createResponseDto1();
@@ -154,7 +155,7 @@ public class StoreControllerTest {
         List<StoreResponseDto> responses = List.of(storeResponseDto1, storeResponseDto2);
         Page<Store> storePage = new PageImpl<>(List.of(store1, store2), PageRequest.of(page - 1, size,
                 Sort.by("storeId").ascending()), 2);
-        given(storeService.findStores(Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt()))
+        given(storeService.findStores(Mockito.anyString(), Mockito.any(Pageable.class)))
                 .willReturn(storePage);
         given(storeMapper.storesToStoreResponseDtos(Mockito.anyList()))
                 .willReturn(responses);
@@ -176,7 +177,8 @@ public class StoreControllerTest {
                         requestParameters(
                                 List.of(
                                         parameterWithName("page").description("Page 번호"),
-                                        parameterWithName("size").description("Page 크기")
+                                        parameterWithName("size").description("Page 크기"),
+                                        parameterWithName("sort").description("Sort 기준")
                                 )
                         ),
                         responseFields(
@@ -189,6 +191,8 @@ public class StoreControllerTest {
                                         fieldWithPath("data[].minimumOrderPrice").type(JsonFieldType.NUMBER).description("최소 주문 금액"),
                                         fieldWithPath("data[].storeCategory").type(JsonFieldType.STRING).description("상점 카테고리"),
                                         fieldWithPath("data[].memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("data[].starAvg").type(JsonFieldType.NUMBER).description("평균 별점"),
+                                        fieldWithPath("data[].totalOrderCnt").type(JsonFieldType.NUMBER).description("총 주문 수"),
 
                                         fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
                                         fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 번호"),

@@ -65,9 +65,9 @@ public class CartServiceTest {
         given(memberService.findVerifiedMember(Mockito.anyString()))
                 .willReturn(new Member());
         given(cartRepository.findAllByMember(Mockito.any(Member.class), Mockito.any(Pageable.class)))
-                .willReturn(new PageImpl<>(List.of(cart1, cart2), PageRequest.of(0, 10, Sort.by("cartId").ascending()), 2));
+                .willReturn(new PageImpl<>(List.of(cart1, cart2), PageRequest.of(0, 10, Sort.by("cartId").descending()), 2));
 
-        Page<Cart> cartPage = cartService.findCarts("hgd@gmail.com", 1, 10);
+        Page<Cart> cartPage = cartService.findCarts("hgd@gmail.com", PageRequest.of(1, 10, Sort.by("cartId").descending()));
         List<Cart> carts = cartPage.getContent();
 
 

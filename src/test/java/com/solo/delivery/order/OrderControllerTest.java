@@ -22,10 +22,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -161,9 +158,11 @@ public class OrderControllerTest {
     void getOrdersTest() throws Exception {
         int page = 1;
         int size = 10;
+        String sort = "orderId,desc";
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("page", Integer.toString(page));
         queryParams.add("size", Integer.toString(size));
+        queryParams.add("sort", sort);
         Order order1 = OrderDummy.createOrder1();
         Order order2 = OrderDummy.createOrder2();
         OrderResponseDto orderResponseDto1 = OrderDummy.createResponseDto1();
@@ -171,7 +170,7 @@ public class OrderControllerTest {
         List<OrderResponseDto> responses = List.of(orderResponseDto1, orderResponseDto2);
         Page<Order> orderPage = new PageImpl<>(List.of(order1, order2), PageRequest.of(page - 1, size,
                 Sort.by("orderId").ascending()), 2);
-        given(orderService.findOrders(Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt()))
+        given(orderService.findOrders(Mockito.anyString(), Mockito.any(Pageable.class)))
                 .willReturn(orderPage);
         given(orderMapper.ordersToOrderResponseDtos(Mockito.anyList()))
                 .willReturn(responses);
@@ -191,7 +190,8 @@ public class OrderControllerTest {
                         requestParameters(
                                 List.of(
                                         parameterWithName("page").description("Page 번호"),
-                                        parameterWithName("size").description("Page 크기")
+                                        parameterWithName("size").description("Page 크기"),
+                                        parameterWithName("sort").description("Sort 기준")
                                 )
                         ),
                         responseFields(

@@ -74,9 +74,9 @@ public class StoreServiceTest {
         given(storeCategoryRepository.findById(Mockito.anyString()))
                 .willReturn(Optional.of(storeCategory));
         given(storeRepository.findAllByStoreCategoryStoreCategoryIdStartingWith(Mockito.anyString(), Mockito.any(Pageable.class)))
-                .willReturn(new PageImpl<>(List.of(store1, store2), PageRequest.of(0, 10, Sort.by("storeId").ascending()), 2));
+                .willReturn(new PageImpl<>(List.of(store1, store2), PageRequest.of(0, 10, Sort.by("totalOrderCnt").descending()), 2));
 
-        Page<Store> storePage = storeService.findStores("001", 1, 10);
+        Page<Store> storePage = storeService.findStores("001", PageRequest.of(1, 10, Sort.by("totalOrderCnt").descending()));
 
         assertThat(storePage.getContent()).contains(store1);
         assertThat(storePage.getContent()).contains(store2);

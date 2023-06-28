@@ -88,7 +88,7 @@ public class OrderServiceTest {
         given(orderRepository.findAllByMember(Mockito.any(Member.class), Mockito.any(Pageable.class)))
                 .willReturn(new PageImpl<>(List.of(order1, order2), PageRequest.of(0, 10, Sort.by("orderId").ascending()), 2));
 
-        Page<Order> orderPage = orderService.findOrders("hgd@gmail.com", 1, 10);
+        Page<Order> orderPage = orderService.findOrders("hgd@gmail.com", PageRequest.of(1, 10, Sort.by("orderId").descending()));
         List<Order> orders = orderPage.getContent();
 
         assertThat(orders).contains(order1);

@@ -65,9 +65,9 @@ public class ReviewServiceTest {
         given(storeService.findVerifiedStore(Mockito.anyLong()))
                 .willReturn(new Store());
         given(reviewRepository.findAllByStore(Mockito.any(Store.class), Mockito.any(Pageable.class)))
-                .willReturn(new PageImpl<>(List.of(review1, review2), PageRequest.of(0, 10, Sort.by("reviewId").ascending()), 2));
+                .willReturn(new PageImpl<>(List.of(review1, review2), PageRequest.of(0, 10, Sort.by("reviewId").descending()), 2));
 
-        Page<Review> reviewPage = reviewService.findReviews(1L, 1, 10);
+        Page<Review> reviewPage = reviewService.findReviews(1L, PageRequest.of(1, 10, Sort.by("reviewId").descending()));
         List<Review> reviews = reviewPage.getContent();
 
         assertThat(reviews).contains(review1);
