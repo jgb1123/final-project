@@ -26,6 +26,9 @@
 * 무조건적인 연관관계는 지양
   * Item과 Order의 연관관계를 끊어 상품 정보를 수정해도 주문 내역이 수정되지 않도록 구현
   * ADMIN만이 Store를 생성할 수 있고, 각 Store에서는 ADMIN이 생성 시 지정한 SELLER의 MemberId만 갖고 있도록 구현
+ 
+## REST API 문서
+[REST API 문서](https://jgb1123.github.io/final-project/src/main/resources/static/docs/index.html)
 
 ## DataBase ERD
 ![스키마](https://github.com/jgb1123/final-project/assets/104135638/28440cfd-eed3-4013-b867-26f2298bb2fe)
