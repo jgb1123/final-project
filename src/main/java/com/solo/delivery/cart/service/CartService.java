@@ -11,6 +11,7 @@ import com.solo.delivery.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,10 +33,10 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
-    public Page<Cart> findCarts(String email, int page, int size) {
+    public Page<Cart> findCarts(String email, Pageable pageable) {
         Member foundMember = memberService.findVerifiedMember(email);
-        return cartRepository.findAllByMember(foundMember, PageRequest.of(page - 1, size,
-                Sort.by("cartId").ascending()));
+        pageable = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        return cartRepository.findAllByMember(foundMember, pageable);
     }
 
     public Cart updateCart(Long cartId, Cart modifiedCart) {

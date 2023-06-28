@@ -16,6 +16,7 @@ import com.solo.delivery.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,10 +63,10 @@ public class OrderService {
         return findVerifiedOrder(orderId);
     }
 
-    public Page<Order> findOrders(String email, int page, int size) {
+    public Page<Order> findOrders(String email, Pageable pageable) {
         Member foundMember = memberService.findVerifiedMember(email);
-        return orderRepository.findAllByMember(foundMember, PageRequest.of(page - 1, size,
-                Sort.by("orderId").descending()));
+        pageable = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        return orderRepository.findAllByMember(foundMember, pageable);
     }
 
     public Order updateOrder(Long orderId, String orderStatus) {

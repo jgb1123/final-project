@@ -9,6 +9,9 @@ import com.solo.delivery.review.mapper.ReviewMapper;
 import com.solo.delivery.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,9 +41,8 @@ public class ReviewController {
 
     @GetMapping("/{storeId}")
     public ResponseEntity getReviews(@Positive @PathVariable Long storeId,
-                                     @Positive @RequestParam(required = false, defaultValue = "1") int page,
-                                     @Positive @RequestParam(required = false, defaultValue = "10") int size) {
-        Page<Review> reviewPage = reviewService.findReviews(storeId, page, size);
+                                     @PageableDefault(page = 1, size = 10, sort = "reviewId", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Review> reviewPage = reviewService.findReviews(storeId, pageable);
         List<Review> reviews = reviewPage.getContent();
         List<ReviewResponseDto> reviewResponseDtos = reviewMapper.reviewsToReviewResponseDtos(reviews);
         return new ResponseEntity<>(new MultiResponseDto<>(reviewResponseDtos, reviewPage), HttpStatus.OK);

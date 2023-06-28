@@ -11,6 +11,9 @@ import com.solo.delivery.order.mapper.OrderMapper;
 import com.solo.delivery.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,10 +49,9 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity getOrders(@Positive @RequestParam(required = false, defaultValue = "1") int page,
-                                    @Positive @RequestParam(required = false, defaultValue = "10") int size,
+    public ResponseEntity getOrders(@PageableDefault(page = 1, size = 10, sort = "orderId", direction = Sort.Direction.DESC) Pageable pageable,
                                     @AuthenticationPrincipal String email) {
-        Page<Order> orderPage = orderService.findOrders(email, page, size);
+        Page<Order> orderPage = orderService.findOrders(email, pageable);
         List<Order> orders = orderPage.getContent();
         List<OrderResponseDto> orderResponseDtos = orderMapper.ordersToOrderResponseDtos(orders);
         return new ResponseEntity<>(new MultiResponseDto<>(orderResponseDtos, orderPage), HttpStatus.OK);

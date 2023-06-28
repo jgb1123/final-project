@@ -11,6 +11,7 @@ import com.solo.delivery.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,9 +38,10 @@ public class ItemService {
         return findVerifiedItem(itemId);
     }
 
-    public Page<Item> findItems(Long storeId, int page, int size) {
+    public Page<Item> findItems(Long storeId, Pageable pageable) {
         Store foundStore = storeService.findVerifiedStore(storeId);
-        return itemRepository.findAllByStore(foundStore, PageRequest.of(page - 1, size, Sort.by("itemId").ascending()));
+        pageable = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        return itemRepository.findAllByStore(foundStore, pageable);
     }
 
     public Item updateItem(Long itemId, Item modifiedItem, String email) {

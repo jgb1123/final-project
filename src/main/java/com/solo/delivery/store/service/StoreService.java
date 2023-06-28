@@ -10,6 +10,7 @@ import com.solo.delivery.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,9 +32,10 @@ public class StoreService {
         return findVerifiedStore(storeId);
     }
 
-    public Page<Store> findStores(String categoryId, int page, int size) {
+    public Page<Store> findStores(String categoryId, Pageable pageable) {
         StoreCategory foundCategory = findVerifiedStoreCategory(categoryId);
-        return storeRepository.findAllByStoreCategoryStoreCategoryIdStartingWith(categoryId, PageRequest.of(page - 1, size, Sort.by("storeId").ascending()));
+        pageable = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        return storeRepository.findAllByStoreCategoryStoreCategoryIdStartingWith(categoryId, pageable);
     }
 
     public Store updateStore(Long storeId, Store modifiedStore, String storeCategoryId) {
@@ -51,8 +53,9 @@ public class StoreService {
         storeRepository.delete(foundStore);
     }
 
-    public Page<StoreResponseDto> searchStore(String word, String sort, int page, int size) {
-        return storeRepository.searchStore(word, sort, PageRequest.of(page - 1, size, Sort.by("storeId").ascending()));
+    public Page<StoreResponseDto> searchStore(String word, Pageable pageable) {
+        pageable = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        return storeRepository.searchStore(word, pageable);
     }
 
     public Store findVerifiedStore(Long storeId) {

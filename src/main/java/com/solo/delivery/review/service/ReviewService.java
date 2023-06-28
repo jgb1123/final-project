@@ -11,6 +11,7 @@ import com.solo.delivery.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,10 +33,10 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
-    public Page<Review> findReviews(Long storeId, int page, int size) {
+    public Page<Review> findReviews(Long storeId, Pageable pageable) {
         Store foundStore = storeService.findVerifiedStore(storeId);
-        return reviewRepository.findAllByStore(foundStore, PageRequest.of(page - 1, size,
-                Sort.by("reviewId").ascending()));
+        pageable = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        return reviewRepository.findAllByStore(foundStore, pageable);
     }
 
     public Review updateReview(Review modifiedReview, Long reviewId, String email) {
