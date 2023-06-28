@@ -15,6 +15,7 @@ public interface StoreDummy {
                 .phone("010-1111-2222")
                 .minimumOrderPrice(10000)
                 .memberId(1L)
+                .starAvg(4.0)
                 .build();
     }
 
@@ -26,6 +27,7 @@ public interface StoreDummy {
                 .phone("010-2222-3333")
                 .minimumOrderPrice(20000)
                 .memberId(2L)
+                .starAvg(4.5)
                 .build();
     }
 

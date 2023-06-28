@@ -124,14 +124,12 @@ public class StoreRepositoryTest {
         itemRepository.save(item2);
         itemRepository.save(item3);
 
-        Page<StoreResponseDto> storeResponseDtoPage1 = storeRepository.searchStore("김치", PageRequest.of(0, 10,
-                Sort.by("storeId").ascending()));
-        Page<StoreResponseDto> storeResponseDtoPage2 = storeRepository.searchStore("김치볶음밥", PageRequest.of(0, 10,
-                Sort.by("storeId").ascending()));
-        Page<StoreResponseDto> storeResponseDtoPage3 = storeRepository.searchStore("짜장면", PageRequest.of(0, 10,
-                Sort.by("storeId").ascending()));
+        Page<StoreResponseDto> storeResponseDtoPage1 = storeRepository.searchStore("김치", PageRequest.of(0, 10, Sort.by("starAvg").descending()));
+        Page<StoreResponseDto> storeResponseDtoPage2 = storeRepository.searchStore("김치볶음밥", PageRequest.of(0, 10, Sort.by("totalOrderCnt").descending()));
+        Page<StoreResponseDto> storeResponseDtoPage3 = storeRepository.searchStore("짜장면", PageRequest.of(0, 10, Sort.by("totalOrderCnt").descending()));
 
         assertThat(storeResponseDtoPage1.getTotalElements()).isEqualTo(2);
+        assertThat(storeResponseDtoPage1.getContent().get(0).getStoreName()).isEqualTo("백년아구찜");
         assertThat(storeResponseDtoPage2.getTotalElements()).isEqualTo(1);
         assertThat(storeResponseDtoPage3.getTotalElements()).isEqualTo(1);
     }
