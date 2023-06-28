@@ -10,6 +10,10 @@ import com.solo.delivery.store.mapper.StoreMapper;
 import com.solo.delivery.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -44,9 +48,8 @@ public class StoreController {
 
     @GetMapping("/category/{categoryId}")
     public ResponseEntity getStores(@PathVariable String categoryId,
-                                    @Positive @RequestParam(required = false, defaultValue = "1") int page,
-                                    @Positive @RequestParam(required = false, defaultValue = "10") int size) {
-        Page<Store> storePage = storeService.findStores(categoryId, page, size);
+                                    @PageableDefault(page = 1, size = 10, sort = "totalOrderCnt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Store> storePage = storeService.findStores(categoryId, pageable);
         List<Store> stores = storePage.getContent();
         List<StoreResponseDto> storeResponseDtos = storeMapper.storesToStoreResponseDtos(stores);
         return new ResponseEntity<>(new MultiResponseDto<>(storeResponseDtos, storePage), HttpStatus.OK);
@@ -68,9 +71,8 @@ public class StoreController {
 
     @GetMapping("/search")
     public ResponseEntity searchStore(@RequestParam String word,
-                                      @Positive @RequestParam(required = false, defaultValue = "1") int page,
-                                      @Positive @RequestParam(required = false, defaultValue = "10") int size) {
-        Page<StoreResponseDto> storeResponseDtoPage = storeService.searchStore(word, page, size);
+                                      @PageableDefault(page = 1, size = 10, sort = "totalOrderCnt", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<StoreResponseDto> storeResponseDtoPage = storeService.searchStore(word, pageable);
         List<StoreResponseDto> storeResponseDtos = storeResponseDtoPage.getContent();
         return new ResponseEntity<>(new MultiResponseDto<>(storeResponseDtos, storeResponseDtoPage), HttpStatus.OK);
     }

@@ -9,6 +9,9 @@ import com.solo.delivery.item.mapper.ItemMapper;
 import com.solo.delivery.item.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,9 +41,8 @@ public class ItemController {
 
     @GetMapping("/{storeId}")
     public ResponseEntity getItems(@Positive @PathVariable Long storeId,
-                                   @Positive @RequestParam(required = false, defaultValue = "1") int page,
-                                   @Positive @RequestParam(required = false, defaultValue = "10") int size) {
-        Page<Item> itemPage = itemService.findItems(storeId, page, size);
+                                   @PageableDefault(page = 1, size = 10, sort = "itemId", direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<Item> itemPage = itemService.findItems(storeId, pageable);
         List<Item> items = itemPage.getContent();
         List<ItemResponseDto> itemResponseDtos = itemMapper.itemsToItemResponseDtos(items);
         return new ResponseEntity<>(new MultiResponseDto<>(itemResponseDtos, itemPage), HttpStatus.OK);
