@@ -26,7 +26,7 @@
 * 무조건적인 연관관계는 지양
   * Item과 Order의 연관관계를 끊어 상품 정보를 수정해도 주문 내역이 수정되지 않도록 구현
   * ADMIN만이 Store를 생성할 수 있고, 각 Store에서는 ADMIN이 생성 시 지정한 SELLER의 MemberId만 갖고 있도록 구현
- 
+* @EntityGraph와 @BatchSize를 사용한 N+1 문제 해결
 ## REST API 문서
 [REST API 문서](https://jgb1123.github.io/final-project/src/main/resources/static/docs/index.html)
 
