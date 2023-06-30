@@ -17,4 +17,5 @@ public class ReviewResponseDto {
     private String reviewContent;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private String nickname;
 }
