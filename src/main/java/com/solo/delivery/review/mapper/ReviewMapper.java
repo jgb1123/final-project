@@ -32,6 +32,7 @@ public class ReviewMapper {
                 .reviewContent(review.getReviewContent())
                 .createdAt(review.getCreatedAt())
                 .modifiedAt(review.getModifiedAt())
+                .nickname(review.getMember().getNickname())
                 .build();
     }
 

@@ -40,7 +40,7 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity getCarts(@PageableDefault(page = 1, size = 10, sort = "cardId", direction = Sort.Direction.ASC) Pageable pageable,
+    public ResponseEntity getCarts(@PageableDefault(page = 1, size = 10, sort = "cartId", direction = Sort.Direction.ASC) Pageable pageable,
                                    @AuthenticationPrincipal String email) {
         Page<Cart> cartPage = cartService.findCarts(email, pageable);
         List<Cart> carts = cartPage.getContent();
