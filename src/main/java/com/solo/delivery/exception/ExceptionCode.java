@@ -14,6 +14,7 @@ public enum ExceptionCode {
     REVIEW_CANNOT_CHANGE(409, "Review can not change"),
     ORDER_NOT_FOUND(404, "Order not found"),
     ORDER_CANNOT_CHANGE(409, "Order can not change"),
+    ONLY_ITEMS_FROM_SAME_STORE(400, "Only items from the same store can be ordered"),
     CART_NOT_FOUND(404, "Cart not found");
 
     @Getter

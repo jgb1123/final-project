@@ -49,9 +49,13 @@ public class OrderService {
                     .build();
             orderDetail.changeOrder(order);
             orderDetailRepository.save(orderDetail);
+
             if(order.getStoreId() == null) {
                 order.changeStoreId(item.getStore().getStoreId());
+            } else if (!order.getStoreId().equals(item.getStore().getStoreId())) {
+                throw new BusinessLogicException(ExceptionCode.ONLY_ITEMS_FROM_SAME_STORE);
             }
+
             orderPrice += orderDetail.getItemOrderCnt() * orderDetail.getItemPrice();
         }
         order.changeOrderPrice(orderPrice);
