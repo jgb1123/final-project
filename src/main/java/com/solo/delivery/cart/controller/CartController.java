@@ -61,4 +61,10 @@ public class CartController {
         cartService.deleteCart(cartId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @DeleteMapping
+    public ResponseEntity resetCart(@AuthenticationPrincipal String email) {
+        cartService.resetCart(email);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

@@ -52,6 +52,11 @@ public class CartService {
         cartRepository.delete(foundCart);
     }
 
+    public void resetCart(String email) {
+        Member foundMember = memberService.findVerifiedMember(email);
+        cartRepository.deleteByMember(foundMember);
+    }
+
     public Cart findVerifiedCart(Long cartId) {
         return cartRepository.findById(cartId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.CART_NOT_FOUND));
