@@ -27,6 +27,13 @@ public class CartService {
     public Cart createCart(Cart cart, Long itemId, String email) {
         Member foundMember = memberService.findVerifiedMember(email);
         Item foundItem = itemService.findVerifiedItem(itemId);
+        if(!foundMember.getCarts().isEmpty()) {
+            Long existStoreId = foundMember.getCarts().get(0).getItem().getStore().getStoreId();
+            Long currentStoreId = foundItem.getStore().getStoreId();
+            if(!existStoreId.equals(currentStoreId)) {
+                throw new BusinessLogicException(ExceptionCode.ONLY_ITEMS_FROM_SAME_STORE);
+            }
+        }
         itemService.checkStockCnt(cart.getItemCnt(), foundItem);
         cart.changeMember(foundMember);
         cart.changeItem(foundItem);
