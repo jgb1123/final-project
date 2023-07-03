@@ -84,4 +84,22 @@ public class CartRepositoryTest {
         assertThat(foundCart).isNotNull();
         assertThat(foundCartAfterDelete).isNull();;
     }
+
+    @Test
+    void resetTest() {
+        Member member = MemberDummy.createMember1();
+        memberRepository.save(member);
+        Cart cart1 = CartDummy.createCart1();
+        Cart cart2 = CartDummy.createCart2();
+        cart1.changeMember(member);
+        cart2.changeMember(member);
+        cartRepository.save(cart1);
+        cartRepository.save(cart2);
+
+        long cntBeforeReset = cartRepository.findAllByMember(member, PageRequest.of(0, 10, Sort.by("cartId").ascending())).getTotalElements();
+        cartRepository.deleteByMember(member);
+        long cntAfterReset = cartRepository.findAllByMember(member, PageRequest.of(0, 10, Sort.by("cartId").ascending())).getTotalElements();
+
+        assertThat(cntBeforeReset- cntAfterReset).isEqualTo(2);
+    }
 }
