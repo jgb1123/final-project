@@ -1,6 +1,7 @@
 package com.solo.delivery.order;
 
 import com.solo.delivery.dummy.*;
+import com.solo.delivery.exception.BusinessLogicException;
 import com.solo.delivery.item.entity.Item;
 import com.solo.delivery.item.service.ItemService;
 import com.solo.delivery.member.entity.Member;
@@ -12,6 +13,7 @@ import com.solo.delivery.order.repository.OrderDetailRepository;
 import com.solo.delivery.order.repository.OrderRepository;
 import com.solo.delivery.order.service.OrderService;
 import com.solo.delivery.store.entity.Store;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -47,15 +49,18 @@ public class OrderServiceTest {
     void createOrderTest() {
         Order order = OrderDummy.createOrder1();
         Member member = MemberDummy.createMember1();
-        Item item = ItemDummy.createItem1();
+        Item item1 = ItemDummy.createItem1();
+        Item item2 = ItemDummy.createItem2();
         Store store = StoreDummy.createStore1();
-        item.changeStore(store);
+        item1.changeStore(store);
+        item2.changeStore(store);
         OrderPostDto orderPostDto = OrderDummy.createPostDto();
         List<OrderDetailPostDto> orderDetailPostDtos = orderPostDto.getOrderDetails();
         given(memberService.findVerifiedMember(Mockito.anyString()))
                 .willReturn(member);
         given(itemService.findVerifiedItem(Mockito.anyLong()))
-                .willReturn(item);
+                .willReturn(item1)
+                .willReturn(item2);
         given(orderRepository.save(Mockito.any(Order.class)))
                 .willReturn(order);
 
@@ -63,7 +68,28 @@ public class OrderServiceTest {
 
         assertThat(savedOrder.getAddress()).isEqualTo(order.getAddress());
         assertThat(savedOrder.getRequirement()).isEqualTo(order.getRequirement());
-        assertThat(savedOrder.getStoreId()).isEqualTo(item.getStore().getStoreId());
+        assertThat(savedOrder.getStoreId()).isEqualTo(item1.getStore().getStoreId());
+    }
+
+    @Test
+    void createOrderTest_itemsOtherStore() {
+        Order order = OrderDummy.createOrder1();
+        Member member = MemberDummy.createMember1();
+        Item item1 = ItemDummy.createItem1();
+        Store store1 = StoreDummy.createStore1();
+        item1.changeStore(store1);
+        Item item2 = ItemDummy.createItem2();
+        Store store2 = StoreDummy.createStore2();
+        item2.changeStore(store2);
+        OrderPostDto orderPostDto = OrderDummy.createPostDto();
+        List<OrderDetailPostDto> orderDetailPostDtos = orderPostDto.getOrderDetails();
+        given(memberService.findVerifiedMember(Mockito.anyString()))
+                .willReturn(member);
+        given(itemService.findVerifiedItem(Mockito.anyLong()))
+                .willReturn(item1)
+                .willReturn(item2);
+
+        Assertions.assertThrows(BusinessLogicException.class, () -> orderService.createOrder(order, orderDetailPostDtos, "hgd@gmail.com"));
     }
 
     @Test
