@@ -6,10 +6,13 @@ import com.solo.delivery.cart.service.CartService;
 import com.solo.delivery.dummy.CartDummy;
 import com.solo.delivery.dummy.ItemDummy;
 import com.solo.delivery.dummy.MemberDummy;
+import com.solo.delivery.dummy.StoreDummy;
+import com.solo.delivery.exception.BusinessLogicException;
 import com.solo.delivery.item.entity.Item;
 import com.solo.delivery.item.service.ItemService;
 import com.solo.delivery.member.entity.Member;
 import com.solo.delivery.member.service.MemberService;
+import com.solo.delivery.store.entity.Store;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,6 +59,30 @@ public class CartServiceTest {
         assertThat(savedCart.getMember().getEmail()).isEqualTo(member.getEmail());
         assertThat(savedCart.getItem().getItemName()).isEqualTo(item.getItemName());
         assertThat(savedCart.getItemCnt()).isEqualTo(cart.getItemCnt());
+    }
+
+    @Test
+    void createCartTest_itemsOtherStore() {
+        Store store1 = StoreDummy.createStore1();
+        Item item1 = ItemDummy.createItem1();
+        item1.changeStore(store1);
+        Cart cart1 = CartDummy.createCart1();
+        Member member = MemberDummy.createMember1();
+        cart1.changeItem(item1);
+        cart1.changeMember(member);
+
+        Store store2 = StoreDummy.createStore2();
+        Item item2 = ItemDummy.createItem2();
+        item2.changeStore(store2);
+        Cart cart2 = CartDummy.createCart2();
+        cart2.changeItem(item2);
+
+        given(memberService.findVerifiedMember(Mockito.anyString()))
+                .willReturn(member);
+        given(itemService.findVerifiedItem(Mockito.anyLong()))
+                .willReturn(item2);
+
+        Assertions.assertThrows(BusinessLogicException.class, () -> cartService.createCart(cart2, 2L, "hgd@gmail.com"));
     }
 
     @Test
