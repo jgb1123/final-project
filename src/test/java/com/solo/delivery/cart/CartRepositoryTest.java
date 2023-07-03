@@ -88,18 +88,19 @@ public class CartRepositoryTest {
     @Test
     void resetTest() {
         Member member = MemberDummy.createMember1();
-        memberRepository.save(member);
+        Member savedMember = memberRepository.save(member);
         Cart cart1 = CartDummy.createCart1();
         Cart cart2 = CartDummy.createCart2();
-        cart1.changeMember(member);
-        cart2.changeMember(member);
+        cart1.changeMember(savedMember);
+        cart2.changeMember(savedMember);
         cartRepository.save(cart1);
         cartRepository.save(cart2);
 
-        long cntBeforeReset = cartRepository.findAllByMember(member, PageRequest.of(0, 10, Sort.by("cartId").ascending())).getTotalElements();
-        cartRepository.deleteByMember(member);
-        long cntAfterReset = cartRepository.findAllByMember(member, PageRequest.of(0, 10, Sort.by("cartId").ascending())).getTotalElements();
+        long cntBeforeReset = cartRepository.findAllByMember(savedMember, PageRequest.of(0, 10, Sort.by("cartId").ascending())).getTotalElements();
+        cartRepository.deleteByMember(savedMember);
+        long cntAfterReset = cartRepository.findAllByMember(savedMember, PageRequest.of(0, 10, Sort.by("cartId").ascending())).getTotalElements();
 
         assertThat(cntBeforeReset- cntAfterReset).isEqualTo(2);
+
     }
 }

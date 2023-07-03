@@ -43,6 +43,7 @@ public interface ReviewDummy {
                 .reviewContent("맛있습니다.!")
                 .createdAt(LocalDateTime.of(2023, 6, 12, 11, 0, 0))
                 .modifiedAt(LocalDateTime.of(2023, 6, 12, 11, 0, 0))
+                .nickname("hgd123")
                 .build();
     }
 
@@ -53,6 +54,7 @@ public interface ReviewDummy {
                 .reviewContent("또 주문할게요")
                 .createdAt(LocalDateTime.of(2023, 6, 12, 12, 0, 0))
                 .modifiedAt(LocalDateTime.of(2023, 6, 12, 12, 0, 0))
+                .nickname("lss123")
                 .build();
     }
 
