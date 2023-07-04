@@ -337,6 +337,16 @@ include::{snippets}/delete-cart/path-parameters.adoc[]
 .http-response
 include::{snippets}/delete-cart/http-response.adoc[]
 
+=== 장바구니 초기화 (ADMIN, USER, SELLER)
+.curl-request
+include::{snippets}/delete-cart/curl-request.adoc[]
+
+.http-request
+include::{snippets}/delete-cart/http-request.adoc[]
+
+.http-response
+include::{snippets}/delete-cart/http-response.adoc[]
+
 == OrderController
 === 주문 생성 (ADMIN, USER, SELLER)
 .curl-request
