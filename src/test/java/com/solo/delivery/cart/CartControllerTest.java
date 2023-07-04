@@ -14,6 +14,7 @@ import com.solo.delivery.security.config.SecurityConfig;
 import com.solo.delivery.security.jwt.JwtTokenizer;
 import com.solo.delivery.security.utils.CustomAuthorityUtils;
 import com.solo.delivery.util.WithAuthMember;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -206,6 +207,26 @@ public class CartControllerTest {
                         pathParameters(
                                 parameterWithName("cartId").description("장바구니 식별자")
                         )
+                ));
+    }
+
+    @Test
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
+    void resetCartTest() throws Exception {
+        Long cartId = 1L;
+        doNothing().when(cartService).resetCart(Mockito.anyString());
+
+        ResultActions actions = mockMvc.perform(
+                delete("/api/v1/cart")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
+        );
+
+        actions.andExpect(status().isNoContent())
+                .andDo(document("delete-cart",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
                 ));
     }
 }
