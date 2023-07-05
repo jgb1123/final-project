@@ -9,7 +9,6 @@ import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.order.dto.OrderDetailPostDto;
 import com.solo.delivery.order.entity.Order;
 import com.solo.delivery.order.entity.OrderDetail;
-import com.solo.delivery.order.repository.OrderDetailRepository;
 import com.solo.delivery.order.repository.OrderRepository;
 import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.service.StoreService;
@@ -17,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final OrderDetailRepository orderDetailRepository;
+    private final OrderDetailService orderDetailService;
     private final StoreService storeService;
     private final ItemService itemService;
     private final MemberService memberService;
@@ -41,14 +39,9 @@ public class OrderService {
         for(OrderDetailPostDto orderDetailPostDto : orderDetailPostDtos) {
             Item item = itemService.findVerifiedItem(orderDetailPostDto.getItemId());
             itemService.checkStockCnt(orderDetailPostDto.getItemOrderCnt(), item);
-            OrderDetail orderDetail = OrderDetail.builder()
-                    .itemOrderCnt(orderDetailPostDto.getItemOrderCnt())
-                    .itemId(item.getItemId())
-                    .itemName(item.getItemName())
-                    .itemPrice(item.getPrice())
-                    .build();
+            OrderDetail orderDetail = orderDetailService.createOrderDetail(orderDetailPostDto, item);
             orderDetail.changeOrder(order);
-            orderDetailRepository.save(orderDetail);
+            orderDetailService.saveOrderDetail(orderDetail);
 
             if(order.getStoreId() == null) {
                 order.changeStoreId(item.getStore().getStoreId());
@@ -75,11 +68,11 @@ public class OrderService {
 
     public Order updateOrder(Long orderId, String orderStatus) {
         Order foundOrder = findVerifiedOrder(orderId);
-        if(foundOrder.getOrderStatus().getStepDescription().equals("주문 완료")) {
+        if(foundOrder.getOrderStatus() == Order.OrderStatus.ORDER_COMPLETE) {
             throw new BusinessLogicException(ExceptionCode.ORDER_CANNOT_CHANGE);
         }
         foundOrder.changeOrderStatus(Order.OrderStatus.of(orderStatus));
-        if(orderStatus.equals("주문 완료")) {
+        if(Order.OrderStatus.of(orderStatus) == Order.OrderStatus.ORDER_COMPLETE) {
             Store foundStore = storeService.findVerifiedStore(foundOrder.getStoreId());
             foundStore.increaseOrderCnt();
         }
