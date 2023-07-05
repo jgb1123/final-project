@@ -14,6 +14,7 @@ import com.solo.delivery.security.config.SecurityConfig;
 import com.solo.delivery.security.jwt.JwtTokenizer;
 import com.solo.delivery.security.utils.CustomAuthorityUtils;
 import com.solo.delivery.util.WithAuthMember;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,7 @@ public class ItemControllerTest {
     private Gson gson;
 
     @Test
+    @DisplayName("ItemController 생성")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void postItemTest() throws Exception {
         Long storeId = 1L;
@@ -97,6 +99,7 @@ public class ItemControllerTest {
     }
 
     @Test
+    @DisplayName("ItemController 목록조회")
     void getItemsTest() throws Exception {
         Long storeId = 1L;
         int page = 1;
@@ -160,6 +163,7 @@ public class ItemControllerTest {
     }
 
     @Test
+    @DisplayName("ItemController 수정")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void patchItemTest() throws Exception {
         Long itemId = 1L;
@@ -196,6 +200,7 @@ public class ItemControllerTest {
     }
 
     @Test
+    @DisplayName("ItemController 삭제")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void deleteItemTest() throws Exception {
         Long itemId = 1L;

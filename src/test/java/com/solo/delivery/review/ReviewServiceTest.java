@@ -11,6 +11,7 @@ import com.solo.delivery.review.service.ReviewService;
 import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.service.StoreService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -40,6 +41,7 @@ public class ReviewServiceTest {
     private MemberService memberService;
 
     @Test
+    @DisplayName("ReviewService createReview")
     void createReviewTest() {
         Review review = ReviewDummy.createReview1();
         Member member = MemberDummy.createMember1();
@@ -59,6 +61,7 @@ public class ReviewServiceTest {
     }
 
     @Test
+    @DisplayName("ReviewService findReviews")
     void findReviewsTest() {
         Review review1 = ReviewDummy.createReview1();
         Review review2 = ReviewDummy.createReview2();
@@ -75,6 +78,7 @@ public class ReviewServiceTest {
     }
 
     @Test
+    @DisplayName("ReviewService updateReview")
     void updateReviewTest() {
         Review modifiedReview = ReviewDummy.createReview2();
         Review review = ReviewDummy.createReview1();
@@ -90,6 +94,7 @@ public class ReviewServiceTest {
     }
 
     @Test
+    @DisplayName("ReviewService deleteReview")
     void deleteReviewTest() {
         Review review = ReviewDummy.createReview1();
         Member member = MemberDummy.createMember1();

@@ -13,6 +13,7 @@ import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.mapper.StoreMapper;
 import com.solo.delivery.store.service.StoreService;
 import com.solo.delivery.util.WithAuthMember;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,7 @@ public class StoreAuthorizeTest {
     private Gson gson;
 
     @Test
+    @DisplayName("StoreController 생성 접근 실패 (USER, SELLER)")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"USER", "SELLER"})
     void postStoreUserAndSellerDenyTest() throws Exception {
         StorePostDto storePostDto = StoreDummy.createPostDto();
@@ -67,6 +69,7 @@ public class StoreAuthorizeTest {
     }
 
     @Test
+    @DisplayName("StoreController 수정 접근 실패 (SELLER)")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"USER"})
     void patchStoreUserDenyTest() throws Exception {
         Long storeId = 1L;
@@ -87,6 +90,7 @@ public class StoreAuthorizeTest {
     }
 
     @Test
+    @DisplayName("StoreController 삭제 접근 실패 (USER, SELLER)")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"USER", "SELLER"})
     void deleteStoreUserAndSellerDenyTest() throws Exception {
         Long storeId = 1L;

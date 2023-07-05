@@ -14,6 +14,7 @@ import com.solo.delivery.order.repository.OrderRepository;
 import com.solo.delivery.order.service.OrderService;
 import com.solo.delivery.store.entity.Store;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -46,6 +47,7 @@ public class OrderServiceTest {
     private ItemService itemService;
 
     @Test
+    @DisplayName("OrderService createOrder")
     void createOrderTest() {
         Order order = OrderDummy.createOrder1();
         Member member = MemberDummy.createMember1();
@@ -72,6 +74,7 @@ public class OrderServiceTest {
     }
 
     @Test
+    @DisplayName("OrderService createOrder 실패")
     void createOrderTest_itemsOtherStore() {
         Order order = OrderDummy.createOrder1();
         Member member = MemberDummy.createMember1();
@@ -93,6 +96,7 @@ public class OrderServiceTest {
     }
 
     @Test
+    @DisplayName("OrderService findOrder")
     void findOrderTest() {
         Order order = OrderDummy.createOrder1();
         given(orderRepository.findById(Mockito.anyLong()))
@@ -106,6 +110,7 @@ public class OrderServiceTest {
     }
 
     @Test
+    @DisplayName("OrderService findOrders")
     void findOrdersTest() {
         Order order1 = OrderDummy.createOrder1();
         Order order2 = OrderDummy.createOrder2();
@@ -123,6 +128,7 @@ public class OrderServiceTest {
     }
 
     @Test
+    @DisplayName("OrderService updateOrder")
     void updateOrderTest() {
         Order order = OrderDummy.createOrder1();
         given(orderRepository.findById(Mockito.anyLong()))
@@ -134,6 +140,7 @@ public class OrderServiceTest {
     }
     
     @Test
+    @DisplayName("OrderService cancelOrder")
     void cancelOrderTest() {
         Order order = OrderDummy.createOrder1();
         Member member = MemberDummy.createMember1();

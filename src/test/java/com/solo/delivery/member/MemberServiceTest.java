@@ -5,6 +5,7 @@ import com.solo.delivery.member.entity.Member;
 import com.solo.delivery.member.repository.MemberRepository;
 import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.security.utils.CustomAuthorityUtils;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,6 +32,7 @@ public class MemberServiceTest {
 
 
     @Test
+    @DisplayName("MemberService createMember")
     public void createMemberTest() {
         //given
         Member member1 = MemberDummy.createMember1();
@@ -45,6 +47,7 @@ public class MemberServiceTest {
     }
 
     @Test
+    @DisplayName("MemberService findMember")
     public void findMemberTest() {
         //given
         Member member1 = MemberDummy.createMember1();
@@ -57,6 +60,7 @@ public class MemberServiceTest {
     }
 
     @Test
+    @DisplayName("MemberService updateMember")
     public void updateMemberTest() {
         //given
         Member member1 = MemberDummy.createMember1();

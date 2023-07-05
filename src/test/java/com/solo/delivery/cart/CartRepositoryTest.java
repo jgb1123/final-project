@@ -9,6 +9,7 @@ import com.solo.delivery.exception.ExceptionCode;
 import com.solo.delivery.member.entity.Member;
 import com.solo.delivery.member.repository.MemberRepository;
 import com.solo.delivery.querydsl.config.QuerydslConfig;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -31,6 +32,7 @@ public class CartRepositoryTest {
     private MemberRepository memberRepository;
 
     @Test
+    @DisplayName("CartRepository save")
     void saveTest() {
         Cart cart = CartDummy.createCart1();
 
@@ -40,6 +42,7 @@ public class CartRepositoryTest {
     }
 
     @Test
+    @DisplayName("CartRepository findAllByMember")
     void findAllByMemberTest() {
         Cart cart1 = CartDummy.createCart1();
         Cart cart2 = CartDummy.createCart2();
@@ -58,6 +61,7 @@ public class CartRepositoryTest {
     }
 
     @Test
+    @DisplayName("CartRepository update")
     void updateTest() {
         Cart modifiedCart = CartDummy.createCart2();
         Cart cart = CartDummy.createCart1();
@@ -73,6 +77,7 @@ public class CartRepositoryTest {
     }
 
     @Test
+    @DisplayName("CartRepository delete")
     void deleteTest() {
         Cart cart = CartDummy.createCart1();
         Cart savedCart = cartRepository.save(cart);
@@ -86,6 +91,7 @@ public class CartRepositoryTest {
     }
 
     @Test
+    @DisplayName("CartRepository deleteByMember")
     void resetTest() {
         Member member = MemberDummy.createMember1();
         Member savedMember = memberRepository.save(member);

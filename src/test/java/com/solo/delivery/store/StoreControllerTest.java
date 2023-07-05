@@ -15,6 +15,7 @@ import com.solo.delivery.store.mapper.StoreMapper;
 import com.solo.delivery.store.service.StoreService;
 import com.solo.delivery.util.WithAuthMember;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,7 @@ public class StoreControllerTest {
     private Gson gson;
 
     @Test
+    @DisplayName("StoreController 생성")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void postStoreTest() throws Exception {
         StorePostDto storePostDto = StoreDummy.createPostDto();
@@ -102,6 +104,7 @@ public class StoreControllerTest {
     }
 
     @Test
+    @DisplayName("StoreController 조회")
     void getStoreTest() throws Exception {
         Long storeId = 1L;
         StoreResponseDto storeResponseDto = StoreDummy.createResponseDto1();
@@ -146,6 +149,7 @@ public class StoreControllerTest {
     }
 
     @Test
+    @DisplayName("StoreController 목록조회")
     void getStoresTest() throws Exception {
         String categoryId = "001";
         int page = 1;
@@ -212,6 +216,7 @@ public class StoreControllerTest {
     }
 
     @Test
+    @DisplayName("StoreController 수정")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void patchStoreTest() throws Exception {
         Long storeId = 1L;
@@ -249,6 +254,7 @@ public class StoreControllerTest {
     }
 
     @Test
+    @DisplayName("StoreController 삭제")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void deleteStoreTest() throws Exception {
         Long storeId = 1L;
@@ -272,6 +278,7 @@ public class StoreControllerTest {
     }
 
     @Test
+    @DisplayName("StoreController 검색조회")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void searchStoreTest() throws Exception {
         String word = "keyword";

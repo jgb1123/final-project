@@ -4,6 +4,7 @@ import com.solo.delivery.dummy.MemberDummy;
 import com.solo.delivery.member.entity.Member;
 import com.solo.delivery.member.repository.MemberRepository;
 import com.solo.delivery.querydsl.config.QuerydslConfig;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -18,6 +19,7 @@ public class MemberRepositoryTest {
     private MemberRepository memberRepository;
 
     @Test
+    @DisplayName("MemberRepository save")
     void saveMember() {
         //given
         Member member1 = MemberDummy.createMember1();
@@ -28,6 +30,7 @@ public class MemberRepositoryTest {
     }
 
     @Test
+    @DisplayName("MemberRepository findByEmail")
     void findMember() {
         //given
         Member member1 = MemberDummy.createMember1();
@@ -35,9 +38,9 @@ public class MemberRepositoryTest {
         Member savedMember1 = memberRepository.save(member1);
         Member savedMember2 = memberRepository.save(member2);
         //when
-        Member foundMember1 = memberRepository.findById(savedMember1.getMemberId())
+        Member foundMember1 = memberRepository.findByEmail(savedMember1.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Can not find Member"));
-        Member foundMember2 = memberRepository.findById(savedMember2.getMemberId())
+        Member foundMember2 = memberRepository.findByEmail(savedMember2.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Can not find Member"));
         assertThat(memberRepository.count()).isEqualTo(2);
         assertThat(foundMember1.getEmail()).isEqualTo(member1.getEmail());
@@ -45,6 +48,7 @@ public class MemberRepositoryTest {
     }
 
     @Test
+    @DisplayName("MemberRepository update")
     void updateMembers() {
         //given
         Member member1 = MemberDummy.createMember1();
@@ -61,12 +65,13 @@ public class MemberRepositoryTest {
     }
 
     @Test
+    @DisplayName("MemberRepository delete")
     void deleteMember() {
         //given
         Member member1 = MemberDummy.createMember1();
         Member savedMember = memberRepository.save(member1);
         //when
-        memberRepository.deleteById(savedMember.getMemberId());
+        memberRepository.delete(savedMember);
         //then
         assertThat(memberRepository.findById(savedMember.getMemberId()).isPresent()).isFalse();
     }

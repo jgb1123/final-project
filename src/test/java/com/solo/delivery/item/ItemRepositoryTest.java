@@ -9,6 +9,7 @@ import com.solo.delivery.item.repository.ItemRepository;
 import com.solo.delivery.querydsl.config.QuerydslConfig;
 import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.repository.StoreRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -31,6 +32,7 @@ public class ItemRepositoryTest {
     private StoreRepository storeRepository;
 
     @Test
+    @DisplayName("ItemRepository save")
     void saveTest() {
         Item item = ItemDummy.createItem1();
 
@@ -41,6 +43,7 @@ public class ItemRepositoryTest {
     }
 
     @Test
+    @DisplayName("ItemRepository findAllByStore")
     void findAllByStoreTest() {
         Item item1 = ItemDummy.createItem1();
         Item item2 = ItemDummy.createItem2();
@@ -59,6 +62,7 @@ public class ItemRepositoryTest {
     }
 
     @Test
+    @DisplayName("ItemRepository update")
     void updateTest() {
         Item modifiedItem = ItemDummy.createItem2();
         Item item = ItemDummy.createItem1();
@@ -75,6 +79,7 @@ public class ItemRepositoryTest {
     }
 
     @Test
+    @DisplayName("ItemRepository delete")
     void deleteTest() {
         Item item = ItemDummy.createItem1();
         Item savedItem = itemRepository.save(item);
