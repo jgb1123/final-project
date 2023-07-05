@@ -9,8 +9,10 @@ import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.order.dto.OrderDetailPostDto;
 import com.solo.delivery.order.dto.OrderPostDto;
 import com.solo.delivery.order.entity.Order;
+import com.solo.delivery.order.entity.OrderDetail;
 import com.solo.delivery.order.repository.OrderDetailRepository;
 import com.solo.delivery.order.repository.OrderRepository;
+import com.solo.delivery.order.service.OrderDetailService;
 import com.solo.delivery.order.service.OrderService;
 import com.solo.delivery.store.entity.Store;
 import org.junit.jupiter.api.Assertions;
@@ -38,7 +40,7 @@ public class OrderServiceTest {
     private OrderRepository orderRepository;
 
     @Mock
-    private OrderDetailRepository orderDetailRepository;
+    private OrderDetailService orderDetailService;
 
     @Mock
     private MemberService memberService;
@@ -57,12 +59,17 @@ public class OrderServiceTest {
         item1.changeStore(store);
         item2.changeStore(store);
         OrderPostDto orderPostDto = OrderDummy.createPostDto();
+        OrderDetail orderDetail1 = OrderDetailDummy.createOrderDetail1();
+        OrderDetail orderDetail2 = OrderDetailDummy.createOrderDetail2();
         List<OrderDetailPostDto> orderDetailPostDtos = orderPostDto.getOrderDetails();
         given(memberService.findVerifiedMember(Mockito.anyString()))
                 .willReturn(member);
         given(itemService.findVerifiedItem(Mockito.anyLong()))
                 .willReturn(item1)
                 .willReturn(item2);
+        given(orderDetailService.createOrderDetail(Mockito.any(OrderDetailPostDto.class), Mockito.any(Item.class)))
+                .willReturn(orderDetail1)
+                .willReturn(orderDetail2);
         given(orderRepository.save(Mockito.any(Order.class)))
                 .willReturn(order);
 
@@ -86,11 +93,16 @@ public class OrderServiceTest {
         item2.changeStore(store2);
         OrderPostDto orderPostDto = OrderDummy.createPostDto();
         List<OrderDetailPostDto> orderDetailPostDtos = orderPostDto.getOrderDetails();
+        OrderDetail orderDetail1 = OrderDetailDummy.createOrderDetail1();
+        OrderDetail orderDetail2 = OrderDetailDummy.createOrderDetail2();
         given(memberService.findVerifiedMember(Mockito.anyString()))
                 .willReturn(member);
         given(itemService.findVerifiedItem(Mockito.anyLong()))
                 .willReturn(item1)
                 .willReturn(item2);
+        given(orderDetailService.createOrderDetail(Mockito.any(OrderDetailPostDto.class), Mockito.any(Item.class)))
+                .willReturn(orderDetail1)
+                .willReturn(orderDetail2);
 
         Assertions.assertThrows(BusinessLogicException.class, () -> orderService.createOrder(order, orderDetailPostDtos, "hgd@gmail.com"));
     }
