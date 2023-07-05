@@ -12,6 +12,7 @@ import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.entity.StoreCategory;
 import com.solo.delivery.store.repository.StoreCategoryRepository;
 import com.solo.delivery.store.repository.StoreRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -38,6 +39,7 @@ public class StoreRepositoryTest {
     private ItemRepository itemRepository;
 
     @Test
+    @DisplayName("StoreRepository save")
     void saveTest() {
         Store store = StoreDummy.createStore1();
 
@@ -48,6 +50,7 @@ public class StoreRepositoryTest {
     }
 
     @Test
+    @DisplayName("StoreRepository findById")
     void findTest() {
         Store store = StoreDummy.createStore1();
         Store savedStore = storeRepository.save(store);
@@ -61,13 +64,18 @@ public class StoreRepositoryTest {
     }
 
     @Test
+    @DisplayName("StoreRepository findAllByStoreCategoryStoreCategoryIdStartingWith")
     void findAllTest(){
+        StoreCategory storeCategory = StoreDummy.createStoreCategory();
+        StoreCategory savedStoreCategory = storeCategoryRepository.save(storeCategory);
         Store store1 = StoreDummy.createStore1();
         Store store2 = StoreDummy.createStore2();
+        store1.changeStoreCategory(savedStoreCategory);
+        store2.changeStoreCategory(savedStoreCategory);
         Store savedStore1 = storeRepository.save(store1);
         Store savedStore2 = storeRepository.save(store2);
 
-        Page<Store> storePage = storeRepository.findAll(PageRequest.of(0, 10,
+        Page<Store> storePage = storeRepository.findAllByStoreCategoryStoreCategoryIdStartingWith(savedStoreCategory.getStoreCategoryId(), PageRequest.of(0, 10,
                 Sort.by("storeId").ascending()));
         List<Store> stores = storePage.getContent();
 
@@ -76,6 +84,7 @@ public class StoreRepositoryTest {
     }
 
     @Test
+    @DisplayName("StoreRepository update")
     void updateTest() {
         Store store = StoreDummy.createStore1();
         Store modifiedStore = StoreDummy.createStore2();
@@ -92,6 +101,7 @@ public class StoreRepositoryTest {
     }
 
     @Test
+    @DisplayName("StoreRepository delete")
     void deleteTest() {
         Store store = StoreDummy.createStore1();
         Store savedStore = storeRepository.save(store);
@@ -105,6 +115,7 @@ public class StoreRepositoryTest {
     }
 
     @Test
+    @DisplayName("StoreRepository search")
     void searchTest() {
         StoreCategory storeCategory = StoreDummy.createStoreCategory();
         StoreCategory savedStoreCategory = storeCategoryRepository.save(storeCategory);

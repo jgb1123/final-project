@@ -14,6 +14,7 @@ import com.solo.delivery.security.config.SecurityConfig;
 import com.solo.delivery.security.jwt.JwtTokenizer;
 import com.solo.delivery.security.utils.CustomAuthorityUtils;
 import com.solo.delivery.util.WithAuthMember;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
@@ -60,6 +61,7 @@ public class ReviewControllerTest {
     private Gson gson;
 
     @Test
+    @DisplayName("ReviewController 생성")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void postReviewTest() throws Exception {
         Long storeId = 1L;
@@ -96,6 +98,7 @@ public class ReviewControllerTest {
     }
 
     @Test
+    @DisplayName("ReviewController 목록조회")
     void getReviewsTest() throws Exception {
         Long storeId = 1L;
         int page = 1;
@@ -159,6 +162,7 @@ public class ReviewControllerTest {
     }
 
     @Test
+    @DisplayName("ReviewController 수정")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void patchReviewTest() throws Exception {
         Long reviewId = 1L;
@@ -193,6 +197,7 @@ public class ReviewControllerTest {
     }
 
     @Test
+    @DisplayName("ReviewController 삭제")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void deleteReviewTest() throws Exception {
         Long reviewId = 1L;

@@ -10,6 +10,7 @@ import com.solo.delivery.review.entity.Review;
 import com.solo.delivery.review.repository.ReviewRepository;
 import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.repository.StoreRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -32,6 +33,7 @@ public class ReviewRepositoryTest {
     private StoreRepository storeRepository;
 
     @Test
+    @DisplayName("ReviewRepository save")
     void saveTest() {
         Review review = ReviewDummy.createReview1();
 
@@ -42,6 +44,7 @@ public class ReviewRepositoryTest {
     }
 
     @Test
+    @DisplayName("ReviewRepository findAllByStore")
     void findAllByStoreTest() {
         Review review1 = ReviewDummy.createReview1();
         Review review2 = ReviewDummy.createReview2();
@@ -60,6 +63,7 @@ public class ReviewRepositoryTest {
     }
 
     @Test
+    @DisplayName("ReviewRepository update")
     void updateTest() {
         Review modifiedReview = ReviewDummy.createReview2();
         Review review = ReviewDummy.createReview1();
@@ -77,6 +81,7 @@ public class ReviewRepositoryTest {
     }
 
     @Test
+    @DisplayName("ReviewRepository delete")
     void deleteTest() {
         Review review = ReviewDummy.createReview1();
         Review savedReview = reviewRepository.save(review);

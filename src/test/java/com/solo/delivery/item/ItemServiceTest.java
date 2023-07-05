@@ -11,6 +11,7 @@ import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.store.entity.Store;
 import com.solo.delivery.store.service.StoreService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -40,6 +41,7 @@ public class ItemServiceTest {
     private StoreService storeService;
 
     @Test
+    @DisplayName("ItemService createItem")
     void createItemTest() {
         Item item = ItemDummy.createItem1();
         Store store = StoreDummy.createStore1();
@@ -58,6 +60,7 @@ public class ItemServiceTest {
     }
 
     @Test
+    @DisplayName("ItemService findItems")
     void findItemsTest() {
         Item item1 = ItemDummy.createItem1();
         Item item2 = ItemDummy.createItem2();
@@ -77,6 +80,7 @@ public class ItemServiceTest {
     }
 
     @Test
+    @DisplayName("ItemService updateItem")
     void updateItemTest() {
         Item modifiedItem = ItemDummy.createItem2();
         Item item = ItemDummy.createItem1();
@@ -95,6 +99,7 @@ public class ItemServiceTest {
     }
 
     @Test
+    @DisplayName("ItemService deleteItem")
     void deleteItemTest() {
         Item item = ItemDummy.createItem1();
         Store store = StoreDummy.createStore1();

@@ -60,6 +60,7 @@ public class CartControllerTest {
     private Gson gson;
 
     @Test
+    @DisplayName("CartController 생성")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void postCartTest() throws Exception {
         Long itemId = 1L;
@@ -95,6 +96,7 @@ public class CartControllerTest {
     }
 
     @Test
+    @DisplayName("CartController 목록조회")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void getCartsTest() throws Exception {
         Long itemId = 1L;
@@ -155,6 +157,7 @@ public class CartControllerTest {
                 ));
     }
     @Test
+    @DisplayName("CartController 수정")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void patchCartTest() throws Exception {
         Long cartId = 1L;
@@ -188,6 +191,7 @@ public class CartControllerTest {
     }
 
     @Test
+    @DisplayName("CartController 삭제")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void deleteCartTest() throws Exception {
         Long cartId = 1L;
@@ -211,6 +215,7 @@ public class CartControllerTest {
     }
 
     @Test
+    @DisplayName("CartController 리셋")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void resetCartTest() throws Exception {
         Long cartId = 1L;

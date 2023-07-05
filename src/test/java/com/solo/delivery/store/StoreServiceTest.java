@@ -10,6 +10,7 @@ import com.solo.delivery.store.repository.StoreCategoryRepository;
 import com.solo.delivery.store.repository.StoreRepository;
 import com.solo.delivery.store.service.StoreService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -38,6 +39,7 @@ public class StoreServiceTest {
     private StoreCategoryRepository storeCategoryRepository;
 
     @Test
+    @DisplayName("StoreService createStore")
     void createStoreTest() {
         Store store = StoreDummy.createStore1();
         StoreCategory storeCategory = StoreDummy.createStoreCategory();
@@ -54,6 +56,7 @@ public class StoreServiceTest {
     }
 
     @Test
+    @DisplayName("StoreService findStore")
     void findStoreTest() {
         Store store = StoreDummy.createStore1();
         given(storeRepository.findById(Mockito.anyLong()))
@@ -66,6 +69,7 @@ public class StoreServiceTest {
     }
 
     @Test
+    @DisplayName("StoreService findStores")
     void findStoresTest() {
         Store store1 = StoreDummy.createStore1();
         Store store2 = StoreDummy.createStore2();
@@ -85,6 +89,7 @@ public class StoreServiceTest {
     }
 
     @Test
+    @DisplayName("StoreService updateStore")
     void updateStoreTest() {
         Store modifiedStore = StoreDummy.createStore1();
         Store store = StoreDummy.createStore2();
@@ -101,6 +106,7 @@ public class StoreServiceTest {
     }
 
     @Test
+    @DisplayName("StoreService deleteStore")
     void deleteStoreTest() {
         Store store = StoreDummy.createStore1();
         given(storeRepository.findById(Mockito.anyLong()))
@@ -111,6 +117,7 @@ public class StoreServiceTest {
     }
 
     @Test
+    @DisplayName("StoreService searchStore")
     void searchStoreTest() {
         Store store1 = StoreDummy.createStore1();
         Store store2 = StoreDummy.createStore2();

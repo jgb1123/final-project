@@ -9,6 +9,7 @@ import com.solo.delivery.member.repository.MemberRepository;
 import com.solo.delivery.order.entity.Order;
 import com.solo.delivery.order.repository.OrderRepository;
 import com.solo.delivery.querydsl.config.QuerydslConfig;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -31,6 +32,7 @@ public class OrderRepositoryTest {
     private MemberRepository memberRepository;
 
     @Test
+    @DisplayName("OrderRepository save")
     void saveTest() {
         Order order = OrderDummy.createOrder1();
 
@@ -42,6 +44,7 @@ public class OrderRepositoryTest {
     }
 
     @Test
+    @DisplayName("OrderRepository findById")
     void findTest() {
         Order order = OrderDummy.createOrder1();
         Order savedOrder = orderRepository.save(order);
@@ -55,6 +58,7 @@ public class OrderRepositoryTest {
     }
 
     @Test
+    @DisplayName("OrderRepository findAllByMember")
     void findAllByMemberTest() {
         Order order1 = OrderDummy.createOrder1();
         Order order2 = OrderDummy.createOrder2();
@@ -73,6 +77,7 @@ public class OrderRepositoryTest {
     }
 
     @Test
+    @DisplayName("OrderRepository update")
     void updateTest() {
         Order order = OrderDummy.createOrder1();
         Order savedOrder = orderRepository.save(order);

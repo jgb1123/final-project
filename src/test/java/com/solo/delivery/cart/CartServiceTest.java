@@ -14,6 +14,7 @@ import com.solo.delivery.member.entity.Member;
 import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.store.entity.Store;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -43,6 +44,7 @@ public class CartServiceTest {
     private MemberService memberService;
 
     @Test
+    @DisplayName("CartService createCart")
     void createCartTest() {
         Cart cart = CartDummy.createCart1();
         Member member = MemberDummy.createMember1();
@@ -62,6 +64,7 @@ public class CartServiceTest {
     }
 
     @Test
+    @DisplayName("CartService createCart 실패")
     void createCartTest_itemsOtherStore() {
         Store store1 = StoreDummy.createStore1();
         Item item1 = ItemDummy.createItem1();
@@ -86,6 +89,7 @@ public class CartServiceTest {
     }
 
     @Test
+    @DisplayName("CartService findCarts")
     void findCartsTest() {
         Cart cart1 = CartDummy.createCart1();
         Cart cart2 = CartDummy.createCart2();
@@ -103,6 +107,7 @@ public class CartServiceTest {
     }
 
     @Test
+    @DisplayName("CartService updateCart")
     void updateCartTest() {
         Cart modifiedCart = CartDummy.createCart2();
         Cart cart = CartDummy.createCart1();
@@ -115,6 +120,7 @@ public class CartServiceTest {
     }
 
     @Test
+    @DisplayName("CartService deleteCart")
     void deleteCartTest() {
         Cart cart = CartDummy.createCart1();
         given(cartRepository.findById(Mockito.anyLong()))

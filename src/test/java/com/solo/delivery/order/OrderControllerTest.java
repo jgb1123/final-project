@@ -15,6 +15,7 @@ import com.solo.delivery.security.config.SecurityConfig;
 import com.solo.delivery.security.jwt.JwtTokenizer;
 import com.solo.delivery.security.utils.CustomAuthorityUtils;
 import com.solo.delivery.util.WithAuthMember;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,7 @@ public class OrderControllerTest {
     private Gson gson;
 
     @Test
+    @DisplayName("OrderController 생성")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void PostOrderTest() throws Exception {
         Order order = OrderDummy.createOrder1();
@@ -98,6 +100,7 @@ public class OrderControllerTest {
     }
 
     @Test
+    @DisplayName("OrderController 조회")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void getOrderTest() throws Exception {
         Long orderId = 1L;
@@ -154,6 +157,7 @@ public class OrderControllerTest {
     }
 
     @Test
+    @DisplayName("OrderController 목록조회")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void getOrdersTest() throws Exception {
         int page = 1;
@@ -224,6 +228,7 @@ public class OrderControllerTest {
     }
 
     @Test
+    @DisplayName("OrderController 수정")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void patchOrderTest() throws Exception {
         Long orderId = 1L;
@@ -256,6 +261,7 @@ public class OrderControllerTest {
     }
 
     @Test
+    @DisplayName("OrderController 삭제")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void deleteOrderTest() throws Exception {
         Long orderId = 1L;
