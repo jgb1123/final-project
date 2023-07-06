@@ -35,6 +35,17 @@ public class MemberService {
         return foundMember;
     }
 
+    public Member authorizeRole(String role, Long memberId) {
+        Member.Role.checkRole(role);
+        Member foundMember = findVerifiedMemberById(memberId);
+        List<String> roles = foundMember.getRoles();
+        if(roles.contains(role)) {
+            throw new BusinessLogicException(ExceptionCode.ROLE_CANNOT_CHANGE);
+        }
+        roles.add(role);
+        return foundMember;
+    }
+
     public void deleteMember(String email) {
         Member foundMember = findVerifiedMember(email);
         memberRepository.delete(foundMember);
@@ -42,6 +53,11 @@ public class MemberService {
 
     public Member findVerifiedMember(String email) {
         return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
+
+    public Member findVerifiedMemberById(Long memberId) {
+        return memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 

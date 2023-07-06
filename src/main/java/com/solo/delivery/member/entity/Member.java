@@ -1,6 +1,8 @@
 package com.solo.delivery.member.entity;
 
 import com.solo.delivery.cart.entity.Cart;
+import com.solo.delivery.exception.BusinessLogicException;
+import com.solo.delivery.exception.ExceptionCode;
 import com.solo.delivery.order.entity.Order;
 import com.solo.delivery.review.entity.Review;
 import lombok.AllArgsConstructor;
@@ -125,5 +127,26 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    public enum Role {
+        ADMIN("ADMIN"),
+        USER("USER"),
+        SELLER("SELLER");
+
+        private final String roleName;
+
+        Role(String roleName) {
+            this.roleName = roleName;
+        }
+
+        public static void checkRole(String roleName) {
+            for (Role role : Role.values()) {
+                if (role.roleName.equals(roleName)) {
+                    return;
+                }
+            }
+            throw new BusinessLogicException(ExceptionCode.ROLE_CANNOT_CHANGE);
+        }
     }
 }

@@ -50,6 +50,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.GET, "/api/v1/member").hasAnyRole("ADMIN", "USER", "SELLER")
                         .antMatchers(HttpMethod.PATCH, "/api/v1/member").hasAnyRole("ADMIN", "USER", "SELLER")
+                        .antMatchers(HttpMethod.PATCH, "/api/v1/member/**").hasAnyRole("ADMIN")
                         .antMatchers(HttpMethod.DELETE, "/api/v1/member").hasAnyRole("ADMIN", "USER", "SELLER")
 
                         .antMatchers(HttpMethod.POST, "/api/v1/store").hasAnyRole("ADMIN")
