@@ -38,6 +38,13 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PatchMapping("/{memberId}/role/{role}")
+    public ResponseEntity authorizeRole(@PathVariable Long memberId,
+                                        @PathVariable String role) {
+        memberService.authorizeRole(role, memberId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @DeleteMapping
     public ResponseEntity deleteMember(@AuthenticationPrincipal String email) {
         memberService.deleteMember(email);
