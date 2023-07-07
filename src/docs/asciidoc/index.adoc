@@ -43,6 +43,19 @@ include::{snippets}/patch-member/request-fields.adoc[]
 .http-response
 include::{snippets}/patch-member/http-response.adoc[]
 
+=== 회원 역할 부여 (ADMIN)
+.curl-request
+include::{snippets}/authorize-member/curl-request.adoc[]
+
+.http-request
+include::{snippets}/authorize-member/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/authorize-member/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/authorize-member/http-response.adoc[]
+
 === 회원 탈퇴 (ADMIN, USER, SELLER)
 
 .curl-request
