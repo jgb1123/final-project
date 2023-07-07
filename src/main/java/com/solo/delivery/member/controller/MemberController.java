@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ public class MemberController {
     }
 
     @PatchMapping("/{memberId}/role/{role}")
-    public ResponseEntity authorizeRole(@PathVariable Long memberId,
+    public ResponseEntity authorizeRole(@Positive @PathVariable Long memberId,
                                         @PathVariable String role) {
         memberService.authorizeRole(role, memberId);
         return new ResponseEntity<>(HttpStatus.OK);
