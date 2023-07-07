@@ -36,12 +36,14 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(MemberController.class)
 @Import(SecurityConfig.class)
-@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class})
+@MockBean({JpaMetamodelMappingContext.class, JwtTokenizer.class, CustomAuthorityUtils.class})
 @AutoConfigureRestDocs
 public class MemberControllerTest {
     @Autowired
@@ -123,6 +125,31 @@ public class MemberControllerTest {
                                         fieldWithPath("nickname").type(JsonFieldType.STRING).description("별명"),
                                         fieldWithPath("address").type(JsonFieldType.STRING).description("주소")
                                 )
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("MemberController 권한 부여")
+    @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
+    void authorizeRoleTest() throws Exception {
+        Long memberId = 2L;
+        String role = "SELLER";
+        ResultActions actions = mockMvc.perform(
+                patch("/api/v1/member/{memberId}/role/{role}", memberId, role)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer {ACCESS_TOKEN}")
+        );
+
+        actions
+                .andExpect(status().isOk())
+                .andDo(document("authorize-member",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                              parameterWithName("memberId").description("회원 식별자"),
+                              parameterWithName("role").description("부여할 역할")
                         )
                 ));
     }
