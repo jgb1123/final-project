@@ -9,6 +9,7 @@ import com.solo.delivery.item.dto.ItemResponseDto;
 import com.solo.delivery.item.entity.Item;
 import com.solo.delivery.item.mapper.ItemMapper;
 import com.solo.delivery.item.service.ItemService;
+import com.solo.delivery.mail.service.MailService;
 import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.security.config.SecurityConfig;
 import com.solo.delivery.security.jwt.JwtTokenizer;
@@ -44,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ItemController.class)
 @Import(SecurityConfig.class)
-@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class})
+@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class, MailService.class})
 @AutoConfigureRestDocs
 public class ItemControllerTest {
     @Autowired
