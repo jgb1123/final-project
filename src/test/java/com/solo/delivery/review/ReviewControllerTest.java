@@ -2,6 +2,7 @@ package com.solo.delivery.review;
 
 import com.google.gson.Gson;
 import com.solo.delivery.dummy.ReviewDummy;
+import com.solo.delivery.mail.service.MailService;
 import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.review.controller.ReviewController;
 import com.solo.delivery.review.dto.ReviewPatchDto;
@@ -45,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ReviewController.class)
 @Import(SecurityConfig.class)
-@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class})
+@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class, MailService.class})
 @AutoConfigureRestDocs
 public class ReviewControllerTest {
     @Autowired

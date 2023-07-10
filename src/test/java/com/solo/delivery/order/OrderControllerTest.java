@@ -3,6 +3,7 @@ package com.solo.delivery.order;
 
 import com.google.gson.Gson;
 import com.solo.delivery.dummy.OrderDummy;
+import com.solo.delivery.mail.service.MailService;
 import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.order.controller.OrderController;
 import com.solo.delivery.order.dto.OrderPatchDto;
@@ -46,7 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(OrderController.class)
 @Import(SecurityConfig.class)
-@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class})
+@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class, MailService.class})
 @AutoConfigureRestDocs
 public class OrderControllerTest {
     @Autowired

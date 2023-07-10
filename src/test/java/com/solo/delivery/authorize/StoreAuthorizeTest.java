@@ -2,6 +2,7 @@ package com.solo.delivery.authorize;
 
 import com.google.gson.Gson;
 import com.solo.delivery.dummy.StoreDummy;
+import com.solo.delivery.mail.service.MailService;
 import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.security.config.SecurityConfig;
 import com.solo.delivery.security.jwt.JwtTokenizer;
@@ -32,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(StoreController.class)
 @Import(SecurityConfig.class)
-@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class})
+@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class, MailService.class})
 public class StoreAuthorizeTest {
     @Autowired
     private MockMvc mockMvc;

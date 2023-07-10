@@ -9,6 +9,7 @@ import com.solo.delivery.cart.entity.Cart;
 import com.solo.delivery.cart.mapper.CartMapper;
 import com.solo.delivery.cart.service.CartService;
 import com.solo.delivery.dummy.CartDummy;
+import com.solo.delivery.mail.service.MailService;
 import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.security.config.SecurityConfig;
 import com.solo.delivery.security.jwt.JwtTokenizer;
@@ -44,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(CartController.class)
 @Import(SecurityConfig.class)
-@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class})
+@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class, MailService.class})
 @AutoConfigureRestDocs
 public class CartControllerTest {
     @Autowired

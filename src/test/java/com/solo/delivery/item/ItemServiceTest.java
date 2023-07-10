@@ -3,6 +3,7 @@ package com.solo.delivery.item;
 import com.solo.delivery.dummy.ItemDummy;
 import com.solo.delivery.dummy.MemberDummy;
 import com.solo.delivery.dummy.StoreDummy;
+import com.solo.delivery.exception.BusinessLogicException;
 import com.solo.delivery.item.entity.Item;
 import com.solo.delivery.item.repository.ItemRepository;
 import com.solo.delivery.item.service.ItemService;
@@ -111,5 +112,13 @@ public class ItemServiceTest {
                 .willReturn(member);
 
         Assertions.assertDoesNotThrow(() -> itemService.deleteItem(item.getItemId(), "hgd@gmail.com"));
+    }
+
+    @Test
+    @DisplayName("ItemService checkStockCnt")
+    void checkStockTest() {
+        Item item = ItemDummy.createItem1();
+
+        Assertions.assertThrows(BusinessLogicException.class, () -> itemService.checkStockCnt(11, item));
     }
 }
