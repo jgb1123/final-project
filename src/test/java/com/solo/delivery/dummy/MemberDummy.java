@@ -4,6 +4,7 @@ import com.solo.delivery.member.dto.MemberPatchDto;
 import com.solo.delivery.member.dto.MemberResponseDto;
 import com.solo.delivery.member.entity.Member;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface MemberDummy {
@@ -15,7 +16,7 @@ public interface MemberDummy {
                 .phone("010-1234-5678")
                 .nickname("hgd123")
                 .address("서울시 구로구 고척동 111-11 11호")
-                .roles(List.of("ROLE_USER"))
+                .roles(new ArrayList<>(List.of("USER")))
                 .build();
     }
 
@@ -27,7 +28,7 @@ public interface MemberDummy {
                 .phone("010-8765-4321")
                 .nickname("lss123")
                 .address("서울시 구로구 고척동 222-22 22호")
-                .roles(List.of("ROLE_USER"))
+                .roles(new ArrayList<>(List.of("USER")))
                 .build();
     }
 
