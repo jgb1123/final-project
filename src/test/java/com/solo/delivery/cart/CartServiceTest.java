@@ -64,8 +64,8 @@ public class CartServiceTest {
     }
 
     @Test
-    @DisplayName("CartService createCart 실패")
-    void createCartTest_itemsOtherStore() {
+    @DisplayName("CartService createCart 같은 상점의 상품으로만 생성 가능")
+    void createCartItemsOtherStoreTest() {
         Store store1 = StoreDummy.createStore1();
         Item item1 = ItemDummy.createItem1();
         item1.changeStore(store1);

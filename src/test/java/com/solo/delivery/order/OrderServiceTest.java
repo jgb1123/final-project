@@ -81,8 +81,8 @@ public class OrderServiceTest {
     }
 
     @Test
-    @DisplayName("OrderService createOrder 실패")
-    void createOrderTest_itemsOtherStore() {
+    @DisplayName("OrderService createOrder 같은 상점의 상품으로만 생성 가능")
+    void createOrderItemsOtherStoreTest() {
         Order order = OrderDummy.createOrder1();
         Member member = MemberDummy.createMember1();
         Item item1 = ItemDummy.createItem1();
@@ -165,5 +165,35 @@ public class OrderServiceTest {
         Order canceledOrder = orderService.cancelOrder(1L, "hgd@gmail.com");
 
         assertThat(canceledOrder.getOrderStatus().getStepDescription()).isEqualTo("주문 취소");
+    }
+
+    @Test
+    @DisplayName("OrderService cancelOrder 주문요청상태 외에는 취소 불가")
+    void cancelOrderOnlyRequestStatusTest() {
+        Order order = OrderDummy.createOrder1();
+        order.changeOrderStatus(Order.OrderStatus.ORDER_COMPLETE);
+        Member member = MemberDummy.createMember1();
+        order.changeMember(member);
+        given(orderRepository.findById(Mockito.anyLong()))
+                .willReturn(Optional.of(order));
+        given(memberService.findVerifiedMember(Mockito.anyString()))
+                .willReturn(member);
+
+        Assertions.assertThrows(BusinessLogicException.class, () -> orderService.cancelOrder(1L, "hgd@gmail.com"));
+    }
+
+    @Test
+    @DisplayName("OrderService cancelOrder 주문한 본인만 취소 가능")
+    void cancelOrderOnlySameMemberTest() {
+        Order order = OrderDummy.createOrder2();
+        Member member1 = MemberDummy.createMember1();
+        order.changeMember(member1);
+        Member member2 = MemberDummy.createMember2();
+        given(orderRepository.findById(Mockito.anyLong()))
+                .willReturn(Optional.of(order));
+        given(memberService.findVerifiedMember(Mockito.anyString()))
+                .willReturn(member2);
+
+        Assertions.assertThrows(BusinessLogicException.class, () -> orderService.cancelOrder(1L, "hgd@gmail.com"));
     }
 }

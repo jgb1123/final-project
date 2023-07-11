@@ -61,6 +61,20 @@ public class ItemServiceTest {
     }
 
     @Test
+    @DisplayName("ItemService createItem 상점의 주인만 상품 생성 가능")
+    void createItemNotStoreOwnerTest() {
+        Item item = ItemDummy.createItem1();
+        Store store = StoreDummy.createStore1();
+        Member notStoreOwner = MemberDummy.createMember2();
+        given(storeService.findVerifiedStore(Mockito.anyLong()))
+                .willReturn(store);
+        given(memberService.findVerifiedMember(Mockito.anyString()))
+                .willReturn(notStoreOwner);
+
+        Assertions.assertThrows(BusinessLogicException.class, () -> itemService.createItem(item, store.getStoreId(), "lss@gmail.com"));
+    }
+
+    @Test
     @DisplayName("ItemService findItems")
     void findItemsTest() {
         Item item1 = ItemDummy.createItem1();
@@ -100,6 +114,22 @@ public class ItemServiceTest {
     }
 
     @Test
+    @DisplayName("ItemService updateItem 상점의 주인만 상품 수정 가능")
+    void updateItemNotStoreOwnerTest() {
+        Item modifiedItem = ItemDummy.createItem2();
+        Item item = ItemDummy.createItem1();
+        Store store = StoreDummy.createStore1();
+        Member notStoreOwner = MemberDummy.createMember2();
+        item.changeStore(store);
+        given(itemRepository.findById(Mockito.anyLong()))
+                .willReturn(Optional.of(item));
+        given(memberService.findVerifiedMember(Mockito.anyString()))
+                .willReturn(notStoreOwner);
+
+        Assertions.assertThrows(BusinessLogicException.class, () -> itemService.updateItem(item.getItemId(), modifiedItem, "lss@gmail.com"));
+    }
+
+    @Test
     @DisplayName("ItemService deleteItem")
     void deleteItemTest() {
         Item item = ItemDummy.createItem1();
@@ -112,6 +142,21 @@ public class ItemServiceTest {
                 .willReturn(member);
 
         Assertions.assertDoesNotThrow(() -> itemService.deleteItem(item.getItemId(), "hgd@gmail.com"));
+    }
+
+    @Test
+    @DisplayName("ItemService deleteItem 상점의 주인만 상품 삭제 가능")
+    void deleteItemNotStoreOwnerTest() {
+        Item item = ItemDummy.createItem1();
+        Store store = StoreDummy.createStore1();
+        Member notStoreOwner = MemberDummy.createMember2();
+        item.changeStore(store);
+        given(itemRepository.findById(Mockito.anyLong()))
+                .willReturn(Optional.of(item));
+        given(memberService.findVerifiedMember(Mockito.anyString()))
+                .willReturn(notStoreOwner);
+
+        Assertions.assertThrows(BusinessLogicException.class, () -> itemService.deleteItem(item.getItemId(), "lss@gmail.com"));
     }
 
     @Test

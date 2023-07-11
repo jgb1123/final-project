@@ -3,6 +3,7 @@ package com.solo.delivery.review;
 import com.solo.delivery.dummy.MemberDummy;
 import com.solo.delivery.dummy.ReviewDummy;
 import com.solo.delivery.dummy.StoreDummy;
+import com.solo.delivery.exception.BusinessLogicException;
 import com.solo.delivery.member.entity.Member;
 import com.solo.delivery.member.service.MemberService;
 import com.solo.delivery.review.entity.Review;
@@ -103,5 +104,13 @@ public class ReviewServiceTest {
                 .willReturn(Optional.of(review));
 
         Assertions.assertDoesNotThrow(() -> reviewService.deleteReview("hgd@gmail.com", 1L));
+    }
+
+    @Test
+    @DisplayName("ReviewService checkMember")
+    void checkMemberTest() {
+        Member member = MemberDummy.createMember1();
+
+        Assertions.assertThrows(BusinessLogicException.class, () -> reviewService.checkMember("abc@gmail.com", member.getEmail()));
     }
 }
