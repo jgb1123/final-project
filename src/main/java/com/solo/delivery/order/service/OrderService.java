@@ -68,9 +68,6 @@ public class OrderService {
 
     public Order updateOrder(Long orderId, String orderStatus) {
         Order foundOrder = findVerifiedOrder(orderId);
-        if(foundOrder.getOrderStatus() == Order.OrderStatus.ORDER_COMPLETE) {
-            throw new BusinessLogicException(ExceptionCode.ORDER_CANNOT_CHANGE);
-        }
         foundOrder.changeOrderStatus(Order.OrderStatus.of(orderStatus));
         if(Order.OrderStatus.of(orderStatus) == Order.OrderStatus.ORDER_COMPLETE) {
             Store foundStore = storeService.findVerifiedStore(foundOrder.getStoreId());
