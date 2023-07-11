@@ -2,6 +2,7 @@ package com.solo.delivery.item;
 
 import com.google.gson.Gson;
 import com.solo.delivery.dummy.ItemDummy;
+import com.solo.delivery.exception.GlobalExceptionAdvice;
 import com.solo.delivery.item.controller.ItemController;
 import com.solo.delivery.item.dto.ItemPatchDto;
 import com.solo.delivery.item.dto.ItemPostDto;
@@ -45,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ItemController.class)
 @Import(SecurityConfig.class)
-@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class, MailService.class})
+@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class, GlobalExceptionAdvice.class})
 @AutoConfigureRestDocs
 public class ItemControllerTest {
     @Autowired

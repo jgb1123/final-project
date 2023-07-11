@@ -2,6 +2,7 @@ package com.solo.delivery.member;
 
 import com.google.gson.Gson;
 import com.solo.delivery.dummy.MemberDummy;
+import com.solo.delivery.exception.GlobalExceptionAdvice;
 import com.solo.delivery.mail.service.MailService;
 import com.solo.delivery.member.controller.MemberController;
 import com.solo.delivery.member.dto.MemberPatchDto;
@@ -44,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(MemberController.class)
 @Import(SecurityConfig.class)
-@MockBean({JpaMetamodelMappingContext.class, JwtTokenizer.class, CustomAuthorityUtils.class, MailService.class})
+@MockBean({JpaMetamodelMappingContext.class, JwtTokenizer.class, CustomAuthorityUtils.class, GlobalExceptionAdvice.class})
 @AutoConfigureRestDocs
 public class MemberControllerTest {
     @Autowired
