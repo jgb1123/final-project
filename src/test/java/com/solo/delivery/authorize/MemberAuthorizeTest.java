@@ -1,5 +1,6 @@
 package com.solo.delivery.authorize;
 
+import com.solo.delivery.exception.GlobalExceptionAdvice;
 import com.solo.delivery.mail.service.MailService;
 import com.solo.delivery.member.controller.MemberController;
 import com.solo.delivery.member.mapper.MemberMapper;
@@ -24,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(MemberController.class)
 @Import(SecurityConfig.class)
-@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class, MemberMapper.class, MailService.class})
+@MockBean({JpaMetamodelMappingContext.class, MemberService.class, JwtTokenizer.class, CustomAuthorityUtils.class, MemberMapper.class, GlobalExceptionAdvice.class})
 public class MemberAuthorizeTest {
     @Autowired
     private MockMvc mockMvc;
