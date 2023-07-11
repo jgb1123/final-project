@@ -406,7 +406,7 @@ include::{snippets}/get-orders/http-response.adoc[]
 .response-fields
 include::{snippets}/get-orders/response-fields.adoc[]
 
-=== 주문 수정 (ADMIN, USER, SELLER)
+=== 주문 수정 (ADMIN, SELLER)
 .curl-request
 include::{snippets}/patch-order/curl-request.adoc[]
 
