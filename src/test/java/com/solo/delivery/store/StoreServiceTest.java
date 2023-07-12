@@ -126,10 +126,10 @@ public class StoreServiceTest {
         StoreCategory storeCategory = StoreDummy.createStoreCategory();
         store1.changeStoreCategory(storeCategory);
         store2.changeStoreCategory(storeCategory);
-        given(storeRepository.searchStore(Mockito.anyString(), Mockito.any(Pageable.class)))
+        given(storeRepository.searchStore(Mockito.anyString(), Mockito.anyInt(), Mockito.any(Pageable.class)))
                 .willReturn(new PageImpl<>(List.of(storeResponseDto1, storeResponseDto2), PageRequest.of(0, 10, Sort.by("totalOrderCnt").descending()), 2));
 
-        Page<StoreResponseDto> storePage = storeService.searchStore("김치볶음밥", PageRequest.of(1, 10, Sort.by("totalOrderCnt").descending()));
+        Page<StoreResponseDto> storePage = storeService.searchStore("김치볶음밥", 20000, PageRequest.of(1, 10, Sort.by("totalOrderCnt").descending()));
 
         assertThat(storePage.getContent()).contains(storeResponseDto1);
         assertThat(storePage.getContent()).contains(storeResponseDto2);

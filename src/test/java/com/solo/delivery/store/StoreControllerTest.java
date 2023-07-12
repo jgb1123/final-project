@@ -284,11 +284,13 @@ public class StoreControllerTest {
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void searchStoreTest() throws Exception {
         String word = "keyword";
+        Integer minimumOrderPrice = 10000;
         int page = 1;
         int size = 10;
         String sort = "totalOrderCnt,desc";
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("word", word);
+        queryParams.add("minimumOrderPrice", Integer.toString(minimumOrderPrice));
         queryParams.add("page", Integer.toString(page));
         queryParams.add("size", Integer.toString(size));
         queryParams.add("sort", sort);
@@ -297,7 +299,7 @@ public class StoreControllerTest {
         List<StoreResponseDto> responses = List.of(storeResponseDto1, storeResponseDto2);
         Page<StoreResponseDto> storePage = new PageImpl<>(List.of(storeResponseDto1, storeResponseDto2), PageRequest.of(page - 1, size,
                 Sort.by("totalOrderCnt").descending()), 2);
-        given(storeService.searchStore(Mockito.anyString(), Mockito.any(Pageable.class)))
+        given(storeService.searchStore(Mockito.anyString(), Mockito.anyInt(), Mockito.any(Pageable.class)))
                 .willReturn(storePage);
 
         ResultActions actions = mockMvc.perform(
@@ -314,6 +316,7 @@ public class StoreControllerTest {
                         requestParameters(
                                 List.of(
                                         parameterWithName("word").description("검색어"),
+                                        parameterWithName("minimumOrderPrice").description("최소주문금액"),
                                         parameterWithName("page").description("Page 번호"),
                                         parameterWithName("size").description("Page 크기"),
                                         parameterWithName("sort").description("Sort 기준")
