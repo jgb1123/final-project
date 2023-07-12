@@ -53,9 +53,9 @@ public class StoreService {
         storeRepository.delete(foundStore);
     }
 
-    public Page<StoreResponseDto> searchStore(String word, Pageable pageable) {
+    public Page<StoreResponseDto> searchStore(String word, Integer minimumOrderPrice, Pageable pageable) {
         pageable = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
-        return storeRepository.searchStore(word, pageable);
+        return storeRepository.searchStore(word, minimumOrderPrice, pageable);
     }
 
     public Store findVerifiedStore(Long storeId) {
