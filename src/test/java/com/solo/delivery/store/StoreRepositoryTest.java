@@ -16,13 +16,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
@@ -119,12 +117,12 @@ public class StoreRepositoryTest {
     void searchTest() {
         StoreCategory storeCategory = StoreDummy.createStoreCategory();
         StoreCategory savedStoreCategory = storeCategoryRepository.save(storeCategory);
-        Store store1 = StoreDummy.createStore1();
         Store store2 = StoreDummy.createStore2();
-        store1.changeStoreCategory(savedStoreCategory);
+        Store store1 = StoreDummy.createStore1();
         store2.changeStoreCategory(savedStoreCategory);
-        Store savedStore1 = storeRepository.save(store1);
+        store1.changeStoreCategory(savedStoreCategory);
         Store savedStore2 = storeRepository.save(store2);
+        Store savedStore1 = storeRepository.save(store1);
         Item item1 = ItemDummy.createItem1();
         Item item2 = ItemDummy.createItem2();
         Item item3 = ItemDummy.createItem3();
@@ -135,12 +133,12 @@ public class StoreRepositoryTest {
         itemRepository.save(item2);
         itemRepository.save(item3);
 
-        Page<StoreResponseDto> storeResponseDtoPage1 = storeRepository.searchStore("김치", PageRequest.of(0, 10, Sort.by("starAvg").descending()));
-        Page<StoreResponseDto> storeResponseDtoPage2 = storeRepository.searchStore("김치볶음밥", PageRequest.of(0, 10, Sort.by("totalOrderCnt").descending()));
-        Page<StoreResponseDto> storeResponseDtoPage3 = storeRepository.searchStore("짜장면", PageRequest.of(0, 10, Sort.by("totalOrderCnt").descending()));
+        Page<StoreResponseDto> storeResponseDtoPage1 = storeRepository.searchStore("김치", 20000, PageRequest.of(0, 10, Sort.by("starAvg").descending()));
+        Page<StoreResponseDto> storeResponseDtoPage2 = storeRepository.searchStore("김치볶음밥", null, PageRequest.of(0, 10, Sort.by("totalOrderCnt").descending()));
+        Page<StoreResponseDto> storeResponseDtoPage3 = storeRepository.searchStore("짜장면", null, PageRequest.of(0, 10, Sort.by("totalOrderCnt").descending()));
 
-        assertThat(storeResponseDtoPage1.getTotalElements()).isEqualTo(2);
         assertThat(storeResponseDtoPage1.getContent().get(0).getStoreName()).isEqualTo("백년아구찜");
+        assertThat(storeResponseDtoPage1.getTotalElements()).isEqualTo(2);
         assertThat(storeResponseDtoPage2.getTotalElements()).isEqualTo(1);
         assertThat(storeResponseDtoPage3.getTotalElements()).isEqualTo(1);
     }
