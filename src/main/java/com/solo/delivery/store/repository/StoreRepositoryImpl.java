@@ -2,6 +2,7 @@ package com.solo.delivery.store.repository;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.solo.delivery.querydsl.util.QueryDslUtil;
 import com.solo.delivery.store.dto.QStoreResponseDto;
@@ -25,7 +26,7 @@ public class StoreRepositoryImpl implements StoreRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<StoreResponseDto> searchStore(String word, Pageable pageable) {
+    public Page<StoreResponseDto> searchStore(String word, Integer minimumOrderPrice, Pageable pageable) {
         List<StoreResponseDto> content = queryFactory
                 .select(new QStoreResponseDto(
                         store.storeId,
@@ -40,13 +41,16 @@ public class StoreRepositoryImpl implements StoreRepositoryCustom{
                 ))
                 .from(store)
                 .leftJoin(store.items, item)
-                .where(store.storeName.contains(word)
-                        .or(item.itemName.contains(word)))
+                .where(
+                        containWord(word),
+                        loeMinimumOrderPrice(minimumOrderPrice)
+                )
                 .distinct()
                 .orderBy(createOrderSpecifier(pageable).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
+
         return new PageImpl<>(content, pageable, content.size());
     }
 
@@ -78,5 +82,15 @@ public class StoreRepositoryImpl implements StoreRepositoryCustom{
             }
         }
         return orderSpecifiers;
+    }
+    private BooleanExpression containWord(String word) {
+        if(word == null || word.isEmpty()) return null;
+        return store.storeName.contains(word)
+                .or(item.itemName.contains(word));
+    }
+
+    private BooleanExpression loeMinimumOrderPrice(Integer minimumOrderPrice) {
+        if(minimumOrderPrice == null) return null;
+        return store.minimumOrderPrice.loe(minimumOrderPrice);
     }
 }
