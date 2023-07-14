@@ -15,11 +15,13 @@ import java.util.List;
 public class OrderResponseDto {
     private Long orderId;
     private Long memberId;
+    private Long storeId;
     private String address;
     private String phone;
     private String name;
     private String requirement;
     private Integer orderPrice;
+    private Integer deliveryFee;
     private String orderStatus;
     private LocalDateTime createdAt;
     private List<OrderDetailResponseDto> orderDetails;

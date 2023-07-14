@@ -2,6 +2,7 @@ package com.solo.delivery.store.entity;
 
 import com.solo.delivery.basetime.BaseTimeEntity;
 import com.solo.delivery.item.entity.Item;
+import com.solo.delivery.order.entity.Order;
 import com.solo.delivery.review.entity.Review;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -58,6 +59,10 @@ public class Store extends BaseTimeEntity {
     @OneToMany(mappedBy = "store")
     private List<Item> items = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "store")
+    private List<Order> orders = new ArrayList<>();
+
     public void changeStoreCategory(StoreCategory storeCategory) {
         if(this.storeCategory != null) {
             this.storeCategory.getStores().remove(this);
@@ -79,6 +84,13 @@ public class Store extends BaseTimeEntity {
         this.items.add(item);
         if(item.getStore() != this) {
             item.changeStore(this);
+        }
+    }
+
+    public void addOrder(Order order) {
+        this.orders.add(order);
+        if(order.getStore() != this) {
+            order.changeStore(this);
         }
     }
 

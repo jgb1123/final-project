@@ -2,6 +2,7 @@ package com.solo.delivery.order.entity;
 
 import com.solo.delivery.basetime.BaseTimeEntity;
 import com.solo.delivery.member.entity.Member;
+import com.solo.delivery.store.entity.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,9 +28,6 @@ public class Order extends BaseTimeEntity {
     private Long orderId;
 
     @Column
-    private Long storeId;
-
-    @Column
     private String address;
 
     @Column
@@ -53,6 +51,10 @@ public class Order extends BaseTimeEntity {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "STORE_ID")
+    private Store store;
+
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     @Builder.Default
     @BatchSize(size = 1000)
@@ -65,6 +67,16 @@ public class Order extends BaseTimeEntity {
         this.member = member;
         if(!member.getOrders().contains(this)) {
             member.addOrder(this);
+        }
+    }
+
+    public void changeStore(Store store) {
+        if(this.store != null) {
+            this.store.getOrders().remove(this);
+        }
+        this.store = store;
+        if(!store.getOrders().contains(this)) {
+            store.addOrder(this);
         }
     }
 
@@ -113,9 +125,5 @@ public class Order extends BaseTimeEntity {
 
     public void changeOrderStatus(OrderStatus orderStatus){
         this.orderStatus = orderStatus;
-    }
-
-    public void changeStoreId(Long storeId) {
-        this.storeId = storeId;
     }
 }
