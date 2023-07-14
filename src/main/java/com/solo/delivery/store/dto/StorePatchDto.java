@@ -27,6 +27,9 @@ public class StorePatchDto {
     @PositiveOrZero
     private Integer minimumOrderPrice;
 
+    @PositiveOrZero
+    private Integer deliveryFee;
+
     private String storeCategoryId;
 
     @Positive

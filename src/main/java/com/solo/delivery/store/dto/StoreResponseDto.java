@@ -19,9 +19,10 @@ public class StoreResponseDto {
     private Long memberId;
     private double starAvg;
     private int totalOrderCnt;
+    private int deliveryFee;
 
     @QueryProjection
-    public StoreResponseDto(Long storeId, String storeName, String address, String phone, Integer minimumOrderPrice, String storeCategory, Long memberId, double starAvg, int totalOrderCnt) {
+    public StoreResponseDto(Long storeId, String storeName, String address, String phone, Integer minimumOrderPrice, String storeCategory, Long memberId, double starAvg, int totalOrderCnt, int deliveryFee) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.address = address;
@@ -31,5 +32,6 @@ public class StoreResponseDto {
         this.memberId = memberId;
         this.starAvg = starAvg;
         this.totalOrderCnt = totalOrderCnt;
+        this.deliveryFee = deliveryFee;
     }
 }

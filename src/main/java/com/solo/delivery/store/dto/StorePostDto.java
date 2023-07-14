@@ -28,6 +28,10 @@ public class StorePostDto {
     @PositiveOrZero
     private Integer minimumOrderPrice;
 
+    @NotNull
+    @PositiveOrZero
+    private Integer deliveryFee;
+
     @NotBlank
     private String storeCategoryId;
 

@@ -37,7 +37,8 @@ public class StoreRepositoryImpl implements StoreRepositoryCustom{
                         store.storeCategory.storeCategory,
                         store.memberId,
                         store.starAvg,
-                        store.totalOrderCnt
+                        store.totalOrderCnt,
+                        store.deliveryFee
                 ))
                 .from(store)
                 .leftJoin(store.items, item)
