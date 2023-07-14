@@ -32,12 +32,13 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
 
-    @PostMapping
-    public ResponseEntity postOrder(@Valid @RequestBody OrderPostDto orderPostDto,
+    @PostMapping("/{storeId}")
+    public ResponseEntity postOrder(@Positive @PathVariable Long storeId,
+                                    @Valid @RequestBody OrderPostDto orderPostDto,
                                     @AuthenticationPrincipal String email) {
         Order order = orderMapper.orderPostDtoToOrder(orderPostDto);
         List<OrderDetailPostDto> orderDetailPostDtos = orderPostDto.getOrderDetails();
-        orderService.createOrder(order, orderDetailPostDtos, email);
+        orderService.createOrder(order, orderDetailPostDtos, storeId, email);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

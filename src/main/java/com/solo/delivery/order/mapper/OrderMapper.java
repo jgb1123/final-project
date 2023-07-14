@@ -25,6 +25,7 @@ public class OrderMapper {
     public OrderResponseDto orderToOrderResponseDto(Order order) {
         return OrderResponseDto.builder()
                 .orderId(order.getOrderId())
+                .storeId(order.getStore().getStoreId())
                 .memberId(order.getMember().getMemberId())
                 .address(order.getAddress())
                 .phone(order.getPhone())
@@ -34,6 +35,7 @@ public class OrderMapper {
                 .createdAt(order.getCreatedAt())
                 .orderDetails(orderDetailsToOrderDetailResponseDtos(order.getOrderDetails()))
                 .orderPrice(order.getOrderPrice())
+                .deliveryFee(order.getStore().getDeliveryFee())
                 .build();
     }
 
@@ -42,6 +44,7 @@ public class OrderMapper {
                 .stream()
                 .map(order -> OrderResponseDto.builder()
                         .orderId(order.getOrderId())
+                        .storeId(order.getStore().getStoreId())
                         .memberId(order.getMember().getMemberId())
                         .address(order.getAddress())
                         .phone(order.getPhone())
@@ -51,6 +54,7 @@ public class OrderMapper {
                         .createdAt(order.getCreatedAt())
                         .orderDetails(orderDetailsToOrderDetailResponseDtos(order.getOrderDetails()))
                         .orderPrice(order.getOrderPrice())
+                        .deliveryFee(order.getStore().getDeliveryFee())
                         .build())
                 .collect(Collectors.toList());
     }

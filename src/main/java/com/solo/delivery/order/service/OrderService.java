@@ -31,10 +31,12 @@ public class OrderService {
     private final ItemService itemService;
     private final MemberService memberService;
 
-    public Order createOrder(Order order, List<OrderDetailPostDto> orderDetailPostDtos, String email) {
+    public Order createOrder(Order order, List<OrderDetailPostDto> orderDetailPostDtos, Long storeId, String email) {
         Member foundMember = memberService.findVerifiedMember(email);
         order.changeMember(foundMember);
         order.changeOrderInfo(foundMember);
+        Store foundStore = storeService.findVerifiedStore(storeId);
+        order.changeStore(foundStore);
         int orderPrice = 0;
         for(OrderDetailPostDto orderDetailPostDto : orderDetailPostDtos) {
             Item item = itemService.findVerifiedItem(orderDetailPostDto.getItemId());
@@ -42,13 +44,9 @@ public class OrderService {
             OrderDetail orderDetail = orderDetailService.createOrderDetail(orderDetailPostDto, item);
             orderDetail.changeOrder(order);
             orderDetailService.saveOrderDetail(orderDetail);
-
-            if(order.getStoreId() == null) {
-                order.changeStoreId(item.getStore().getStoreId());
-            } else if (!order.getStoreId().equals(item.getStore().getStoreId())) {
+            if(!foundStore.getStoreId().equals(item.getStore().getStoreId())) {
                 throw new BusinessLogicException(ExceptionCode.ONLY_ITEMS_FROM_SAME_STORE);
             }
-
             orderPrice += orderDetail.getItemOrderCnt() * orderDetail.getItemPrice();
         }
         order.changeOrderPrice(orderPrice);
@@ -70,8 +68,8 @@ public class OrderService {
         Order foundOrder = findVerifiedOrder(orderId);
         foundOrder.changeOrderStatus(Order.OrderStatus.of(orderStatus));
         if(Order.OrderStatus.of(orderStatus) == Order.OrderStatus.ORDER_COMPLETE) {
-            Store foundStore = storeService.findVerifiedStore(foundOrder.getStoreId());
-            foundStore.increaseOrderCnt();
+            Store store = foundOrder.getStore();
+            store.increaseOrderCnt();
         }
         return foundOrder;
     }
