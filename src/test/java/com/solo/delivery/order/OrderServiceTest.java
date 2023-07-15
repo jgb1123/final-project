@@ -15,6 +15,7 @@ import com.solo.delivery.order.repository.OrderRepository;
 import com.solo.delivery.order.service.OrderDetailService;
 import com.solo.delivery.order.service.OrderService;
 import com.solo.delivery.store.entity.Store;
+import com.solo.delivery.store.service.StoreService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,6 +49,9 @@ public class OrderServiceTest {
     @Mock
     private ItemService itemService;
 
+    @Mock
+    private StoreService storeService;
+
     @Test
     @DisplayName("OrderService createOrder")
     void createOrderTest() {
@@ -64,6 +68,8 @@ public class OrderServiceTest {
         List<OrderDetailPostDto> orderDetailPostDtos = orderPostDto.getOrderDetails();
         given(memberService.findVerifiedMember(Mockito.anyString()))
                 .willReturn(member);
+        given(storeService.findVerifiedStore(Mockito.anyLong()))
+                .willReturn(store);
         given(itemService.findVerifiedItem(Mockito.anyLong()))
                 .willReturn(item1)
                 .willReturn(item2);
@@ -73,11 +79,11 @@ public class OrderServiceTest {
         given(orderRepository.save(Mockito.any(Order.class)))
                 .willReturn(order);
 
-        Order savedOrder = orderService.createOrder(order, orderDetailPostDtos, "hgd@gmail.com");
+        Order savedOrder = orderService.createOrder(order, orderDetailPostDtos, 1L, "hgd@gmail.com");
 
         assertThat(savedOrder.getAddress()).isEqualTo(order.getAddress());
         assertThat(savedOrder.getRequirement()).isEqualTo(order.getRequirement());
-        assertThat(savedOrder.getStoreId()).isEqualTo(item1.getStore().getStoreId());
+        assertThat(savedOrder.getStore().getStoreId()).isEqualTo(item1.getStore().getStoreId());
     }
 
     @Test
@@ -97,6 +103,8 @@ public class OrderServiceTest {
         OrderDetail orderDetail2 = OrderDetailDummy.createOrderDetail2();
         given(memberService.findVerifiedMember(Mockito.anyString()))
                 .willReturn(member);
+        given(storeService.findVerifiedStore(Mockito.anyLong()))
+                .willReturn(store1);
         given(itemService.findVerifiedItem(Mockito.anyLong()))
                 .willReturn(item1)
                 .willReturn(item2);
@@ -104,7 +112,7 @@ public class OrderServiceTest {
                 .willReturn(orderDetail1)
                 .willReturn(orderDetail2);
 
-        Assertions.assertThrows(BusinessLogicException.class, () -> orderService.createOrder(order, orderDetailPostDtos, "hgd@gmail.com"));
+        Assertions.assertThrows(BusinessLogicException.class, () -> orderService.createOrder(order, orderDetailPostDtos, 1L, "hgd@gmail.com"));
     }
 
     @Test

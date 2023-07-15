@@ -99,7 +99,8 @@ public class StoreControllerTest {
                                         fieldWithPath("phone").type(JsonFieldType.STRING).description("상점 전화번호"),
                                         fieldWithPath("minimumOrderPrice").type(JsonFieldType.NUMBER).description("최소 주문 금액"),
                                         fieldWithPath("storeCategoryId").type(JsonFieldType.STRING).description("카테고리 식별자"),
-                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자")
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("deliveryFee").type(JsonFieldType.NUMBER).description("배달비")
                                 )
                         )
                 ));
@@ -144,7 +145,8 @@ public class StoreControllerTest {
                                         fieldWithPath("data.storeCategory").type(JsonFieldType.STRING).description("상점 카테고리"),
                                         fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
                                         fieldWithPath("data.starAvg").type(JsonFieldType.NUMBER).description("평균 별점"),
-                                        fieldWithPath("data.totalOrderCnt").type(JsonFieldType.NUMBER).description("총 주문 수")
+                                        fieldWithPath("data.totalOrderCnt").type(JsonFieldType.NUMBER).description("총 주문 수"),
+                                        fieldWithPath("data.deliveryFee").type(JsonFieldType.NUMBER).description("배달비")
                                 )
                         )
                         ));
@@ -206,6 +208,7 @@ public class StoreControllerTest {
                                         fieldWithPath("data[].memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
                                         fieldWithPath("data[].starAvg").type(JsonFieldType.NUMBER).description("평균 별점"),
                                         fieldWithPath("data[].totalOrderCnt").type(JsonFieldType.NUMBER).description("총 주문 수"),
+                                        fieldWithPath("data[].deliveryFee").type(JsonFieldType.NUMBER).description("배달비"),
 
                                         fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
                                         fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 번호"),
@@ -249,7 +252,8 @@ public class StoreControllerTest {
                                         fieldWithPath("phone").type(JsonFieldType.STRING).description("상점 전화번호"),
                                         fieldWithPath("minimumOrderPrice").type(JsonFieldType.NUMBER).description("최소 주문 금액"),
                                         fieldWithPath("storeCategoryId").type(JsonFieldType.STRING).description("카테고리 식별자"),
-                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자")
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("deliveryFee").type(JsonFieldType.NUMBER).description("배달비")
                                 )
                         )
                 ));
@@ -334,6 +338,7 @@ public class StoreControllerTest {
                                         fieldWithPath("data[].memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
                                         fieldWithPath("data[].starAvg").type(JsonFieldType.NUMBER).description("평균 별점"),
                                         fieldWithPath("data[].totalOrderCnt").type(JsonFieldType.NUMBER).description("총 주문 수"),
+                                        fieldWithPath("data[].deliveryFee").type(JsonFieldType.NUMBER).description("배달비"),
 
                                         fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
                                         fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 번호"),

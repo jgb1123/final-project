@@ -67,16 +67,17 @@ public class OrderControllerTest {
     @DisplayName("OrderController 생성")
     @WithAuthMember(email = "hgd@gmail.com", roles = {"ADMIN"})
     void PostOrderTest() throws Exception {
+        Long storeId = 1L;
         Order order = OrderDummy.createOrder1();
         OrderPostDto orderPostDto = OrderDummy.createPostDto();
         String content = gson.toJson(orderPostDto);
         given(orderMapper.orderPostDtoToOrder(Mockito.any(OrderPostDto.class)))
                 .willReturn(new Order());
-        given(orderService.createOrder(Mockito.any(Order.class), Mockito.anyList(), Mockito.anyString()))
+        given(orderService.createOrder(Mockito.any(Order.class), Mockito.anyList(), Mockito.anyLong(), Mockito.anyString()))
                 .willReturn(new Order());
 
         ResultActions actions = mockMvc.perform(
-                post("/api/v1/order")
+                post("/api/v1/order/{storeId}", storeId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer {ACCESS_TOKEN}")
@@ -87,6 +88,8 @@ public class OrderControllerTest {
                 .andDo(document("post-order",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("storeId").description("상점 식별자")),
                         requestFields(
                                 List.of(
                                         fieldWithPath("orderDetails").type(JsonFieldType.ARRAY).description("주문 상세 리스트"),
@@ -135,12 +138,14 @@ public class OrderControllerTest {
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
                                         fieldWithPath("data.orderId").type(JsonFieldType.NUMBER).description("주문 식별자"),
+                                        fieldWithPath("data.storeId").type(JsonFieldType.NUMBER).description("상점 식별자"),
                                         fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("주문자 식별자"),
                                         fieldWithPath("data.address").type(JsonFieldType.STRING).description("주문자 주소"),
                                         fieldWithPath("data.phone").type(JsonFieldType.STRING).description("주문자 전화번호"),
                                         fieldWithPath("data.name").type(JsonFieldType.STRING).description("주문자 이름"),
                                         fieldWithPath("data.requirement").type(JsonFieldType.STRING).description("요청사항"),
                                         fieldWithPath("data.orderPrice").type(JsonFieldType.NUMBER).description("총 주문 금액"),
+                                        fieldWithPath("data.deliveryFee").type(JsonFieldType.NUMBER).description("배달비"),
                                         fieldWithPath("data.orderStatus").type(JsonFieldType.STRING).description("주문 상태"),
                                         fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("주문 생성일"),
                                         fieldWithPath("data.orderDetails.[]").type(JsonFieldType.ARRAY).description("주문 상세 리스트"),
@@ -204,12 +209,14 @@ public class OrderControllerTest {
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
                                         fieldWithPath("data[].orderId").type(JsonFieldType.NUMBER).description("주문 식별자"),
+                                        fieldWithPath("data[].storeId").type(JsonFieldType.NUMBER).description("상점 식별자"),
                                         fieldWithPath("data[].memberId").type(JsonFieldType.NUMBER).description("주문자 식별자"),
                                         fieldWithPath("data[].address").type(JsonFieldType.STRING).description("주문자 주소"),
                                         fieldWithPath("data[].phone").type(JsonFieldType.STRING).description("주문자 전화번호"),
                                         fieldWithPath("data[].name").type(JsonFieldType.STRING).description("주문자 이름"),
                                         fieldWithPath("data[].requirement").type(JsonFieldType.STRING).description("요청사항"),
                                         fieldWithPath("data[].orderPrice").type(JsonFieldType.NUMBER).description("총 주문 금액"),
+                                        fieldWithPath("data[].deliveryFee").type(JsonFieldType.NUMBER).description("배달비"),
                                         fieldWithPath("data[].orderStatus").type(JsonFieldType.STRING).description("주문 상태"),
                                         fieldWithPath("data[].createdAt").type(JsonFieldType.STRING).description("주문 생성일"),
                                         fieldWithPath("data[].orderDetails.[]").type(JsonFieldType.ARRAY).description("주문 상세 리스트"),
