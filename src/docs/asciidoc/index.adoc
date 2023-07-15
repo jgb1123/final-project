@@ -368,6 +368,9 @@ include::{snippets}/post-order/curl-request.adoc[]
 .http-request
 include::{snippets}/post-order/http-request.adoc[]
 
+.path-parameters
+include::{snippets}/get-order/path-parameters.adoc[]
+
 .request-fields
 include::{snippets}/post-order/request-fields.adoc[]
 
