@@ -17,6 +17,7 @@ public interface StoreDummy {
                 .memberId(1L)
                 .starAvg(4.5)
                 .totalOrderCnt(14)
+                .deliveryFee(3000)
                 .build();
     }
 
@@ -30,6 +31,7 @@ public interface StoreDummy {
                 .memberId(2L)
                 .starAvg(4.8)
                 .totalOrderCnt(421)
+                .deliveryFee(2000)
                 .build();
     }
 
@@ -48,6 +50,7 @@ public interface StoreDummy {
                 .minimumOrderPrice(10000)
                 .storeCategoryId("002")
                 .memberId(1L)
+                .deliveryFee(3000)
                 .build();
     }
 
@@ -56,9 +59,10 @@ public interface StoreDummy {
                 .storeName("대만각")
                 .address("서울시 구로구 고척동 111-11")
                 .phone("010-1111-3333")
-                .minimumOrderPrice(5000)
+                .minimumOrderPrice(20000)
                 .storeCategoryId("002")
                 .memberId(1L)
+                .deliveryFee(2000)
                 .build();
     }
 
@@ -73,6 +77,7 @@ public interface StoreDummy {
                 .memberId(1L)
                 .starAvg(4.5)
                 .totalOrderCnt(14)
+                .deliveryFee(3000)
                 .build();
     }
 
@@ -87,6 +92,7 @@ public interface StoreDummy {
                 .memberId(2L)
                 .starAvg(4.8)
                 .totalOrderCnt(421)
+                .deliveryFee(2000)
                 .build();
     }
 }
