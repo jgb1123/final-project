@@ -26,7 +26,7 @@ public class StoreRepositoryImpl implements StoreRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<StoreResponseDto> searchStore(String word, Integer minimumOrderPrice, Pageable pageable) {
+    public Page<StoreResponseDto> searchStore(String word, Integer minimumOrderPrice, Integer deliveryFee, Pageable pageable) {
         List<StoreResponseDto> content = queryFactory
                 .select(new QStoreResponseDto(
                         store.storeId,
@@ -44,7 +44,8 @@ public class StoreRepositoryImpl implements StoreRepositoryCustom{
                 .leftJoin(store.items, item)
                 .where(
                         containWord(word),
-                        loeMinimumOrderPrice(minimumOrderPrice)
+                        loeMinimumOrderPrice(minimumOrderPrice),
+                        loeDeliveryFee(deliveryFee)
                 )
                 .distinct()
                 .orderBy(createOrderSpecifier(pageable).toArray(OrderSpecifier[]::new))
@@ -93,5 +94,10 @@ public class StoreRepositoryImpl implements StoreRepositoryCustom{
     private BooleanExpression loeMinimumOrderPrice(Integer minimumOrderPrice) {
         if(minimumOrderPrice == null) return null;
         return store.minimumOrderPrice.loe(minimumOrderPrice);
+    }
+
+    private BooleanExpression loeDeliveryFee(Integer deliveryFee) {
+        if(deliveryFee == null) return null;
+        return store.deliveryFee.loe(deliveryFee);
     }
 }
