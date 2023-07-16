@@ -45,7 +45,7 @@ public class Store extends BaseTimeEntity {
     private int totalOrderCnt;
 
     @Column
-    private int deliveryFee;
+    private Integer deliveryFee;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STORE_CATEGORY_ID")
@@ -100,6 +100,7 @@ public class Store extends BaseTimeEntity {
         if(store.getPhone() != null) this.phone = store.getPhone();
         if(store.getMinimumOrderPrice() != null) this.minimumOrderPrice = store.getMinimumOrderPrice();
         if(store.getStoreCategory() != null) this.storeCategory = store.getStoreCategory();
+        if(store.getDeliveryFee() != null) this.deliveryFee = store.getDeliveryFee();;
     }
 
     public void increaseOrderCnt() {

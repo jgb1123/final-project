@@ -22,7 +22,7 @@ public class StoreResponseDto {
     private int deliveryFee;
 
     @QueryProjection
-    public StoreResponseDto(Long storeId, String storeName, String address, String phone, Integer minimumOrderPrice, String storeCategory, Long memberId, double starAvg, int totalOrderCnt, int deliveryFee) {
+    public StoreResponseDto(Long storeId, String storeName, String address, String phone, Integer minimumOrderPrice, String storeCategory, Long memberId, double starAvg, int totalOrderCnt, Integer deliveryFee) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.address = address;

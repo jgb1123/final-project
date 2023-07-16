@@ -72,8 +72,9 @@ public class StoreController {
     @GetMapping("/search")
     public ResponseEntity searchStore(@RequestParam String word,
                                       @RequestParam(required = false) Integer minimumOrderPrice,
+                                      @RequestParam(required = false) Integer deliveryFee,
                                       @PageableDefault(page = 1, size = 10, sort = "totalOrderCnt", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<StoreResponseDto> storeResponseDtoPage = storeService.searchStore(word, minimumOrderPrice, pageable);
+        Page<StoreResponseDto> storeResponseDtoPage = storeService.searchStore(word, minimumOrderPrice, deliveryFee, pageable);
         List<StoreResponseDto> storeResponseDtos = storeResponseDtoPage.getContent();
         return new ResponseEntity<>(new MultiResponseDto<>(storeResponseDtos, storeResponseDtoPage), HttpStatus.OK);
     }
