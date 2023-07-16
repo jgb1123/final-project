@@ -1227,7 +1227,7 @@ Content-Length: 760
 <div class="listingblock">
 <div class="title">curl-request</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/api/v1/store/search?word=keyword&amp;minimumOrderPrice=10000&amp;page=1&amp;size=10&amp;sort=totalOrderCnt%2Cdesc' -i -X GET \
+<pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/api/v1/store/search?word=keyword&amp;minimumOrderPrice=10000&amp;deliveryFee=2000&amp;page=1&amp;size=10&amp;sort=totalOrderCnt%2Cdesc' -i -X GET \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json'</code></pre>
 </div>
@@ -1235,7 +1235,7 @@ Content-Length: 760
 <div class="listingblock">
 <div class="title">http-request</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /api/v1/store/search?word=keyword&amp;minimumOrderPrice=10000&amp;page=1&amp;size=10&amp;sort=totalOrderCnt%2Cdesc HTTP/1.1
+<pre class="prettyprint highlight nowrap"><code data-lang="http">GET /api/v1/store/search?word=keyword&amp;minimumOrderPrice=10000&amp;deliveryFee=2000&amp;page=1&amp;size=10&amp;sort=totalOrderCnt%2Cdesc HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080</code></pre>
@@ -1261,6 +1261,10 @@ Host: localhost:8080</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>minimumOrderPrice</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">최소주문금액</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>deliveryFee</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">배달비</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>page</code></p></td>
@@ -2934,7 +2938,26 @@ Host: localhost:8080
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 37. request-fields</caption>
+<caption class="title">Table 37. /api/v1/order/{orderId}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>orderId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">주문 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 38. request-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -3020,7 +3043,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 38. /api/v1/order/{orderId}</caption>
+<caption class="title">Table 39. /api/v1/order/{orderId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3082,7 +3105,7 @@ Content-Length: 698
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 39. response-fields</caption>
+<caption class="title">Table 40. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -3211,7 +3234,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 40. request-parameters</caption>
+<caption class="title">Table 41. request-parameters</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3312,7 +3335,7 @@ Content-Length: 1505
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 41. response-fields</caption>
+<caption class="title">Table 42. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -3474,7 +3497,7 @@ Host: localhost:8080
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 42. /api/v1/order/{orderId}</caption>
+<caption class="title">Table 43. /api/v1/order/{orderId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3493,7 +3516,7 @@ Host: localhost:8080
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 43. request-fields</caption>
+<caption class="title">Table 44. request-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -3549,7 +3572,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 44. /api/v1/order/{orderId}</caption>
+<caption class="title">Table 45. /api/v1/order/{orderId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3586,7 +3609,7 @@ X-Frame-Options: SAMEORIGIN</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-07-11 22:39:34 +0900
+Last updated 2023-07-15 21:00:18 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
